@@ -21,6 +21,7 @@ export default class HomeScreen extends React.Component {
           name="ios-menu" 
           size={32} 
           color="black" 
+          style={{paddingLeft: 10}}
         />
       ),
       headerRight: (
@@ -29,6 +30,7 @@ export default class HomeScreen extends React.Component {
           name="ios-chatbubbles" 
           size={32} 
           color="black" 
+          style={{paddingRight: 10}}
         />        
       )
     }
@@ -53,16 +55,16 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={{flex: 1 }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 10}}>
           <MaterialCommunityIcons 
-            styles={styles.icons}
+            style={styles.icons}
             name="account-heart"
             size={32} 
             color="black" 
             onPress={()=>this.setState({candidates: true})}
           />
           <SimpleLineIcons 
-            styles={styles.icons}
+            style={styles.icons}
             name="magic-wand" 
             size={32} 
             color="black" 
@@ -77,6 +79,6 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   icons: {
-    flex: 1,
+    padding: 20,
   }
 })

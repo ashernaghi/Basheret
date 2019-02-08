@@ -5,7 +5,7 @@ export default class CandidatesScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: 'flexStart' }}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
         <Text>Next Candidate Will Show Here</Text>
       </View>
     );
