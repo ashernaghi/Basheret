@@ -3,11 +3,11 @@ import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
   headerTextRight: {
-    fontSize: 22,
+    fontSize: 20,
     paddingBottom: 3
   },
   headerTextLeft: {
-    fontSize: 22,
+    fontSize: 20,
     paddingBottom: 3
   },
   touchableOpacityHeader: {

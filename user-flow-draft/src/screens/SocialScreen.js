@@ -11,7 +11,7 @@ export default class SocialScreen extends React.Component {
     super(props)
 
     this.state={
-      show: "matches",
+      show: "chats",
     }
   }
 
@@ -52,8 +52,8 @@ export default class SocialScreen extends React.Component {
           height={50}
           borderRadius='0'
           options={[
+            { value: "chats", label: 'Chats'  },
             { value: "matches", label: 'Matches' }, 
-            { value: "chats", label: 'Chats'  } 
           ]}
         />
         {renderComponent}
