@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 import CandidatesScreen from './CandidatesScreen';
 import MatchmakerScreen from './MatchmakerScreen';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -52,17 +52,31 @@ export default class HomeScreen extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-        title="Candidates"
-        onPress={()=>this.setState({candidates: true})}
-        />
-        <Button
-        title="Matchmaker"
-        onPress={()=>this.setState({candidates: false})}
-        />
+      <View style={{flex: 1 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+          <MaterialCommunityIcons 
+            styles={styles.icons}
+            name="account-heart"
+            size={32} 
+            color="black" 
+            onPress={()=>this.setState({candidates: true})}
+          />
+          <SimpleLineIcons 
+            styles={styles.icons}
+            name="magic-wand" 
+            size={32} 
+            color="black" 
+            onPress={()=>this.setState({candidates: false})}
+          />          
+        </View>
         {renderComponent}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  icons: {
+    flex: 1,
+  }
+})

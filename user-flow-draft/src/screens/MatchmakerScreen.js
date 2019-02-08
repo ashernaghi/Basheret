@@ -5,7 +5,7 @@ export default class MatchmakerScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1 }}>
         <Text>Matchmake Here</Text>
       </View>
     );

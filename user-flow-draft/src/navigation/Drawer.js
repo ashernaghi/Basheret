@@ -1,11 +1,11 @@
 import { createDrawerNavigator } from 'react-navigation';
 import ProfileStack from './ProfileStack';
 import SettingsStack from './SettingsStack';
-import HomeStack from './HomeStack';
+import MainStack from './MainStack';
 // import HomeStack from './HomeStack';
 
 export const Drawer = createDrawerNavigator({
-  Home: { screen: HomeStack },
+  Home: { screen: MainStack },
   Profile: { screen: ProfileStack },
   Settings: { screen: SettingsStack },
 })
