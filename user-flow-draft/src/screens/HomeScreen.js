@@ -4,6 +4,7 @@ import CandidatesScreen from './CandidatesScreen';
 import MatchmakerScreen from './MatchmakerScreen';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
+import styles from '../styles/styles';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -16,22 +17,31 @@ export default class HomeScreen extends React.Component {
       headerTitleStyle: {
         fontWeight: 'bold',
       },
+      // headerLeft: (
+      //   <Ionicons 
+      //     onPress={() => navigation.openDrawer()} 
+      //     name="ios-menu" 
+      //     size={32} 
+      //     color="black" 
+      //     style={{paddingLeft: 10}}
+      //   />
+      // ),
       headerLeft: (
-        <Ionicons 
-          onPress={() => navigation.openDrawer()} 
-          name="ios-menu" 
+        <MaterialCommunityIcons 
+          onPress={() => navigation.navigate('Profile')} 
+          name="account-edit" 
           size={32} 
           color="black" 
-          style={{paddingLeft: 10}}
+          style={ styles.headerIcons }
         />
       ),
       headerRight: (
-        <Ionicons 
-          onPress={() => navigation.navigate('Chat')} 
-          name="ios-chatbubbles" 
+        <MaterialCommunityIcons 
+          onPress={() => navigation.navigate('Social')}
+          name="account-heart" 
           size={32} 
           color="black" 
-          style={{paddingRight: 10}}
+          style={ styles.headerIcons }
         />        
       )
     }
@@ -55,8 +65,8 @@ export default class HomeScreen extends React.Component {
     }
 
     let candidatesIcon = 
-    <MaterialCommunityIcons 
-      name="account-heart"
+    <Ionicons 
+      name="ios-heart"
       size={32} 
       color="black" 
     />
@@ -69,13 +79,14 @@ export default class HomeScreen extends React.Component {
     />  
     
     return (
-      <View style={{flex: 1, alignItems: 'center' }}>
-        <View style={{ flex: 1, width: 150, alignItems: 'center', paddingTop: 20 }}>
+      <View style={{flex: 1, alignItems: 'center', backgroundColor: 'wheat' }}>
+        <View style={{ width: 100, paddingTop: 20 }}>
           <SwitchSelector
             initial={0}
             imageStyle={{justifyContent: 'center', alignItems: 'center'}}
+            backgroundColor='rgba(232, 171, 227, .3)'
             onPress={value => this.setState({ show: value })}
-            buttonColor='pink'
+            buttonColor='rgb(232, 171, 227)'
             height={50}
             borderRadius='100'
             options={[
@@ -89,7 +100,3 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-})
