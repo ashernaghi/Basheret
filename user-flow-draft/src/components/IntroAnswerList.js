@@ -4,6 +4,7 @@ import IntroAnswer from './IntroAnswer'
 
 export default class IntroAnswerList extends React.Component {
   generateAnswers(){
+    console.log('THIS PROPS ANSWER', this.props.answers);
     return this.props.answers.map((answer, index)=><IntroAnswer key={index} onPress={this.props.onPress} answer={answer} />)
   }
 

@@ -19,5 +19,21 @@ export default styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     fontSize: 35,
+  },
+  question: {
+    fontSize: 25,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  answerTouchable: {
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+    margin: 15,
+    padding: 15,
+    alignItems: 'center'
+  },
+  answerText: {
+    fontSize: 25,
   }
 })

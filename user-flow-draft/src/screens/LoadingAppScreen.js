@@ -7,6 +7,11 @@ import {
 } from 'react-native';
 
 export default class LoadingAppScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: null,
+    }
+  };
   constructor(props) {
     super(props);
 
