@@ -6,6 +6,10 @@ const INITIAL_STATE = {
   denomination: '',
   shabbatObservance: '',
   kashrutLevel: '',
+  city: '',
+  bio: '',
+  education: '',
+  highSchool: '',  
 };
 
 export default (state = INITIAL_STATE, action) => {

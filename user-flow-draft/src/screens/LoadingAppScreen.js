@@ -5,8 +5,9 @@ import {
   Text,
   StyleSheet
 } from 'react-native';
+import { connect } from 'react-redux';
 
-export default class LoadingAppScreen extends React.Component {
+export class LoadingAppScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
@@ -14,6 +15,8 @@ export default class LoadingAppScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+
+    //this screen will be the loading screen that is shown when we're trying to authorize the user -- if they've logged in before (not sure how we check this? token?) AND filled out the intro questions, navigate them to 'App'. If they've never logged in OR didn't fill out user info, navigate them to login screen
 
     //making this state temporarily. Need to check the database and see if this user answered intro questions or not
     this.state= {
@@ -26,8 +29,11 @@ export default class LoadingAppScreen extends React.Component {
     if(this.state.answeredQuestions){
       this.props.navigation.navigate('App');
     }
+    else if (this.props.user){
+      this.props.navigation.navigate('Questions');
+    }
     else{
-      this.props.navigation.navigate('IntroQuestions');
+      this.props.navigation.navigate('Onboarding');
     }
   }
 
@@ -40,6 +46,14 @@ export default class LoadingAppScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+export default connect(mapStateToProps)(LoadingAppScreen);
 
 const styles = StyleSheet.create({
   container: {

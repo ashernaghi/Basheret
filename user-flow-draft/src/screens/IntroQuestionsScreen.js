@@ -36,7 +36,7 @@ export class IntroQuestionsScreen extends React.Component {
       answers: this.state.answers[this.count],
       count: this.count
     }) , 500 ) : 
-    setTimeout( ()=> this.props.navigation.navigate('FinisedQuestions', {answeredQuestions: true }), 500 )
+    setTimeout( ()=> this.props.navigation.navigate('SetupProfile', {answeredQuestions: true }), 500 )
     ;
   }
 
