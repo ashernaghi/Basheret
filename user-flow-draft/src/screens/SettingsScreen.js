@@ -8,7 +8,7 @@ export default class ProfileScreen extends React.Component {
     return {
       headerRight: (
         <TouchableOpacity style= { styles.touchableOpacityHeader } onPress={() => navigation.navigate('Profile')}>
-          <Text style={ styles.headerTextRight } >
+          <Text style={ styles.headerText } >
             Edit Profile
           </Text>
           <Ionicons 

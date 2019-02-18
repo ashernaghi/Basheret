@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import IntroQuestion from '../components/IntroQuestion';
-import IntroAnswerList from '../components/IntroAnswerList';
+import { Text, View } from 'react-native';
+import { Slider } from 'react-native-elements';
+import SaveButton from '../components/SaveButton';
+import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { userInfoUpdate } from '../actions/UserInfoActions';
 
@@ -9,6 +10,7 @@ export class IntroQuestionsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
+      gesturesEnabled: false,
     }
   };
 
@@ -16,28 +18,40 @@ export class IntroQuestionsScreen extends React.Component {
     super(props);
 
     this.state= {
-      category: ['denomination', 'kashrutLevel', 'shabbatObservance'],
-      questions: ['What denomination do you identify with?', 'What is your Kashrut level?', 'How would you define your Shabbat observance?'],
-      answers: [ ['Modern Orthodox', 'Yeshivish', 'Open Orthodox', 'Traditional'], ['Glatt Kosher', 'I eat milchig out', 'Kosher Style'], ['I keep all the Chumrahs', 'I use my phone', 'I drive to shul'] ],
+      category: ['denomination', 'kashrutObservance', 'shabbatObservance'],
+      questions: ['How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
+      labels: [ ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
+      responseValue: 100,
+      minObservance: 0,
+      maxObservance: 100,
+      thumb: 24,
+      borderRadius: 12,
     }
 
     this.count;
     this.question;
-    this.answers;
+    this.labels;
   }
 
-  onPress(userAnswer){
+
+  onPress(){
     //dispatch action with category 
-    this.props.dispatch(userInfoUpdate(this.state.category[this.count], userAnswer));
+    this.props.dispatch(userInfoUpdate(this.state.category[this.count], this.state.responseValue));
     this.count++;
     this.count<this.state.questions.length ?
     setTimeout(()=> this.props.navigation.push('Questions', {
       question: this.state.questions[this.count],
-      answers: this.state.answers[this.count],
+      labels: this.state.labels[this.count],
       count: this.count
     }) , 500 ) : 
     setTimeout( ()=> this.props.navigation.navigate('SetupProfile', {answeredQuestions: true }), 500 )
     ;
+  }
+
+  generateLabels(){
+    return this.state.labels[this.count].map((label, index)=> {
+      return <Text key={index} >{label}</Text>
+    })
   }
 
   render() {
@@ -45,12 +59,32 @@ export class IntroQuestionsScreen extends React.Component {
 
     this.question = this.props.navigation.getParam('question', this.state.questions[this.count]);
 
-    this.answers = this.props.navigation.getParam('answers', this.state.answers[this.count])
+    this.labels = this.props.navigation.getParam('labels', this.state.labels[this.count])
 
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'beige', padding: 50 }}>
-        <IntroQuestion question={this.question}/>
-        <IntroAnswerList onPress={(userAnswer)=>this.onPress(userAnswer)} answers={this.answers} />
+      <View style={styles.questionView}>
+        <Text style={styles.question}>{this.question}</Text>
+        <View style={styles.container}>
+          <Slider
+            style={styles.verticalSlider}
+            step={5}
+            thumbStyle={{width: this.state.thumb, height: this.state.thumb, borderRadius: this.state.borderRadius}}
+            minimumValue={this.state.minObservance}
+            maximumValue={this.state.maxObservance}
+            orientation="vertical"
+            value={this.state.responseValue}
+            onValueChange={val => this.setState({ responseValue: val })}
+            onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
+            onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
+            thumbTintColor='pink' 
+            maximumTrackTintColor='#d3d3d3' 
+            minimumTrackTintColor='pink'
+          />
+          <View style={styles.sliderLabels}>
+            {this.generateLabels()}
+          </View>
+        </View>
+        <SaveButton onPress={()=>this.onPress()}/>
       </View>
     );
   }

@@ -17,6 +17,7 @@ export default (state = INITIAL_STATE, action) => {
         loading: true,
       });
     case LOGIN_FACEBOOK_SUCCESS:
+      console.log('USER INFO', action.user);
       return Object.assign({}, state, {
         loading: false,
         error: null,

@@ -25,7 +25,7 @@ export default class SocialScreen extends React.Component {
             color="black" 
             style={styles.headerIcons} 
           />
-          <Text style={ styles.headerTextLeft } >
+          <Text style={ styles.headerText } >
             Home
           </Text>
         </TouchableOpacity>

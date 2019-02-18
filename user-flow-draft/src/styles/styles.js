@@ -1,12 +1,20 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
-  headerTextRight: {
-    fontSize: 20,
-    paddingBottom: 3
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
-  headerTextLeft: {
+  questionView: {
+    flex: 1, 
+    alignItems: 'center',
+    justifyContent: 'center', 
+    backgroundColor: 'beige', 
+    padding: 50
+  },
+  headerText: {
     fontSize: 20,
     paddingBottom: 3
   },
@@ -21,7 +29,7 @@ export default styles = StyleSheet.create({
     fontSize: 35,
   },
   question: {
-    fontSize: 25,
+    fontSize: 20,
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -31,9 +39,22 @@ export default styles = StyleSheet.create({
     borderRadius: 10,
     margin: 15,
     padding: 15,
+    width: 100,
     alignItems: 'center'
   },
   answerText: {
-    fontSize: 25,
+    fontSize: 20,
+  },
+  profilePhoto: {
+    height: 200,
+    width: 200,
+    borderRadius: 100,
+  },
+  sliderLabels: {
+    justifyContent: 'space-between',
+    height: 400,
+  },
+  verticalSlider: {
+    height: 400
   }
 })

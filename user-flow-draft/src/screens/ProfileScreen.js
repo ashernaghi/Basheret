@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import styles from '../styles/styles';
 import { connect } from 'react-redux';
@@ -9,7 +9,7 @@ export class ProfileScreen extends React.Component {
     return {
       headerRight: (
         <TouchableOpacity style={ styles.touchableOpacityHeader } onPress={() => navigation.navigate('Home')}>
-          <Text style={ styles.headerTextRight } >
+          <Text style={ styles.headerText} >
             Home
           </Text>
           <Ionicons 
@@ -19,6 +19,11 @@ export class ProfileScreen extends React.Component {
             style={styles.headerIcons} 
           />
         </TouchableOpacity>
+      ),
+      headerTitle: (
+        <Text style={ styles.headerText} >
+            Your Profile
+        </Text>
       ),
       headerLeft: (
         <Ionicons 
@@ -35,9 +40,10 @@ export class ProfileScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#b2d8a4' }}>
-        <Text>User can see/preview/edit their profile here, as well as change their preferences for filters and such</Text>
+        <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto}  />
+        <Text>Name: {this.props.name}</Text>
         <Text>Denomination: {this.props.denomination}</Text>
-        <Text>Kashrut Level: {this.props.kashrutLevel}</Text>
+        <Text>Kashrut Level: {this.props.kashrutObservance}</Text>
         <Text>Shabbat Observance: {this.props.shabbatObservance}</Text>
       </View>
     );
@@ -49,7 +55,9 @@ const mapStateToProps = state => {
   return {
     denomination: state.userInfo.denomination,
     shabbatObservance: state.userInfo.shabbatObservance,
-    kashrutLevel: state.userInfo.kashrutLevel
+    kashrutObservance: state.userInfo.kashrutObservance,
+    name: state.userInfo.name,
+    profilePhoto: state.userInfo.profilePhoto
   };
 };
 

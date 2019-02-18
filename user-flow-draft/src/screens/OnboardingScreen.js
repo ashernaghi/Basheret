@@ -7,9 +7,8 @@ import { connect } from 'react-redux';
 export class OnboardingScreen extends Component {
   constructor(props){
     super(props);
-
-    this.state={
       //need this so activity spinner shows after successful login, right before it navigated to LoadingApp
+    this.state={
       loggingIn: false,
     }
   }
@@ -26,7 +25,7 @@ export class OnboardingScreen extends Component {
   }
 
   render() {
-    console.log('LOGGING IN IS', this.props.loggingIn);
+    console.log('LOGGING IN IS', this.state.loggingIn);
     return (
       <View style={styles.container}>
         <Button
