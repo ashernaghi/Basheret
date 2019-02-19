@@ -18,9 +18,9 @@ export class IntroQuestionsScreen extends React.Component {
     super(props);
 
     this.state= {
-      category: ['denomination', 'kashrutObservance', 'shabbatObservance'],
-      questions: ['How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
-      labels: [ ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
+      category: ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'],
+      questions: ['What is your gender?', 'How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
+      labels: [['Male', 'Female'], ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
       responseValue: 100,
       minObservance: 0,
       maxObservance: 100,
@@ -34,9 +34,8 @@ export class IntroQuestionsScreen extends React.Component {
   }
 
 
-  onPress(){
-    //dispatch action with category 
-    this.props.dispatch(userInfoUpdate(this.state.category[this.count], this.state.responseValue));
+  onPress(str=""){
+    this.props.dispatch(userInfoUpdate(this.state.category[this.count],str ? str : this.state.responseValue));
     this.count++;
     this.count<this.state.questions.length ?
     setTimeout(()=> this.props.navigation.push('Questions', {
@@ -44,7 +43,7 @@ export class IntroQuestionsScreen extends React.Component {
       labels: this.state.labels[this.count],
       count: this.count
     }) , 500 ) : 
-    setTimeout( ()=> this.props.navigation.navigate('SetupProfile', {answeredQuestions: true }), 500 )
+    setTimeout( ()=> this.props.navigation.navigate('FinishedQuestions', {answeredQuestions: true }), 500 )
     ;
   }
 
@@ -60,6 +59,20 @@ export class IntroQuestionsScreen extends React.Component {
     this.question = this.props.navigation.getParam('question', this.state.questions[this.count]);
 
     this.labels = this.props.navigation.getParam('labels', this.state.labels[this.count])
+
+    //if its the gender question
+    if(this.count===0){
+      console.log('LABELS',this.state.labels);
+      return (
+        <View style={styles.questionView}>
+        <Text style={styles.question}>{this.question}</Text>
+        <View style={styles.container}>
+          <SaveButton text={this.state.labels[this.count][0]} onPress={()=>this.onPress("Male")}/>
+          <SaveButton text={this.state.labels[this.count][1]} onPress={()=>this.onPress("Female")}/>
+        </View>
+      </View>
+      );
+    }
 
     return (
       <View style={styles.questionView}>
@@ -84,7 +97,7 @@ export class IntroQuestionsScreen extends React.Component {
             {this.generateLabels()}
           </View>
         </View>
-        <SaveButton onPress={()=>this.onPress()}/>
+        <SaveButton text={"Save"} onPress={()=>this.onPress()}/>
       </View>
     );
   }

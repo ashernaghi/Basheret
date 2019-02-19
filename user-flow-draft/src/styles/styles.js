@@ -7,6 +7,12 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+  columnContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
   questionView: {
     flex: 1, 
     alignItems: 'center',

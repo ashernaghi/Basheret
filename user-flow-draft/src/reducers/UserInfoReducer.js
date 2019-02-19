@@ -11,8 +11,11 @@ const INITIAL_STATE = {
   bio: '',
   education: '',
   highSchool: '',  
-  name: '',
+  fullName: '',
+  firstName: '',
+  lastName: '',
   profilePhoto: '',
+  gender: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -23,7 +26,9 @@ export default (state = INITIAL_STATE, action) => {
       });
     case LOGIN_FACEBOOK_SUCCESS:
       return Object.assign({}, state, {
-        name: action.user.additionalUserInfo.profile.name,
+        fullName: action.user.additionalUserInfo.profile.name,
+        firstName: action.user.additionalUserInfo.profile.first_name,
+        lastName: action.user.additionalUserInfo.profile.last_name
         // photo: action.user.user.photoURL
       });
     default:

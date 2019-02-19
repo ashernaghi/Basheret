@@ -2,15 +2,15 @@ import { createStackNavigator } from 'react-navigation';
 import { fromRight } from 'react-navigation-transitions';
 import IntroQuestionsScreen from '../screens/IntroQuestionsScreen';
 import LoadingAppScreen from '../screens/LoadingAppScreen';
-import SetupProfileScreen from '../screens/SetupProfileScreen';
+import ChooseProfilePictureScreen from '../screens/ChooseProfilePictureScreen';
 
 export default IntroQuestionsStack = createStackNavigator({
   Questions: { screen: IntroQuestionsScreen },
-  SetupProfile: { screen: SetupProfileScreen },
+  ChooseProfilePicture: { screen: ChooseProfilePictureScreen },
   FinishedQuestions: { screen: LoadingAppScreen }
 },
 {
-  initialRouteName: 'Questions',
+  initialRouteName: 'ChooseProfilePicture',
   transitionConfig: () => fromRight(1000),
 },
 )

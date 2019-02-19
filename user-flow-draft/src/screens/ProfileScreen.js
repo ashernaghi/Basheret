@@ -42,6 +42,7 @@ export class ProfileScreen extends React.Component {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#b2d8a4' }}>
         <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto}  />
         <Text>Name: {this.props.name}</Text>
+        <Text>Gender: {this.props.gender}</Text>
         <Text>Denomination: {this.props.denomination}</Text>
         <Text>Kashrut Level: {this.props.kashrutObservance}</Text>
         <Text>Shabbat Observance: {this.props.shabbatObservance}</Text>
@@ -56,8 +57,9 @@ const mapStateToProps = state => {
     denomination: state.userInfo.denomination,
     shabbatObservance: state.userInfo.shabbatObservance,
     kashrutObservance: state.userInfo.kashrutObservance,
-    name: state.userInfo.name,
-    profilePhoto: state.userInfo.profilePhoto
+    name: state.userInfo.fullName,
+    profilePhoto: state.userInfo.profilePhoto,
+    gender: state.userInfo.gender
   };
 };
 

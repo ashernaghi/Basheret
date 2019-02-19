@@ -20,7 +20,7 @@ export default class SaveButton extends React.Component {
         activeOpacity= {1}
         onShowUnderlay={()=>this.setState({bg: 'pink'})}
       >
-        <Text style={styles.answerText} >Save</Text>
+        <Text style={styles.answerText} >{this.props.text}</Text>
       </TouchableHighlight>
     );    
   }
