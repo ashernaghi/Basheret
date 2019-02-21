@@ -22,14 +22,13 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_INFO_UPDATE:
       return Object.assign({}, state, {
-        [action.category]: action.answer,
+        [action.category]: action.response,
       });
     case LOGIN_FACEBOOK_SUCCESS:
       return Object.assign({}, state, {
         fullName: action.user.additionalUserInfo.profile.name,
         firstName: action.user.additionalUserInfo.profile.first_name,
         lastName: action.user.additionalUserInfo.profile.last_name
-        // photo: action.user.user.photoURL
       });
     default:
       return state;

@@ -1,17 +1,14 @@
 import React from 'react'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { fromRight } from 'react-navigation-transitions';
+import thunk from 'redux-thunk';
 import MainStack from './src/navigation/MainStack.js';
 import IntroQuestionsStack from './src/navigation/IntroQuestionsStack';
 import LoadingAppScreen from './src/screens/LoadingAppScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
-import { fromRight } from 'react-navigation-transitions';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
 import reducers from './src/reducers';
-
-// const AppContainer = createAppContainer(Drawer);
-// const AppContainer = createAppContainer(MainStack);
 
 const AppContainer = createAppContainer(createSwitchNavigator(
   {

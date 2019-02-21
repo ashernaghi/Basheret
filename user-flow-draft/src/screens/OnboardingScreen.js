@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator, Button } from 'react-native';
-import {loginWithFacebook} from '../actions/AuthActions';
+import React from 'react';
 import { connect } from 'react-redux';
-// import { Container, Content, Header, Item, Form, Input, Button, Label} from 'native-base';
+import { StyleSheet, View, ActivityIndicator, Button } from 'react-native';
+import {loginWithFacebook} from '../actions/AuthActions';
 
-export class OnboardingScreen extends Component {
+export class OnboardingScreen extends React.Component {
   constructor(props){
     super(props);
-      //need this so activity spinner shows after successful login, right before it navigated to LoadingApp
-    this.state={
-      loggingIn: false,
-    }
   }
-  // if they login successfully, the props will change, the componenet will update, and we can navigate to loadingapp
+  // if they login successfully, the props will change, the component will update, and we can navigate to loadingapp
   componentDidUpdate(){
     if(this.props.user){
       this.props.navigation.navigate('LoadingApp');
@@ -20,12 +15,10 @@ export class OnboardingScreen extends Component {
   }
 
   onPress(){
-    this.setState({loggingIn: true});
     this.props.dispatch(loginWithFacebook());
   }
 
   render() {
-    console.log('LOGGING IN IS', this.state.loggingIn);
     return (
       <View style={styles.container}>
         <Button
@@ -37,7 +30,7 @@ export class OnboardingScreen extends Component {
             onPress={() => this.onPress()}
             >
           </Button>
-          {this.state.loggingIn && <ActivityIndicator />}
+          {this.props.loggingIn && <ActivityIndicator />}
       </View>
     );
   }
@@ -46,8 +39,12 @@ export class OnboardingScreen extends Component {
 const mapStateToProps = state => {
   return {
     user: state.auth.user,
+    loggingIn: state.auth.loggingIn,
+    loginError: state.auth.error
   };
 };
+
+//if logging in is false and error is false, then show it's logging in 
 
 export default connect(mapStateToProps)(OnboardingScreen);
 

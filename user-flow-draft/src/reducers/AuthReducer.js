@@ -7,25 +7,25 @@ import {
 const INITIAL_STATE = {
   user: null,
   error: null,
-  loading: false, 
+  loggingIn: false, 
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_FACEBOOK_REQUEST:
       return Object.assign({}, state, {
-        loading: true,
+        loggingIn: true,
+        error: null,
       });
     case LOGIN_FACEBOOK_SUCCESS:
-      console.log('USER INFO', action.user);
       return Object.assign({}, state, {
-        loading: false,
+        loggingIn: false,
         error: null,
         user: action.user
       });
     case LOGIN_FACEBOOK_ERROR:
       return Object.assign({}, state, {
-        loading: false,
+        loggingIn: false,
         error: action.error,
       });
     default:

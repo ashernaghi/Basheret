@@ -1,5 +1,8 @@
 import * as firebase from 'firebase';
-import { LOGIN_FACEBOOK_REQUEST, LOGIN_FACEBOOK_SUCCESS, LOGIN_FACEBOOK_ERROR } from './types';
+import { 
+  LOGIN_FACEBOOK_REQUEST, 
+  LOGIN_FACEBOOK_SUCCESS, 
+  LOGIN_FACEBOOK_ERROR } from './types';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -27,8 +30,8 @@ export const loginFacebookSuccess = (user) => ({
   user,
 });
 
-export const loginWithFacebook = (thisP) => async (dispatch) => {
-  dispatch(loginFacebookRequest);
+export const loginWithFacebook = () => async (dispatch) => {
+  dispatch(loginFacebookRequest());
 
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync
   ('1073829486133421', { permissions: ['public_profile'] })
@@ -39,11 +42,14 @@ export const loginWithFacebook = (thisP) => async (dispatch) => {
     firebase.auth().signInAndRetrieveDataWithCredential(credential)
     .then(user=>{
       dispatch(loginFacebookSuccess(user));
+      //call another async action that will send the relevant information to the db (full name)
     })
     .catch((error) => {
       dispatch(loginFacebookError(error))
     })
   }
-
-  //else if its not a success...then what? stay on this page, we need their account to log in
+  else{
+    //user clicked cancel
+    dispatch(loginFacebookError(type))
+  }
 }

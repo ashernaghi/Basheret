@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  View,
-  Text,
-  StyleSheet
-} from 'react-native';
 import { connect } from 'react-redux';
+import { ActivityIndicator, View, Text, StyleSheet } from 'react-native';
 
 export class LoadingAppScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -18,7 +13,7 @@ export class LoadingAppScreen extends React.Component {
 
     //this screen will be the loading screen that is shown when we're trying to authorize the user -- if they've logged in before (not sure how we check this? token?) AND filled out the intro questions, navigate them to 'App'. If they've never logged in OR didn't finish filling out user info, navigate them to login screen
 
-    //making this state temporarily. Need to check the database and see if this user answered intro questions or not
+    //making this temporarily. Need to check the database and see if this user answered intro questions or not
     this.state= {
       answeredQuestions: this.props.navigation.getParam('answeredQuestions', false),
     }

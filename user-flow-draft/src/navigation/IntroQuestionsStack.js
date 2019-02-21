@@ -7,7 +7,7 @@ import ChooseProfilePictureScreen from '../screens/ChooseProfilePictureScreen';
 export default IntroQuestionsStack = createStackNavigator({
   Questions: { screen: IntroQuestionsScreen },
   ChooseProfilePicture: { screen: ChooseProfilePictureScreen },
-  FinishedQuestions: { screen: LoadingAppScreen }
+  LoadingApp: { screen: LoadingAppScreen }
 },
 {
   initialRouteName: 'ChooseProfilePicture',

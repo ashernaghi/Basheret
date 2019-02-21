@@ -15,6 +15,7 @@ export class IntroQuestionsScreen extends React.Component {
   };
 
   constructor(props) {
+    //in component level state, we have a list of question and answer options. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
     super(props);
 
     this.state= {
@@ -43,7 +44,7 @@ export class IntroQuestionsScreen extends React.Component {
       labels: this.state.labels[this.count],
       count: this.count
     }) , 500 ) : 
-    setTimeout( ()=> this.props.navigation.navigate('FinishedQuestions', {answeredQuestions: true }), 500 )
+    setTimeout( ()=> this.props.navigation.navigate('LoadingApp', {answeredQuestions: true }), 500 )
     ;
   }
 
@@ -104,5 +105,3 @@ export class IntroQuestionsScreen extends React.Component {
 }
 
 export default connect()(IntroQuestionsScreen);
-
-//in component level state, we have a list of question and answer options. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
