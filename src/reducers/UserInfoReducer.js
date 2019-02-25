@@ -15,7 +15,13 @@ const INITIAL_STATE = {
   firstName: '',
   lastName: '',
   profilePhoto: '',
-  gender: ''
+  gender: '',
+  discoverable: true,
+  denominationPreference: [0, 100],
+  shabbatPreference: [0, 100],
+  kashrutPreference: [0, 100],
+  agePreference: [18, 39],
+  distancePreference: 1000,
 };
 
 export default (state = INITIAL_STATE, action) => {

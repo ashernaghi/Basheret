@@ -14,7 +14,8 @@ const handleCustomTransition = ({ scenes }) => {
     && prevScene.route.routeName === 'Home'
     && nextScene.route.routeName === 'Social') {
     return fromRight();
-  } else{
+  } 
+  else{
     return fromLeft();
   }
 }

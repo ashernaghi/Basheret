@@ -52,7 +52,6 @@ export class ProfileScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('STATE', state.userInfo)
   return {
     denomination: state.userInfo.denomination,
     shabbatObservance: state.userInfo.shabbatObservance,

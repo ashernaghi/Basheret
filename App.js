@@ -18,7 +18,7 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     IntroQuestions: IntroQuestionsStack,
   },
   {
-    initialRouteName: 'LoadingApp',
+    initialRouteName: 'App',
     transitionConfig: () => fromRight(1000),
   }
 ));

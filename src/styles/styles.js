@@ -24,7 +24,6 @@ export default styles = StyleSheet.create({
   },
   question: {
     fontSize: 20,
-    marginBottom: 20,
     textAlign: 'center',
   },
   answerTouchable: {
@@ -40,9 +39,9 @@ export default styles = StyleSheet.create({
     fontSize: 20,
   },
   profilePhoto: {
-    height: 200,
-    width: 200,
-    borderRadius: 100,
+    height: 180,
+    width: 180,
+    borderRadius: 90,
   },
   chooseProfPicContainer: {
     flex: 1,
@@ -59,9 +58,28 @@ export default styles = StyleSheet.create({
   },
   sliderLabels: {
     justifyContent: 'space-between',
-    height: 400,
+    height: 300,
   },
   verticalSlider: {
-    height: 400,
+    height: 300,
+  },
+  dividerContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  filterContainer: {
+    paddingBottom: 20,
+    paddingLeft: 20,
+  },
+  settingsContainer: {
+    backgroundColor: 'beige'
+  },
+  settingsTitle: {
+    paddingHorizontal: 15,
+    fontWeight: 'bold',
+    fontSize: 17
   }
 })

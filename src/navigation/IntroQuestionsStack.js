@@ -10,7 +10,7 @@ export default IntroQuestionsStack = createStackNavigator({
   LoadingApp: { screen: LoadingAppScreen }
 },
 {
-  initialRouteName: 'ChooseProfilePicture',
+  initialRouteName: 'Questions',
   transitionConfig: () => fromRight(1000),
 },
 )

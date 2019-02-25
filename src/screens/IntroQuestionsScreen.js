@@ -14,11 +14,9 @@ export class IntroQuestionsScreen extends React.Component {
     }
   };
 
-  constructor(props) {
     //in component level state, we have a list of question and answer options. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
-    super(props);
 
-    this.state= {
+    state= {
       category: ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'],
       questions: ['What is your gender?', 'How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
       labels: [['Male', 'Female'], ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
@@ -29,11 +27,9 @@ export class IntroQuestionsScreen extends React.Component {
       borderRadius: 12,
     }
 
-    this.count;
-    this.question;
-    this.labels;
-  }
-
+    count;
+    question;
+    labels;
 
   onPress(str=""){
     this.props.dispatch(userInfoUpdate(this.state.category[this.count],str ? str : this.state.responseValue));
