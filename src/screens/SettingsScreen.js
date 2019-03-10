@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView, Switch,  } from 'react-native
 import { Slider } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
-import { userInfoUpdate } from '../actions/UserInfoActions';
+import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
 
 export class SettingsScreen extends React.Component {
@@ -35,12 +35,12 @@ export class SettingsScreen extends React.Component {
   changeValue = (values, category) => {
     let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ?'agePreference' : category==="Distance" ? 'distancePreference' : category;
     let finalValue = values.length===1 ? values[0] : values;
-    this.props.dispatch(userInfoUpdate(finalCategory, finalValue))
+    this.props.dispatch(updateUserInfo(finalCategory, finalValue))
   }
 
   // Handle change of switch state
   handleSwitch = (category) => {
-    this.props.dispatch(userInfoUpdate(category, !this.props[category]))
+    this.props.dispatch(updateUserInfo(category, !this.props[category]))
   }
 
   generateFilters(){
@@ -73,7 +73,6 @@ export class SettingsScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.distancePreference)
     return (
       <ScrollView style={styles.settingsContainer}>
         <View style={styles.dividerContainer}>
@@ -118,7 +117,7 @@ export class SettingsScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('IN SETTINGS, STATE:', state)
+  // console.log('IN SETTINGS, STATE:', state)
   return {
     denominationPreference: state.userInfo.denominationPreference,
     shabbatPreference: state.userInfo.shabbatPreference,

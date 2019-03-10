@@ -8,9 +8,9 @@ export default IntroQuestionsStack = createStackNavigator({
   Questions: { screen: IntroQuestionsScreen },
   ChooseProfilePicture: { screen: ChooseProfilePictureScreen },
   LoadingApp: { screen: LoadingAppScreen }
-},
-{
-  initialRouteName: 'Questions',
-  transitionConfig: () => fromRight(1000),
-},
+  },
+  {
+    initialRouteName: 'ChooseProfilePicture',
+    transitionConfig: () => fromRight(1000),
+  },
 )

@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import * as firebase from 'firebase';
+import {firebaseConfig} from './config';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -18,13 +20,15 @@ const AppContainer = createAppContainer(createSwitchNavigator(
     IntroQuestions: IntroQuestionsStack,
   },
   {
-    initialRouteName: 'App',
+    initialRouteName: 'LoadingApp',
     transitionConfig: () => fromRight(1000),
   }
 ));
 
 export default class App extends React.Component {
   render() {
+    firebase.initializeApp(firebaseConfig);
+
     const store = createStore(reducers, applyMiddleware(thunk));
     return (
       <Provider store={store}>

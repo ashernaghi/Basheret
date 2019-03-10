@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Image, View, Text, TouchableHighlight } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import { userInfoUpdate } from '../actions/UserInfoActions';
+import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
 
 export class ChooseProfilePictureScreen extends Component {
@@ -21,8 +21,7 @@ export class ChooseProfilePictureScreen extends Component {
   askPermissionsAsync = async () => {
     await Permissions.askAsync(Permissions.CAMERA);
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // you would probably do something to verify that permissions
-    // are actually granted, but I'm skipping that for brevity
+    // need to verify that permissions are actually granted
   };
 
   useLibraryHandler = async () => {
@@ -33,8 +32,7 @@ export class ChooseProfilePictureScreen extends Component {
       base64: false,
     });
     if(!result.cancelled){
-      this.props.dispatch(userInfoUpdate('profilePhoto', result.uri));
-      // this.props.navigation.navigate('Questions', {answeredQuestions: true })
+      this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
     }
   };
 
@@ -46,7 +44,7 @@ export class ChooseProfilePictureScreen extends Component {
       base64: false,
     });
     if(!result.cancelled){
-      this.props.dispatch(userInfoUpdate('profilePhoto', result.uri));
+      this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
     }
   };
 

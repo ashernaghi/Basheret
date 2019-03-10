@@ -1,6 +1,5 @@
 import { USER_INFO_UPDATE } from './types';
 import * as firebase from 'firebase';
-// firebase.initializeApp(firebaseConfig);
 
 export const updateUserInfo = (category, answer) => {
 	let user = firebase.auth().currentUser;

@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   kashrutPreference: [0, 100],
   agePreference: [18, 39],
   distancePreference: 1000,
+  location: null,
 };
 
 export default (state = INITIAL_STATE, action) => {

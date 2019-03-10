@@ -4,7 +4,7 @@ import { Slider } from 'react-native-elements';
 import SaveButton from '../components/SaveButton';
 import styles from '../styles/styles';
 import { connect } from 'react-redux';
-import { userInfoUpdate } from '../actions/UserInfoActions';
+import { updateUserInfo } from '../actions/UserInfoActions';
 
 export class IntroQuestionsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -32,7 +32,7 @@ export class IntroQuestionsScreen extends React.Component {
     labels;
 
   onPress(str=""){
-    this.props.dispatch(userInfoUpdate(this.state.category[this.count],str ? str : this.state.responseValue));
+    this.props.dispatch(updateUserInfo(this.state.category[this.count],str ? str : this.state.responseValue));
     this.count++;
     this.count<this.state.questions.length ?
     setTimeout(()=> this.props.navigation.push('Questions', {
@@ -59,7 +59,6 @@ export class IntroQuestionsScreen extends React.Component {
 
     //if its the gender question
     if(this.count===0){
-      console.log('LABELS',this.state.labels);
       return (
         <View style={styles.questionView}>
           <Text style={styles.question}>{this.question}</Text>

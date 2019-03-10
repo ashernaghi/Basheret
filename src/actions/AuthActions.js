@@ -2,19 +2,9 @@ import * as firebase from 'firebase';
 import { 
   LOGIN_FACEBOOK_REQUEST, 
   LOGIN_FACEBOOK_SUCCESS, 
-  LOGIN_FACEBOOK_ERROR } from './types';
-
-// Initialize Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyAm30EwOyTZMbhBE1MG2uuREC6g_fpBfPg",
-  authDomain: "fblogintest-18329.firebaseapp.com",
-  databaseURL: "https://fblogintest-18329.firebaseio.com",
-  projectId: "fblogintest-18329",
-  storageBucket: "fblogintest-18329.appspot.com",
-  messagingSenderId: "353397681207"
-};
-
-firebase.initializeApp(firebaseConfig);
+  LOGIN_FACEBOOK_ERROR 
+} from './types';
+import { updateUserInfo } from './UserInfoActions';
 
 export const loginFacebookRequest = () => ({
   type: LOGIN_FACEBOOK_REQUEST,
@@ -41,9 +31,12 @@ export const loginWithFacebook = () => async (dispatch) => {
 
     firebase.auth().signInAndRetrieveDataWithCredential(credential)
     .then(user=>{
-      console.log('USER', user)
+      // console.log('USER', user)
       dispatch(loginFacebookSuccess(user));
-      //call another async action that will send the relevant information to the db (full name)
+      //take stuff we need from fb and send it off to firebase
+      let userInfo = user.additionalUserInfo.profile;
+      let infoNeeded = [{'firstName': userInfo.first_name}, {'lastName:': userInfo.last_name}, {'fullName': userInfo.name}];
+      infoNeeded.forEach(info=>dispatch(updateUserInfo(Object.keys(info)[0], Object.values(info)[0])));
     })
     .catch((error) => {
       dispatch(loginFacebookError(error))

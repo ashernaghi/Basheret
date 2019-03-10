@@ -1,12 +1,13 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, } from 'react-native';
 import CandidatesScreen from './CandidatesScreen';
 import MatchmakerScreen from './MatchmakerScreen';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
 import styles from '../styles/styles';
 
-export default class HomeScreen extends React.Component {
+export class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Basheret',
@@ -47,14 +48,17 @@ export default class HomeScreen extends React.Component {
     }
   };
 
-
   state={
       show: "candidates",
   }
 
   render() {
     let renderComponent; 
-    if(this.state.show==='candidates'){
+    //if the user hasn't allowed us access to their location, tell them they need to for the app to work 
+    if(!this.props.location){
+      renderComponent = <Text>Oops, looks like we dont have access to your location. Please go to your settings to change this!</Text>
+    }
+    else if(this.state.show==='candidates'){
       renderComponent = <CandidatesScreen/>
     }
     else{
@@ -98,3 +102,11 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    location: state.userInfo.location,
+  };
+};
+
+export default connect(mapStateToProps)(HomeScreen);
