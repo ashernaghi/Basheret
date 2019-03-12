@@ -16,36 +16,67 @@ export class ChooseProfilePictureScreen extends Component {
 
   state = {
     profilePhoto: '',
+    permissionsError: null,
+    cameraRollPermissions: null,
+    cameraPermissions: null,
   };
 
-  askPermissionsAsync = async () => {
-    await Permissions.askAsync(Permissions.CAMERA);
-    await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    // need to verify that permissions are actually granted
+  askCameraPermissionsAsync = async () => {
+    let cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+
+    console.log(cameraPermission);
+
+    if(cameraPermission.status==="denied"){
+      console.log('1');
+      this.setState({permissionsError: 'Oops! Looks like you haven\'t granted Basheret permission to your Camera. Please go into your settings and change that so you can take a picture for your profile!'});
+    }
+    else{
+      console.log('2')
+      this.setState({permissionsError: null, cameraPermissions: true})
+    }
+  };
+
+  askCameraRollPermissionsAsync = async () => {
+    let cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if(cameraRollPermission.status==="denied"){
+      console.log('1');
+      this.setState({permissionsError: 'Oops! Looks like you haven\'t granted Basheret permission to your Camera Roll. Please go into your settings and change that so you can upload a picture for your profile!'});
+    }
+    else{
+      console.log('2');
+      this.setState({permissionsError: null, cameraRollPermissions: true})
+    }
   };
 
   useLibraryHandler = async () => {
-    await this.askPermissionsAsync();
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      base64: false,
-    });
-    if(!result.cancelled){
-      this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
+    await this.askCameraRollPermissionsAsync();
+    if(this.state.cameraRollPermissions){
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: false,
+      });
+      if(!result.cancelled){
+        this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
+      }
     }
   };
 
   useCameraHandler = async () => {
-    await this.askPermissionsAsync();
-    let result = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-      base64: false,
-    });
-    if(!result.cancelled){
-      this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
-    }
+    let x = await this.askCameraPermissionsAsync();
+    console.log('x', x);
+    if(this.state.cameraPermissions){
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: false,
+      });
+      if(!result.cancelled){
+        this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
+      }
+    } 
+
   };
 
   showImage(){
@@ -79,6 +110,7 @@ export class ChooseProfilePictureScreen extends Component {
   }
 
   render() {
+
     return (
       <View style={styles.chooseProfPicContainer}>
         {this.showImage()}
@@ -86,6 +118,8 @@ export class ChooseProfilePictureScreen extends Component {
         <Text>
           {this.props.firstName}, Please Upload A Profile Picture
         </Text>
+
+        {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
 
         <View style={styles.uploadPhotoOptionsContainer}>
           <View style={styles.uploadIcon}>

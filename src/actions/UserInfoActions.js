@@ -25,7 +25,6 @@ export const fetchUserSuccess = (user) => ({
 
 export const getUser = (props) => dispatch =>  {
     let user = firebase.auth().currentUser;
-    console.log('USER', user);
     if(user){
         let userID = user.uid;
         let userFirebase = firebase.database().ref('/users/'+userID);

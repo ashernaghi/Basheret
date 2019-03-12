@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView, Switch,  } from 'react-native';
-import { Slider } from 'react-native-elements';
-import { Ionicons } from '@expo/vector-icons';
+import SwitchSelector from "react-native-switch-selector";
+import { Ionicons, FontAwesome, Foundation } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
@@ -33,14 +33,9 @@ export class SettingsScreen extends React.Component {
   };
 
   changeValue = (values, category) => {
-    let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ?'agePreference' : category==="Distance" ? 'distancePreference' : category;
+    let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ? 'agePreference' : category==="Distance" ? 'distancePreference' : category;
     let finalValue = values.length===1 ? values[0] : values;
     this.props.dispatch(updateUserInfo(finalCategory, finalValue))
-  }
-
-  // Handle change of switch state
-  handleSwitch = (category) => {
-    this.props.dispatch(updateUserInfo(category, !this.props[category]))
   }
 
   generateFilters(){
@@ -49,7 +44,6 @@ export class SettingsScreen extends React.Component {
     return preferences.map((preference, index)=>{
       let key = Object.keys(preference)[0];
       let values = Object.values(preference)[0]
-      console.log('VALUES', values[0], values[1])
       return(
         <View key={index} style={styles.filterContainer}>
           <Text>
@@ -74,6 +68,29 @@ export class SettingsScreen extends React.Component {
   }
 
   render() {
+    let femaleIcon = 
+    <FontAwesome 
+      name="female"
+      size={25} 
+      color="black" 
+    />
+
+    let maleIcon = 
+    <FontAwesome 
+      name="male"
+      size={25} 
+      color="black" 
+    />
+
+    let bothIcon = 
+    <Foundation 
+      name="male-female"
+      size={25} 
+      color="black" 
+    />
+
+    let gp = this.props.genderPreference;
+
     return (
       <ScrollView style={styles.settingsContainer}>
         <View style={styles.dividerContainer}>
@@ -111,18 +128,39 @@ export class SettingsScreen extends React.Component {
             step={100}
           />
         </View>
-       
+        
+        <View style={styles.filterContainer}>
+          <Text>
+            Gender: {gp}
+          </Text>
+
+          <SwitchSelector
+            initial={gp==="Female" ? 0 : gp==="Male" ? 1 : 2}
+            imageStyle={{justifyContent: 'center', alignItems: 'center'}}
+            backgroundColor='rgba(232, 171, 227, .3)'
+            onPress={value => this.changeValue(value, 'genderPreference')}
+            buttonColor='rgb(232, 171, 227)'
+            height={50}
+            borderRadius='200'
+            style={{width: 200}}
+            options={[
+              { value: "Female", customIcon: femaleIcon }, 
+              { value: "Male", customIcon: maleIcon },
+              { value: "Both", customIcon: bothIcon },
+            ]}
+          />
+        </View>
       </ScrollView>
     )
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state.userInfo.user.denominationPreference);
   return {
     denominationPreference: state.userInfo.user.denominationPreference,
     shabbatPreference: state.userInfo.user.shabbatPreference,
     kashrutPreference: state.userInfo.user.kashrutPreference,
+    genderPreference: state.userInfo.user.genderPreference,
     agePreference: state.userInfo.user.agePreference,
     distancePreference: state.userInfo.user.distancePreference,
     discoverable: state.userInfo.user.discoverable,
