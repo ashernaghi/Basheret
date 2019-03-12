@@ -31,7 +31,6 @@ export const loginWithFacebook = () => async (dispatch) => {
 
     firebase.auth().signInAndRetrieveDataWithCredential(credential)
     .then(user=>{
-      // console.log('USER', user)
       dispatch(loginFacebookSuccess(user));
       //take stuff we need from fb and send it off to firebase
       let userInfo = user.additionalUserInfo.profile;

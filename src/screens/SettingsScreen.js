@@ -49,6 +49,7 @@ export class SettingsScreen extends React.Component {
     return preferences.map((preference, index)=>{
       let key = Object.keys(preference)[0];
       let values = Object.values(preference)[0]
+      console.log('VALUES', values[0], values[1])
       return(
         <View key={index} style={styles.filterContainer}>
           <Text>
@@ -63,8 +64,8 @@ export class SettingsScreen extends React.Component {
             markerStyle={{width:10, height: 25}}
             values={values}
             onValuesChange={values=>this.changeValue(values, key)}
-            min={values[0]}
-            max={values[1]}
+            min={key==="Age" ? 18 : 0}
+            max={key==="Age" ? 39 : 100}
             step={key==="Age" ? 1: 5}
           />
         </View>
@@ -117,14 +118,14 @@ export class SettingsScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  // console.log('IN SETTINGS, STATE:', state)
+  console.log(state.userInfo.user.denominationPreference);
   return {
-    denominationPreference: state.userInfo.denominationPreference,
-    shabbatPreference: state.userInfo.shabbatPreference,
-    kashrutPreference: state.userInfo.kashrutPreference,
-    agePreference: state.userInfo.agePreference,
-    distancePreference: state.userInfo.distancePreference,
-    discoverable: state.userInfo.discoverable,
+    denominationPreference: state.userInfo.user.denominationPreference,
+    shabbatPreference: state.userInfo.user.shabbatPreference,
+    kashrutPreference: state.userInfo.user.kashrutPreference,
+    agePreference: state.userInfo.user.agePreference,
+    distancePreference: state.userInfo.user.distancePreference,
+    discoverable: state.userInfo.user.discoverable,
   };
 };
 

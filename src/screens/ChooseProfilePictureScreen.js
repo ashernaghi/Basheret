@@ -69,7 +69,7 @@ export class ChooseProfilePictureScreen extends Component {
     if(this.props.profilePhoto){
       return(
         <TouchableHighlight
-          onPress={() => this.props.navigation.navigate('Questions', {answeredQuestions: true })}
+          onPress={() => this.props.navigation.navigate('Questions')}
         >
           <Text>Looks Good!</Text>
         </TouchableHighlight>
@@ -116,8 +116,8 @@ export class ChooseProfilePictureScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    firstName: state.userInfo.firstName,
-    profilePhoto: state.userInfo.profilePhoto,
+    firstName: state.userInfo.user.firstName,
+    profilePhoto: state.userInfo.user.profilePhoto,
   };
 };
 

@@ -15,9 +15,10 @@ export class IntroQuestionsScreen extends React.Component {
   };
 
     //in component level state, we have a list of question and answer options. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
-
     state= {
       category: ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'],
+      preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
+      preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
       questions: ['What is your gender?', 'How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
       labels: [['Male', 'Female'], ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
       responseValue: 100,
@@ -32,16 +33,32 @@ export class IntroQuestionsScreen extends React.Component {
     labels;
 
   onPress(str=""){
-    this.props.dispatch(updateUserInfo(this.state.category[this.count],str ? str : this.state.responseValue));
+    //send response to db: 
+    this.props.dispatch(updateUserInfo(this.state.category[this.count], str ? str : this.state.responseValue));
+    //set default for the preference: 
+    this.props.dispatch(updateUserInfo(this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ? 
+  'Male' : this.state.preferenceDefault[this.count]));
+
     this.count++;
-    this.count<this.state.questions.length ?
-    setTimeout(()=> this.props.navigation.push('Questions', {
-      question: this.state.questions[this.count],
-      labels: this.state.labels[this.count],
-      count: this.count
-    }) , 500 ) : 
-    setTimeout( ()=> this.props.navigation.navigate('LoadingApp', {answeredQuestions: true }), 500 )
-    ;
+
+    if(this.count<this.state.questions.length){
+      setTimeout(()=> this.props.navigation.push('Questions', {
+        question: this.state.questions[this.count],
+        labels: this.state.labels[this.count],
+        count: this.count
+      }) , 500 ) 
+    }
+    //finished answering questions
+    else{
+      //send defaults for initial account setup
+      this.props.dispatch(updateUserInfo('agePreference', [18, 39]));
+      this.props.dispatch(updateUserInfo('distancePreference', 1000));
+      this.props.dispatch(updateUserInfo('discoverable', true));
+      this.props.dispatch(updateUserInfo('initialSetupComplete', true));
+
+      setTimeout( ()=> this.props.navigation.navigate('LoadingApp'), 500 )
+      ;
+    }
   }
 
   generateLabels(){
