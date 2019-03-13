@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity } from 'react-native';
 import {loginWithFacebook} from '../actions/AuthActions';
 import { FacebookLoginButton } from '../components/FacebookLoginButton'
+import { Font } from 'expo'
 
 export class OnboardingScreen extends React.Component {
   constructor(props){
@@ -76,6 +77,5 @@ facebookLoginButton: {
 
 loginLogoText: {
   color: '#fbfbfb',
-  fontFamily: 'Fitamint Script'
 }
 });

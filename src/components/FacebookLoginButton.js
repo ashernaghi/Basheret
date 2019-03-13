@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 
 loginButtonTextStyle: {
   color: '#fbfbfb',
-  fontSize: 15
+  fontSize: 15,
 },
 
 facebookLoginButtonStyle: {
