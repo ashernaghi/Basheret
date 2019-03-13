@@ -76,5 +76,6 @@ facebookLoginButton: {
 
 loginLogoText: {
   color: '#fbfbfb',
+  fontFamily: 'Fitamint Script'
 }
 });
