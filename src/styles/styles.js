@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export default styles = StyleSheet.create({
   questionView: {
-    flex: 1, 
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center', 
-    backgroundColor: 'beige', 
+    justifyContent: 'center',
+    backgroundColor: 'beige',
     padding: 50
   },
   headerText: {
@@ -13,8 +13,8 @@ export default styles = StyleSheet.create({
     paddingBottom: 3
   },
   touchableOpacityHeader: {
-    alignItems: 'center', 
-    flex: 1, 
+    alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
   },
   headerIcons: {
@@ -35,14 +35,11 @@ export default styles = StyleSheet.create({
     width: 100,
     alignItems: 'center'
   },
+  
   answerText: {
     fontSize: 20,
   },
-  profilePhoto: {
-    height: 180,
-    width: 180,
-    borderRadius: 90,
-  },
+
   chooseProfPicContainer: {
     flex: 1,
     justifyContent: 'center',
