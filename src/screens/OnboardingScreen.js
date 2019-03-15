@@ -24,9 +24,7 @@ export class OnboardingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text
-          style={styles.loginLogoText}
-          >
+          <Text style={styles.loginLogoText}>
             Basheret
           </Text>
         </View>
