@@ -20,7 +20,6 @@ const FacebookLoginButton = ({ onPress }) => {
           <Text style={styles.loginButtonTextStyle}>
             Login with Facebook
           </Text>
-          <Text>Hi</Text>
       </TouchableOpacity>
     </View>
   )
