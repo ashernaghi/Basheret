@@ -8,8 +8,9 @@ const FacebookLoginButton = ({ onPress }) => {
       <View style={{ flexDirection: 'row', justifyContent: 'center', paddingBottom: 3}}>
         <MaterialIcons
         name="lock"
-        size={14}
+        size={12}
         color="white"
+        style={{ alignSelf: 'center'}}
         />
         <Text
         style={styles.facebookSafeStyle}>
@@ -46,6 +47,7 @@ facebookLoginButtonStyle: {
 facebookSafeStyle: {
   color: '#fbfbfb',
   alignSelf: 'center',
-  paddingLeft: 5
+  paddingLeft: 5,
+  fontSize: 12
 },
 });

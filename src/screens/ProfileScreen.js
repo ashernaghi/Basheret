@@ -37,9 +37,9 @@ export class ProfileScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ backgroundColor: '#fbfbfb' }}>
+      <View style={{ backgroundColor: '#fafafa' }}>
       <ScrollView>
-        <View style={{ backgroundColor: '#fbfbfb' }}>
+        <View style={{ backgroundColor: '#fafafa' }}>
           <View style={{ padding: 20, flexDirection: 'row', alignSelf: 'center' }}>
             <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto} />
             <Ionicons

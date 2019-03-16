@@ -23,7 +23,7 @@ export class OnboardingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
           <Text
           style={styles.loginLogoText}
           >
@@ -77,5 +77,7 @@ facebookLoginButton: {
 
 loginLogoText: {
   color: '#fbfbfb',
+  fontFamily: 'fitamint-script',
+  fontSize: 90
 }
 });
