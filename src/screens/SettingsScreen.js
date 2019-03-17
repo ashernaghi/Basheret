@@ -6,6 +6,7 @@ import { Ionicons, FontAwesome, Foundation } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
+import {options, questions, category} from '../common/arrays'
 
 export class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -32,9 +33,36 @@ export class SettingsScreen extends React.Component {
     }
   };
 
+  calculateIndex(value){
+    return  value >= 0 && value <25 ? 0 
+    : value >= 25 && value <50  ? 1
+    : value >= 50 && value <75  ? 2
+    : value >= 75 && value <99  ? 3
+    : 4;
+  }
+
+  calculateText(key, values0, values1){
+    let leftIndex = this.calculateIndex(values0);
+    let rightIndex = this.calculateIndex(values1);
+    let same = leftIndex===rightIndex ? true : false;
+
+    if (key==='Age'){
+      return `${values0}-${values1}`
+    }
+    else if (key==='Denomination'){
+      return same ? options[1][leftIndex] : `${options[1][leftIndex]}-${options[1][rightIndex]}`
+    }
+    else if (key==='Shabbat Observance'){
+      return same ? options[2][leftIndex] : `${options[2][leftIndex]}-${options[2][rightIndex]}`
+    }
+    else if (key==='Kashrut Observance'){
+      return same ? options[3][leftIndex] : `${options[3][leftIndex]}-${options[3][rightIndex]}`
+    }
+  }
+
   changeValue = (values, category) => {
     let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ? 'agePreference' : category==="Distance" ? 'distancePreference' : category;
-    let finalValue = values.length===1 ? values[0] : values;
+    let finalValue = values.length ===1 ? values[0] : values;
     this.props.dispatch(updateUserInfo(finalCategory, finalValue))
   }
 
@@ -43,17 +71,14 @@ export class SettingsScreen extends React.Component {
 
     return preferences.map((preference, index)=>{
       let key = Object.keys(preference)[0];
-      let values = Object.values(preference)[0]
+      let values = Object.values(preference)[0];
+
       return(
         <View key={index} style={styles.filterContainer}>
           <Text>
-            {key}: 
+            {key}: {this.calculateText(key, values[0], values[1])} 
           </Text>
-          
-          {key==="Age" &&<Text>
-            {values[0]}-{values[1]} 
-          </Text>
-          }
+
           <MultiSlider
             markerStyle={{width:10, height: 25}}
             values={values}

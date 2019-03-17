@@ -12,38 +12,40 @@ export class HomeScreen extends React.Component {
     return {
       title: 'Basheret',
       headerStyle: {
-        backgroundColor: 'pink',
+        backgroundColor: '#fbfbfb',
       },
-      headerTintColor: 'black',
+      headerTintColor: '#00387e',
       headerTitleStyle: {
         fontWeight: 'bold',
+        fontFamily: 'fitamint-script',
+        fontSize: 30
       },
       // headerLeft: (
-      //   <Ionicons 
-      //     onPress={() => navigation.openDrawer()} 
-      //     name="ios-menu" 
-      //     size={32} 
-      //     color="black" 
+      //   <Ionicons
+      //     onPress={() => navigation.openDrawer()}
+      //     name="ios-menu"
+      //     size={32}
+      //     color="black"
       //     style={{paddingLeft: 10}}
       //   />
       // ),
       headerLeft: (
-        <MaterialCommunityIcons 
-          onPress={() => navigation.navigate('Profile')} 
-          name="account-edit" 
-          size={32} 
-          color="black" 
+        <Ionicons
+          onPress={() => navigation.navigate('Profile')}
+          name="ios-contact"
+          size={32}
+          color="grey"
           style={ styles.headerIcons }
         />
       ),
       headerRight: (
-        <MaterialCommunityIcons 
+        <Ionicons
           onPress={() => navigation.navigate('Social')}
-          name="account-heart" 
-          size={32} 
-          color="black" 
+          name="ios-chatbubbles"
+          size={32}
+          color="grey"
           style={ styles.headerIcons }
-        />        
+        />
       )
     }
   };
@@ -53,8 +55,8 @@ export class HomeScreen extends React.Component {
   }
 
   render() {
-    let renderComponent; 
-    //if the user hasn't allowed us access to their location, tell them they need to for the app to work 
+    let renderComponent;
+    //if the user hasn't allowed us access to their location, tell them they need to for the app to work
     if(!this.props.location){
       renderComponent = <Text>Oops, looks like we dont have access to your location. Please go to your settings to change this!</Text>
     }
@@ -65,34 +67,35 @@ export class HomeScreen extends React.Component {
       renderComponent = <MatchmakerScreen/>
     }
 
-    let candidatesIcon = 
-    <Ionicons 
-      name="ios-heart"
-      size={32} 
-      color="black" 
+    let candidatesIcon =
+    <SimpleLineIcons
+      name="people"
+      size={27}
+      color="white"
     />
 
     let matchmakerIcon =
-    <SimpleLineIcons 
-      name="magic-wand" 
-      size={32} 
-      color="black" 
-    />  
-    
+    <Ionicons
+      name="ios-heart"
+      size={32}
+      color="white"
+    />
+
+
     return (
-      <View style={{flex: 1, alignItems: 'center', backgroundColor: 'wheat' }}>
+      <View style={{flex: 1, alignItems: 'center', backgroundColor: '#fbfbfb' }}>
         <View style={{ width: 100, paddingTop: 20 }}>
           <SwitchSelector
             initial={0}
             imageStyle={{justifyContent: 'center', alignItems: 'center'}}
-            backgroundColor='rgba(232, 171, 227, .3)'
+            backgroundColor='grey'
             onPress={value => this.setState({ show: value })}
-            buttonColor='rgb(232, 171, 227)'
+            buttonColor='#00387e'
             height={50}
             borderRadius='100'
             options={[
-              { value: "candidates", customIcon: candidatesIcon }, 
-              { value: "matchmaker", customIcon: matchmakerIcon } 
+              { value: "candidates", customIcon: candidatesIcon },
+              { value: "matchmaker", customIcon: matchmakerIcon }
             ]}
           />
         </View>

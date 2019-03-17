@@ -1,9 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": "https://bc-nuu.anonymous.basheret.exp.direct",
-  "packagerNgrokUrl": "https://packager.bc-nuu.anonymous.basheret.exp.direct",
-  "ngrokPid": 12544
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 21609,
+  "expoServerNgrokUrl": "https://4z-i7p.anonymous.basheret.exp.direct",
+  "packagerNgrokUrl": "https://packager.4z-i7p.anonymous.basheret.exp.direct",
+  "ngrokPid": 21631,
+  "webpackServerPort": null
 }

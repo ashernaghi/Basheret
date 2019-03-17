@@ -5,6 +5,7 @@ import SaveButton from '../components/SaveButton';
 import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../actions/UserInfoActions';
+import {options, questions, category} from '../common/arrays'
 
 export class IntroQuestionsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -14,13 +15,10 @@ export class IntroQuestionsScreen extends React.Component {
     }
   };
 
-    //in component level state, we have a list of question and answer options. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
+    //We import questions/answers. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
     state= {
-      category: ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'],
       preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
       preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
-      questions: ['What is your gender?', 'How would you describe your denomination according to this range?', 'How would you describe your Kashrut observance according to this range?', 'How would you describe your Shabbat observance according to this range?'],
-      labels: [['Male', 'Female'], ['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'], ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'], ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs'] ],
       responseValue: 100,
       minObservance: 0,
       maxObservance: 100,
@@ -34,17 +32,17 @@ export class IntroQuestionsScreen extends React.Component {
 
   onPress(str=""){
     //send response to db: 
-    this.props.dispatch(updateUserInfo(this.state.category[this.count], str ? str : this.state.responseValue));
+    this.props.dispatch(updateUserInfo(category[this.count], str ? str : this.state.responseValue));
     //set default for the preference: 
     this.props.dispatch(updateUserInfo(this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ? 
   'Male' : this.state.preferenceDefault[this.count]));
 
     this.count++;
 
-    if(this.count<this.state.questions.length){
+    if(this.count<questions.length){
       setTimeout(()=> this.props.navigation.push('Questions', {
-        question: this.state.questions[this.count],
-        labels: this.state.labels[this.count],
+        question: questions[this.count],
+        labels: options[this.count],
         count: this.count
       }) , 500 ) 
     }
@@ -62,7 +60,7 @@ export class IntroQuestionsScreen extends React.Component {
   }
 
   generateLabels(){
-    return this.state.labels[this.count].map((label, index)=> {
+    return options[this.count].map((label, index)=> {
       return <Text key={index} >{label}</Text>
     })
   }
@@ -70,9 +68,9 @@ export class IntroQuestionsScreen extends React.Component {
   render() {
     this.count = this.props.navigation.getParam('count', 0);
 
-    this.question = this.props.navigation.getParam('question', this.state.questions[this.count]);
+    this.question = this.props.navigation.getParam('question', questions[this.count]);
 
-    this.labels = this.props.navigation.getParam('labels', this.state.labels[this.count])
+    this.labels = this.props.navigation.getParam('labels', options[this.count])
 
     //if its the gender question
     if(this.count===0){
@@ -80,8 +78,8 @@ export class IntroQuestionsScreen extends React.Component {
         <View style={styles.questionView}>
           <Text style={styles.question}>{this.question}</Text>
           <View style={{flexDirection: 'row'}}>
-            <SaveButton text={this.state.labels[this.count][0]} onPress={()=>this.onPress("Male")}/>
-            <SaveButton text={this.state.labels[this.count][1]} onPress={()=>this.onPress("Female")}/>
+            <SaveButton text={options[this.count][0]} onPress={()=>this.onPress("Male")}/>
+            <SaveButton text={options[this.count][1]} onPress={()=>this.onPress("Female")}/>
           </View>
       </View>
       );
