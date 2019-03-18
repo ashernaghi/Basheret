@@ -1,7 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase';
-import { View, Text, ActivityIndicator } from 'react-native';
-import { Font } from 'expo';
+import { Image, View, Text, ActivityIndicator } from 'react-native';
+import { Font, Asset, AppLoading } from 'expo';
 import {firebaseConfig} from './config';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Provider } from 'react-redux';
@@ -27,35 +27,56 @@ const AppContainer = createAppContainer(createSwitchNavigator(
   }
 ));
 
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
+function cacheFonts(fonts) {
+  return fonts.map(font => Font.loadAsync(font));
+}
+
 export default class App extends React.Component {
   state = {
-      fontLoaded: false,
-    };
+    isReady: false,
+  };
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      'fitamint-script': require('./assets/fonts/FitamintScript.ttf'),
-    });
+  async _loadAssetsAsync() {
+    const imageAssets = cacheImages([
+      require('./assets/splash.png'),
+    ]);
 
-    this.setState({ fontLoaded: true });
+    const fontAssets = cacheFonts([
+      {'fitamint-script': require('./assets/fonts/FitamintScript.ttf')}
+    ]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
   }
 
   render() {
+    if (!this.state.isReady) {
+      return (
+        <AppLoading
+          startAsync={this._loadAssetsAsync}
+          onFinish={() => this.setState({ isReady: true })}
+          onError={console.warn}
+        />
+      );
+    }
 
-if (this.state.fontLoaded) {
-  firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
 
-  const store = createStore(reducers, applyMiddleware(thunk));
-    return (
+    const store = createStore(reducers, applyMiddleware(thunk));
 
-      <Provider store={store}>
-        <AppContainer />
-      </Provider>
-
+      return (
+        <Provider store={store}>
+                <AppContainer />
+        </Provider>
     );
-  } return (
-      <View>
-        <ActivityIndicator />
-      </View>)
   }
 }
