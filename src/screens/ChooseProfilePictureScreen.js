@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, View, Text, TouchableHighlight } from 'react-native';
+import { Image, View, Text, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
+import SaveButton from '../components/SaveButton';
+import { NextButton } from '../components/NextButton';
 
 export class ChooseProfilePictureScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -75,7 +77,7 @@ export class ChooseProfilePictureScreen extends Component {
       if(!result.cancelled){
         this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
       }
-    } 
+    }
 
   };
 
@@ -87,10 +89,10 @@ export class ChooseProfilePictureScreen extends Component {
     }
     else {
       return (
-        <MaterialIcons 
-          name="account-circle" 
-          size={230} 
-          color="gray"
+        <MaterialIcons
+          name="account-circle"
+          size={200}
+          color="#9fa4ad"
         />
       )
     }
@@ -99,13 +101,13 @@ export class ChooseProfilePictureScreen extends Component {
   next(){
     if(this.props.profilePhoto){
       return(
-        <TouchableHighlight
-          onPress={() => this.props.navigation.navigate('Questions')}
-        >
-          <Text>Looks Good!</Text>
-        </TouchableHighlight>
+        <View>
+         <NextButton onPress={() => this.props.navigation.navigate('Questions')}>
+            Next
+         </NextButton>
+        </View>
       )
-      
+
     }
   }
 
@@ -114,7 +116,7 @@ export class ChooseProfilePictureScreen extends Component {
     return (
       <View style={styles.chooseProfPicContainer}>
         {this.showImage()}
-        
+
         <Text>
           {this.props.firstName}, Please Upload A Profile Picture
         </Text>
@@ -123,18 +125,18 @@ export class ChooseProfilePictureScreen extends Component {
 
         <View style={styles.uploadPhotoOptionsContainer}>
           <View style={styles.uploadIcon}>
-            <FontAwesome 
-                name="camera" 
-                size={100} 
+            <FontAwesome
+                name="camera"
+                size={100}
                 color="black"
                 onPress={this.useCameraHandler}
             />
             <Text style={{textAlign:'center'}}>Take</Text>
           </View>
           <View style={styles.uploadIcon}>
-            <MaterialIcons 
-              name="photo-library" 
-              size={100} 
+            <MaterialIcons
+              name="photo-library"
+              size={100}
               color="black"
               onPress={this.useLibraryHandler}
             />
