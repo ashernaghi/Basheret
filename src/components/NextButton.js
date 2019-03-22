@@ -6,7 +6,7 @@ const NextButton = ({ onPress, children }) => {
       <TouchableOpacity
       onPress={onPress}
       style={styles.buttonStyle}
-      disabled={true}
+      disabled={false}
       >
       <Text style={styles.buttonTextStyle}>
         {children}
@@ -20,7 +20,7 @@ export { NextButton };
 const styles = StyleSheet.create ({
   buttonStyle: {
     backgroundColor: '#00387e',
-    borderRadius: 25,
+    borderRadius: 30,
     width: 300,
     alignSelf: 'center',
 
@@ -31,7 +31,7 @@ const styles = StyleSheet.create ({
     fontSize: 15,
     color: 'white',
     alignSelf: 'center',
-    padding: 15,
+    padding: 18,
   },
 
 });

@@ -20,18 +20,7 @@ export default styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
-  
-  profilePhoto: {
-    height: 180,
-    width: 180,
-    borderRadius: 90,
-  },
-  chooseProfPicContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
+
   uploadPhotoOptionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around'
