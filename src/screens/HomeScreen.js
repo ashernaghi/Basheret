@@ -20,15 +20,6 @@ export class HomeScreen extends React.Component {
         fontFamily: 'fitamint-script',
         fontSize: 30
       },
-      // headerLeft: (
-      //   <Ionicons
-      //     onPress={() => navigation.openDrawer()}
-      //     name="ios-menu"
-      //     size={32}
-      //     color="black"
-      //     style={{paddingLeft: 10}}
-      //   />
-      // ),
       headerLeft: (
         <Ionicons
           onPress={() => navigation.navigate('Profile')}

@@ -3,6 +3,7 @@ import HomeScreen from '../screens/HomeScreen';
 import SocialScreen from '../screens/SocialScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import EditModalScreen from  '../screens/EditModalScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -20,13 +21,24 @@ const handleCustomTransition = ({ scenes }) => {
   }
 }
 
-export default MainStack = createStackNavigator({
+const MainStack = createStackNavigator({
   Home: { screen: HomeScreen },
   Social: { screen: SocialScreen },
   Profile: { screen: ProfileScreen },
-  Settings: { screen: SettingsScreen }
+  Settings: { screen: SettingsScreen },
 },
 {
   initialRouteName: 'Home',
   transitionConfig: (nav) => handleCustomTransition(nav)
 });
+
+export default RootStack = createStackNavigator(
+  {
+    Main: { screen: MainStack },
+    EditProfileModal: { screen: EditModalScreen},
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+);

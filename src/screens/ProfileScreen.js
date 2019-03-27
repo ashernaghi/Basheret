@@ -4,6 +4,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ProfileCard } from '../components/ProfileCard';
+import styles from '../styles/styles';
 
 export class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,12 +43,11 @@ export class ProfileScreen extends React.Component {
         <View style={{ backgroundColor: '#fafafa' }}>
           <View style={{ padding: 20, flexDirection: 'row', alignSelf: 'center' }}>
             <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto} />
-            <Ionicons
-              onPress={() => navigation.navigate('Settings')}
-              name="ios-settings"
-              size={32}
-              color="black"
-            />
+            <TouchableOpacity
+              onPress={()=>this.props.navigation.navigate('EditProfileModal')}
+            >
+              <Text>Edit Profile</Text>
+            </TouchableOpacity>
           </View>
           <View>
             <ProfileCard title= 'Name' content= {this.props.name} />
@@ -79,14 +79,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ProfileScreen);
-
-const styles = StyleSheet.create({
-    profilePhoto: {
-    height: 160,
-    width: 160,
-    borderRadius: 80,
-    alignSelf: 'center',
-    justifyContent: 'flex-end',
-    paddingTop: 100
-  },
-});

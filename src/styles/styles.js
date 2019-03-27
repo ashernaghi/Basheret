@@ -81,5 +81,13 @@ export default styles = StyleSheet.create({
     paddingHorizontal: 15,
     fontWeight: 'bold',
     fontSize: 17
-  }
+  },
+  profilePhoto: {
+    height: 160,
+    width: 160,
+    borderRadius: 80,
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+    paddingTop: 100
+  },
 })
