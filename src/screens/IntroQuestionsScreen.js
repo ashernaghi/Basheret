@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { Slider } from 'react-native-elements';
 import SaveButton from '../components/SaveButton';
-import styles from '../styles/styles';
+// import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import {options, questions, category} from '../common/arrays'
@@ -15,7 +15,7 @@ export class IntroQuestionsScreen extends React.Component {
     }
   };
 
-    //We import questions/answers. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate 
+    //We import questions/answers. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate
     state= {
       preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
       preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
@@ -31,11 +31,11 @@ export class IntroQuestionsScreen extends React.Component {
     labels;
 
   onPress(str=""){
-    //send response to db: 
-    this.props.dispatch(updateUserInfo(category[this.count], str ? str : this.state.responseValue));
-    //set default for the preference: 
-    this.props.dispatch(updateUserInfo(this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ? 
-  'Male' : this.state.preferenceDefault[this.count]));
+    //send response to db:
+    this.props.dispatch(updateUserInfo(category[this.count], str ? str : this.state.responseValue, 'info'));
+    //set default for the preference:
+    this.props.dispatch(updateUserInfo(this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ?
+  'Male' : this.state.preferenceDefault[this.count], 'preferences'));
 
     this.count++;
 
@@ -44,14 +44,14 @@ export class IntroQuestionsScreen extends React.Component {
         question: questions[this.count],
         labels: options[this.count],
         count: this.count
-      }) , 500 ) 
+      }) , 500 )
     }
     //finished answering questions
     else{
       //send defaults for initial account setup
-      this.props.dispatch(updateUserInfo('agePreference', [18, 39]));
-      this.props.dispatch(updateUserInfo('distancePreference', 1000));
-      this.props.dispatch(updateUserInfo('discoverable', true));
+      this.props.dispatch(updateUserInfo('agePreference', [18, 39], 'preferences'));
+      this.props.dispatch(updateUserInfo('distancePreference', 1000, 'preferences'));
+      this.props.dispatch(updateUserInfo('discoverable', true, 'preferences'));
       this.props.dispatch(updateUserInfo('initialSetupComplete', true));
 
       setTimeout( ()=> this.props.navigation.navigate('LoadingApp'), 500 )
@@ -100,8 +100,8 @@ export class IntroQuestionsScreen extends React.Component {
             onValueChange={val => this.setState({ responseValue: val })}
             onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
             onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
-            thumbTintColor='pink' 
-            maximumTrackTintColor='#d3d3d3' 
+            thumbTintColor='pink'
+            maximumTrackTintColor='#d3d3d3'
             minimumTrackTintColor='pink'
           />
           <View style={styles.sliderLabels}>
@@ -115,3 +115,30 @@ export class IntroQuestionsScreen extends React.Component {
 }
 
 export default connect()(IntroQuestionsScreen);
+
+
+
+const styles = StyleSheet.create({
+  questionView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fbfbfb',
+    padding: 50
+  },
+
+  question: {
+    fontSize: 20,
+    textAlign: 'center',
+  },
+
+  sliderLabels: {
+    justifyContent: 'space-between',
+    height: 300,
+  },
+
+  verticalSlider: {
+      height: 300,
+  },
+
+})

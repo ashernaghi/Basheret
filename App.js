@@ -13,6 +13,7 @@ import IntroQuestionsStack from './src/navigation/IntroQuestionsStack';
 import LoadingAppScreen from './src/screens/LoadingAppScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
 import reducers from './src/reducers';
+import { Root } from "native-base";
 
 const AppContainer = createAppContainer(createSwitchNavigator(
   {
@@ -52,7 +53,9 @@ export default class App extends React.Component {
     ]);
 
     const fontAssets = cacheFonts([
-      {'fitamint-script': require('./assets/fonts/FitamintScript.ttf')}
+      {'fitamint-script': require('./assets/fonts/FitamintScript.ttf'),
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),}
     ]);
 
     await Promise.all([...imageAssets, ...fontAssets]);
@@ -75,7 +78,9 @@ export default class App extends React.Component {
 
       return (
         <Provider store={store}>
-                <AppContainer />
+          <Root>
+            <AppContainer />
+          </Root>
         </Provider>
     );
   }

@@ -99,7 +99,7 @@ export class HomeScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    location: state.userInfo.user.location,
+    location: state.userInfo.user.info.location,
   };
 };
 

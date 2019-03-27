@@ -9,13 +9,13 @@ export const userInfoUpdateSuccess = (category, response) => ({
 });
 
 //Updates the user's information in the database: 
-export const updateUserInfo = (category, answer) => dispatch =>{
+export const updateUserInfo = (subcategory, answer, category='') => dispatch =>{
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
 	let userID = user.uid;
-	let userFirebase = firebase.database().ref('/users/'+userID);
-    userFirebase.child(category).set(answer);
-    dispatch(userInfoUpdateSuccess(category, answer));
+	let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
+    userFirebase.child(subcategory).set(answer);
+    dispatch(userInfoUpdateSuccess(subcategory, answer));
 };
 
 export const fetchUserSuccess = (user) => ({
@@ -48,11 +48,11 @@ export const getUser = (props) => dispatch =>  {
 _getLocationAsync = async (dispatch) => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      dispatch(updateUserInfo('location', null));
+      dispatch(updateUserInfo('location', null, 'info'));
     }
     else{
       let location = await Location.getCurrentPositionAsync({});
-      dispatch(updateUserInfo('location', location.coords));
+      dispatch(updateUserInfo('location', location.coords, 'info'));
     }
   };
 

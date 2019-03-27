@@ -35,7 +35,7 @@ export const loginWithFacebook = () => async (dispatch) => {
       //take stuff we need from fb and send it off to firebase
       let userInfo = user.additionalUserInfo.profile;
       let infoNeeded = [{'firstName': userInfo.first_name}, {'lastName:': userInfo.last_name}, {'fullName': userInfo.name}];
-      infoNeeded.forEach(info=>dispatch(updateUserInfo(Object.keys(info)[0], Object.values(info)[0])));
+      infoNeeded.forEach(info=>dispatch(updateUserInfo(Object.keys(info)[0], Object.values(info)[0], 'info')));
     })
     .catch((error) => {
       dispatch(loginFacebookError(error))

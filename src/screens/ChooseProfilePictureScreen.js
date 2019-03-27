@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, View, Text, TouchableHighlight } from 'react-native';
+import { Image, View, Text, TouchableHighlight, TouchableOpacity, StyleSheet } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
-import styles from '../styles/styles';
+import SaveButton from '../components/SaveButton';
+import { NextButton } from '../components/NextButton';
+import ImageActionSheet from '../components/ImageActionSheet';
 
 export class ChooseProfilePictureScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -19,7 +21,9 @@ export class ChooseProfilePictureScreen extends Component {
     permissionsError: null,
     cameraRollPermissions: null,
     cameraPermissions: null,
+    choosemethod: '',
   };
+
 
   askCameraPermissionsAsync = async () => {
     let cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
@@ -58,7 +62,7 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
+        this.props.dispatch(updateUserInfo('profilePhoto', result.uri, 'info'));
       }
     }
   };
@@ -73,85 +77,129 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('profilePhoto', result.uri));
+        this.props.dispatch(updateUserInfo('profilePhoto', result.uri, 'info'));
       }
-    } 
+    }
 
   };
 
   showImage(){
     if(this.props.profilePhoto){
       return (
-        <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto} />
+        <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto}
+        />
       )
     }
     else {
       return (
-        <MaterialIcons 
-          name="account-circle" 
-          size={230} 
-          color="gray"
+        <MaterialIcons
+          name="account-circle"
+          size={280}
+          color="#9fa4ad"
         />
       )
     }
   }
 
-  next(){
-    if(this.props.profilePhoto){
-      return(
-        <TouchableHighlight
-          onPress={() => this.props.navigation.navigate('Questions')}
-        >
-          <Text>Looks Good!</Text>
-        </TouchableHighlight>
-      )
-      
-    }
+  onClick(clickedState){
+    this.setState({choosemethod: clickedState})
   }
 
   render() {
-
     return (
-      <View style={styles.chooseProfPicContainer}>
-        {this.showImage()}
-        
-        <Text>
-          {this.props.firstName}, Please Upload A Profile Picture
-        </Text>
+      <View style={styles.containerStyle}>
 
-        {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
-
-        <View style={styles.uploadPhotoOptionsContainer}>
-          <View style={styles.uploadIcon}>
-            <FontAwesome 
-                name="camera" 
-                size={100} 
-                color="black"
-                onPress={this.useCameraHandler}
-            />
-            <Text style={{textAlign:'center'}}>Take</Text>
-          </View>
-          <View style={styles.uploadIcon}>
-            <MaterialIcons 
-              name="photo-library" 
-              size={100} 
-              color="black"
-              onPress={this.useLibraryHandler}
-            />
-            <Text style={{textAlign:'center'}}>Choose</Text>
-          </View>
+        <View style={styles.photoContainerStyle}>
+          {this.showImage()}
+          {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
         </View>
 
-        {this.next()}
+        <View style={styles.textContainerStyle}>
+          <Text style={styles.textBoldStyle}>
+            {this.props.firstName}, please upload a profile picture
+          </Text>
+          <Text style={styles.textLightStyle}t>
+            We ask, in the hopes of the broadest possible community, that all pictures for both men and women are Tzniut
+          </Text>
+        </View>
+
+        <View style={styles.buttonContainerStyle}>
+          <ImageActionSheet
+          style={styles.buttonStyle}
+          onClick={clickedState => this.onClick(clickedState)}
+          handleCamera={this.useCameraHandler}
+          handleLibrary={this.useLibraryHandler}
+            />
+        </View>
+
+        {this.props.profilePhoto && <TouchableOpacity
+          onPress={()=> this.props.navigation.navigate('Questions')}
+        >
+          <Text>LOOKS GOOD</Text>
+        </TouchableOpacity>}
       </View>
     );
   }
 }
 
+const styles = StyleSheet.create ({
+  containerStyle: {
+    flex: 1,
+  },
+
+  photoContainerStyle: {
+    flex: 2,
+    alignSelf: 'center',
+    justifyContent: 'flex-end'
+  },
+
+  profilePhoto: {
+    height: 180,
+    width: 180,
+    borderRadius: 90,
+  },
+
+  textContainerStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  },
+
+  textBoldStyle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignSelf: 'center'
+  },
+
+  textLightStyle: {
+    fontSize: 14,
+    color: '#9fa4ad',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingTop: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+    flexWrap: 'wrap'
+
+  },
+
+  buttonContainerStyle: {
+    flex: 1,
+    alignSelf: 'center',
+    justifyContent: 'center'
+  },
+
+  buttonStyle: {
+    alignSelf: 'center',
+    justifyContent: 'flex-start'
+},
+
+})
+
 const mapStateToProps = state => {
   return {
-    firstName: state.userInfo.user.firstName,
-    profilePhoto: state.userInfo.user.profilePhoto,
+    firstName: state.userInfo.user.info.firstName,
+    profilePhoto: state.userInfo.user.info.profilePhoto,
   };
 };
 

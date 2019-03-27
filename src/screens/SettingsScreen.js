@@ -63,7 +63,7 @@ export class SettingsScreen extends React.Component {
   changeValue = (values, category) => {
     let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ? 'agePreference' : category==="Distance" ? 'distancePreference' : category;
     let finalValue = values.length ===1 ? values[0] : values;
-    this.props.dispatch(updateUserInfo(finalCategory, finalValue))
+    this.props.dispatch(updateUserInfo(finalCategory, finalValue, 'preferences'))
   }
 
   generateFilters(){
@@ -182,13 +182,13 @@ export class SettingsScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    denominationPreference: state.userInfo.user.denominationPreference,
-    shabbatPreference: state.userInfo.user.shabbatPreference,
-    kashrutPreference: state.userInfo.user.kashrutPreference,
-    genderPreference: state.userInfo.user.genderPreference,
-    agePreference: state.userInfo.user.agePreference,
-    distancePreference: state.userInfo.user.distancePreference,
-    discoverable: state.userInfo.user.discoverable,
+    denominationPreference: state.userInfo.user.preferences.denominationPreference,
+    shabbatPreference: state.userInfo.user.preferences.shabbatPreference,
+    kashrutPreference: state.userInfo.user.preferences.kashrutPreference,
+    genderPreference: state.userInfo.user.preferences.genderPreference,
+    agePreference: state.userInfo.user.preferences.agePreference,
+    distancePreference: state.userInfo.user.preferences.distancePreference,
+    discoverable: state.userInfo.user.preferences.discoverable,
   };
 };
 
