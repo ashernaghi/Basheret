@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { View } from 'react-native';
+import { View, TouchableOpacity, Text  } from 'react-native';
 import { ActionSheet } from "native-base";
 import { NextButton } from './NextButton';
+import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons } from '@expo/vector-icons';
+
 
 var BUTTONS = ['Camera', 'Photo Gallery', 'Cancel'];
 var CANCEL_INDEX = 3;
@@ -30,8 +32,8 @@ export default class ImageActionSheet extends Component {
 
   render() {
     return (
-      <View>
-          <NextButton
+          <TouchableOpacity
+            style={this.props.style}
             onPress={() =>
             ActionSheet.show(
               {
@@ -44,12 +46,13 @@ export default class ImageActionSheet extends Component {
                 this.onChosenMethod()
                 this.photoOrAlbum()
               },
+            )
+          }>
 
-            )}
-          >
-            Choose Photo
-          </NextButton>
-      </View>
+            {this.props.icon}
+            <Text style={this.props.textstyle}>{this.props.text}</Text>
+
+          </TouchableOpacity>
     );
   }
 }
