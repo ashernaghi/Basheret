@@ -20,7 +20,6 @@ export class LoadingAppScreen extends React.Component {
     return (
       <View style={styles.container}>
         <ActivityIndicator />
-        <Text>Loading Screen With Logo (check database if user answered intro questions, show this before going to app)</Text>
       </View>
     );
   }
