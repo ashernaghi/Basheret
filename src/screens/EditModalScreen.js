@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, TextInput, Button } from 'react-native';
+import { connect } from 'react-redux';
+import { updateUserInfo } from '../actions/UserInfoActions';
 
-export default class EditModalScreen extends React.Component {
+export class EditModalScreen extends React.Component {
 
   render() {
     return (
@@ -10,7 +12,25 @@ export default class EditModalScreen extends React.Component {
           onPress={() => this.props.navigation.goBack()}
           title="Done"
         />
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(text) => this.props.dispatch(updateUserInfo('name', text, 'info'))}
+          defaultValue={this.props.name}
+        />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    denomination: state.userInfo.user.info.denomination,
+    shabbatObservance: state.userInfo.user.info.shabbatObservance,
+    kashrutObservance: state.userInfo.user.info.kashrutObservance,
+    name: state.userInfo.user.info.name,
+    profilePhoto: state.userInfo.user.info.profilePhoto,
+    gender: state.userInfo.user.info.gender
+  };
+};
+
+export default connect(mapStateToProps)(EditModalScreen);

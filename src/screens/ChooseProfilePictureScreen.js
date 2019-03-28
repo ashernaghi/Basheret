@@ -116,7 +116,7 @@ export class ChooseProfilePictureScreen extends Component {
 
         <View style={styles.textContainerStyle}>
           <Text style={styles.textBoldStyle}>
-            {this.props.firstName}, please upload a profile picture
+            {this.props.name}, please upload a profile picture
           </Text>
           <Text style={styles.textLightStyle}t>
             We ask, in the hopes of the broadest possible community, that all pictures for both men and women are Tzniut
@@ -197,8 +197,9 @@ const styles = StyleSheet.create ({
 })
 
 const mapStateToProps = state => {
+  console.log('STATE IS:', state.userInfo)
   return {
-    firstName: state.userInfo.user.info.firstName,
+    name: state.userInfo.user.info.name,
     profilePhoto: state.userInfo.user.info.profilePhoto,
   };
 };

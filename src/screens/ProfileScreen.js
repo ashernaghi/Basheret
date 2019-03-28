@@ -4,6 +4,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ProfileCard } from '../components/ProfileCard';
+import moment from 'moment';
 import styles from '../styles/styles';
 
 export class ProfileScreen extends React.Component {
@@ -37,18 +38,19 @@ export class ProfileScreen extends React.Component {
   };
 
   render() {
+    // console.log('AGE IS', moment().diff('1989-03-28', 'years'))
     return (
       <View style={{ backgroundColor: '#fafafa' }}>
       <ScrollView>
         <View style={{ backgroundColor: '#fafafa' }}>
-          <View style={{ padding: 20, flexDirection: 'row', alignSelf: 'center' }}>
-            <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto} />
+            <Image 
+              source={{ uri: this.props.profilePhoto }} 
+              style={styles.profilePhoto} />
             <TouchableOpacity
               onPress={()=>this.props.navigation.navigate('EditProfileModal')}
             >
               <Text>Edit Profile</Text>
             </TouchableOpacity>
-          </View>
           <View>
             <ProfileCard title= 'Name' content= {this.props.name} />
             <ProfileCard title= 'Gender' content= {this.props.gender} />
@@ -68,12 +70,11 @@ export class ProfileScreen extends React.Component {
 
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     denomination: state.userInfo.user.info.denomination,
     shabbatObservance: state.userInfo.user.info.shabbatObservance,
     kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.fullName,
+    name: state.userInfo.user.info.name,
     profilePhoto: state.userInfo.user.info.profilePhoto,
     gender: state.userInfo.user.info.gender
   };

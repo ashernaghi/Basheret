@@ -2,10 +2,11 @@ import * as firebase from 'firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS } from './types';
 import { Location, Permissions } from 'expo';
 
-export const userInfoUpdateSuccess = (category, response) => ({
+export const userInfoUpdateSuccess = (subcategory, response, category) => ({
     type: USER_INFO_UPDATE_SUCCESS,
-    category,
-    response
+    subcategory,
+    response,
+    category
 });
 
 //Updates the user's information in the database: 
@@ -15,7 +16,7 @@ export const updateUserInfo = (subcategory, answer, category='') => dispatch =>{
 	let userID = user.uid;
 	let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
     userFirebase.child(subcategory).set(answer);
-    dispatch(userInfoUpdateSuccess(subcategory, answer));
+    dispatch(userInfoUpdateSuccess(subcategory, answer, category));
 };
 
 export const fetchUserSuccess = (user) => ({

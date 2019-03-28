@@ -49,9 +49,8 @@ export default styles = StyleSheet.create({
     fontSize: 17
   },
   profilePhoto: {
-    height: 160,
-    width: 160,
-    borderRadius: 80,
+    height: 250,
+    width: 250,
     alignSelf: 'center',
     justifyContent: 'flex-end',
     paddingTop: 100
