@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextInput, Button } from 'react-native';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../actions/UserInfoActions';
+import { Input } from 'react-native-elements';
 
 export class EditModalScreen extends React.Component {
 
@@ -12,11 +13,11 @@ export class EditModalScreen extends React.Component {
           onPress={() => this.props.navigation.goBack()}
           title="Done"
         />
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+        <Input
           onChangeText={(text) => this.props.dispatch(updateUserInfo('name', text, 'info'))}
           defaultValue={this.props.name}
-        />
+        > 
+        </Input>
       </View>
     );
   }
