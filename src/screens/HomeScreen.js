@@ -13,6 +13,9 @@ export class HomeScreen extends React.Component {
       title: 'Basheret',
       headerStyle: {
         backgroundColor: '#fbfbfb',
+        shadowColor: 'transparent',
+        borderBottomColor:'transparent',
+        borderBottomWidth: 0
       },
       headerTintColor: '#00387e',
       headerTitleStyle: {
