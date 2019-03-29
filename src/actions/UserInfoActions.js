@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS } from './types';
 import { Location, Permissions } from 'expo';
 
-export const userInfoUpdateSuccess = (subcategory, response, category) => ({
+export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     type: USER_INFO_UPDATE_SUCCESS,
     subcategory,
     response,
@@ -10,13 +10,18 @@ export const userInfoUpdateSuccess = (subcategory, response, category) => ({
 });
 
 //Updates the user's information in the database: 
-export const updateUserInfo = (subcategory, answer, category='') => dispatch =>{
+export const updateUserInfo = (category='', subcategory='', response) => dispatch =>{
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
 	let userID = user.uid;
-	let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
-    userFirebase.child(subcategory).set(answer);
-    dispatch(userInfoUpdateSuccess(subcategory, answer, category));
+    let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
+    if(subcategory){
+        userFirebase.child(subcategory).set(response);
+    }
+    else{
+        userFirebase.set(response);
+    }
+    dispatch(userInfoUpdateSuccess(category, subcategory, response));
 };
 
 export const fetchUserSuccess = (user) => ({
@@ -49,11 +54,11 @@ export const getUser = (props) => dispatch =>  {
 _getLocationAsync = async (dispatch) => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      dispatch(updateUserInfo('location', null, 'info'));
+      dispatch(updateUserInfo('location', null, null));
     }
     else{
       let location = await Location.getCurrentPositionAsync({});
-      dispatch(updateUserInfo('location', location.coords, 'info'));
+      dispatch(updateUserInfo('location', null, location.coords));
     }
   };
 

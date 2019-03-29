@@ -32,10 +32,10 @@ export class IntroQuestionsScreen extends React.Component {
 
   onPress(str=""){
     //send response to db:
-    this.props.dispatch(updateUserInfo(category[this.count], str ? str : this.state.responseValue, 'info'));
+    this.props.dispatch(updateUserInfo('info', category[this.count], str ? str : this.state.responseValue));
     //set default for the preference:
-    this.props.dispatch(updateUserInfo(this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ?
-  'Male' : this.state.preferenceDefault[this.count], 'preferences'));
+    this.props.dispatch(updateUserInfo('preferences', this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ?
+  'Male' : this.state.preferenceDefault[this.count]));
 
     this.count++;
 
@@ -49,10 +49,10 @@ export class IntroQuestionsScreen extends React.Component {
     //finished answering questions
     else{
       //send defaults for initial account setup
-      this.props.dispatch(updateUserInfo('agePreference', [18, 39], 'preferences'));
-      this.props.dispatch(updateUserInfo('distancePreference', 1000, 'preferences'));
-      this.props.dispatch(updateUserInfo('discoverable', true, 'preferences'));
-      this.props.dispatch(updateUserInfo('initialSetupComplete', true));
+      this.props.dispatch(updateUserInfo('preferences', 'agePreference', [18, 39]));
+      this.props.dispatch(updateUserInfo('preferences', 'distancePreference', 1000));
+      this.props.dispatch(updateUserInfo('preferences', 'discoverable', true));
+      this.props.dispatch(updateUserInfo('initialSetupComplete', null, true));
 
       setTimeout( ()=> this.props.navigation.navigate('LoadingApp'), 500 )
       ;

@@ -62,7 +62,7 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('profilePhoto', result.uri, 'info'));
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
       }
     }
   };
@@ -77,7 +77,7 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('profilePhoto', result.uri, 'info'));
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
       }
     }
 

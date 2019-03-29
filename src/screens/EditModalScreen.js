@@ -20,7 +20,7 @@ export class EditModalScreen extends React.Component {
 
         <View style={{ flex: 9, alignSelf: 'stretch',}}>
         <UnderlinedInput
-          onChangeText={(text) => this.props.dispatch(updateUserInfo('name', text, 'info'))}
+          onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
           defaultValue={this.props.name}
         />
         </View>

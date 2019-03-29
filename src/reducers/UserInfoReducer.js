@@ -12,22 +12,35 @@ const INITIAL_STATE = {
     preferences: {
 
     },
+
+    location: { 
+
+    },
   },
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case USER_INFO_UPDATE_SUCCESS:
-      console.log('UPDATING', action.subcategory);
-      return Object.assign({}, state, {
-        user: {
-          ...state.user,
-          [action.category]: {
-            ...state.user[action.category],
-            [action.subcategory]: action.response
+      if(action.category==='location'){
+        return Object.assign({}, state, {
+          user: {
+            ...state.user,
+            [action.category]: action.response
           }
-        }
-      });
+        })
+      }
+      else{
+        return Object.assign({}, state, {
+          user: {
+            ...state.user,
+            [action.category]: {
+              ...state.user[action.category],
+              [action.subcategory]: action.response
+            }
+          }
+        });
+      }
     case FETCH_USER_SUCCESS:
       return Object.assign({}, state, {
         user: action.user,

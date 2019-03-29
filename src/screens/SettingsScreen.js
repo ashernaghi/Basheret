@@ -63,7 +63,7 @@ export class SettingsScreen extends React.Component {
   changeValue = (values, category) => {
     let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ? 'agePreference' : category==="Distance" ? 'distancePreference' : category;
     let finalValue = values.length ===1 ? values[0] : values;
-    this.props.dispatch(updateUserInfo(finalCategory, finalValue, 'preferences'))
+    this.props.dispatch(updateUserInfo('preferences',finalCategory, finalValue))
   }
 
   generateFilters(){

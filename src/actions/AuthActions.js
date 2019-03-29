@@ -33,7 +33,7 @@ export const loginWithFacebook = () => async (dispatch) => {
     .then(user=>{
       dispatch(loginFacebookSuccess(user));
       //take stuff we need from fb and send it off to firebase
-      dispatch(updateUserInfo('name', user.additionalUserInfo.profile.name, 'info'));
+      dispatch(updateUserInfo('info', 'name', user.additionalUserInfo.profile.name));
     })
     .catch((error) => {
       dispatch(loginFacebookError(error))
