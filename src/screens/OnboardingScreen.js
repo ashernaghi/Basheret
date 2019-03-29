@@ -29,9 +29,10 @@ export class OnboardingScreen extends React.Component {
           >
             Basheret
           </Text>
+        {this.props.loggingIn && <ActivityIndicator />}
         </View>
         <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 20 }}>
-          {this.props.loggingIn && <ActivityIndicator />}
+
           <FacebookLoginButton onPress={() => this.onPress()}/>
         </View>
 
