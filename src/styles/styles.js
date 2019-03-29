@@ -49,10 +49,11 @@ export default styles = StyleSheet.create({
     fontSize: 17
   },
   profilePhoto: {
-    height: 250,
-    width: 250,
+    height: 360,
+    width: 375,
+    borderRadius: 15,
+    overflow: 'hidden',
     alignSelf: 'center',
-    justifyContent: 'flex-end',
-    paddingTop: 100
+
   },
 })

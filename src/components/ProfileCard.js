@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from 'react-native';
 
 const ProfileCard = (props) => {
   return(
-    <View style={styles.cardStyle}>
+    <View style={styles.newCardStyle}>
       <Text style={styles.titleStyle}>{props.title}</Text>
       <Text style={styles.textStyle}>{props.content}</Text>
     </View>
@@ -13,6 +13,16 @@ const ProfileCard = (props) => {
 export { ProfileCard };
 
 const styles = StyleSheet.create({
+  newCardStyle: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    margin: 8,
+    padding: 6,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+
+  },
+
   cardStyle: {
     borderWidth: 0.5,
     borderRadius: 5,
@@ -36,13 +46,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica Neue',
     fontWeight: 'bold',
     paddingTop: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
+    justifyContent: 'center',
+
   },
 
   textStyle: {
-    fontSize: 13,
+    fontSize: 15,
     fontFamily: 'Helvetica Neue',
-    padding: 5
+    padding: 5,
+    justifyContent: 'center',
+
   },
 
 });
