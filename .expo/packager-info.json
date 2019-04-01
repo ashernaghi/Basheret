@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19003,
-  "packagerPid": 22790,
-  "expoServerNgrokUrl": "https://4z-i7p.anonymous.basheret.exp.direct",
-  "packagerNgrokUrl": "https://packager.4z-i7p.anonymous.basheret.exp.direct",
-  "ngrokPid": 22812,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "webpackServerPort": null
 }

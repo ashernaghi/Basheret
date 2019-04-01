@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default class OptionButton extends Component {
   constructor(props){
@@ -11,9 +11,19 @@ export default class OptionButton extends Component {
     return(
       <TouchableOpacity
       style={this.props.style}
+      onPress={this.props.onPress}
       >
-        <Text style={this.props.labelstyle}>{this.props.label}</Text>
+        <Text style={styles.buttonTextStyle}>{this.props.label}</Text>
       </TouchableOpacity>
     )
   }
 }
+
+const styles = StyleSheet.create ({
+  buttonTextStyle: {
+    fontSize: 15,
+    alignSelf: 'center',
+    padding: 18,
+    fontWeight: 'bold',
+  },
+})

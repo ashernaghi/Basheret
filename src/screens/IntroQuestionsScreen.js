@@ -1,7 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { Slider } from 'react-native-elements';
 import SaveButton from '../components/SaveButton';
+import OptionButton from '../components/OptionButton';
+import { NextButton } from '../components/NextButton';
+import { DisabledNextButton } from '../components/DisabledNextButton';
 // import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../actions/UserInfoActions';
@@ -24,6 +27,7 @@ export class IntroQuestionsScreen extends React.Component {
       maxObservance: 100,
       thumb: 24,
       borderRadius: 12,
+      selected: null,
     }
 
     count;
@@ -65,6 +69,50 @@ export class IntroQuestionsScreen extends React.Component {
     })
   }
 
+  buttonDisplay(){
+    if (this.state.selected==='Female'){
+      return(
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+        <OptionButton label={options[this.count][0]} onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label={options[this.count][1]} onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleSelected} />
+      </View>)
+    } else if (this.state.selected==='Male') {
+      return(
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+        <OptionButton label={options[this.count][0]} onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleSelected} />
+        <OptionButton label={options[this.count][1]} onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleUnselected} />
+      </View>)
+    } else {
+      return(
+    <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+      <OptionButton label={options[this.count][0]} onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label={options[this.count][1]} onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleUnselected} />
+    </View>)
+    }
+  }
+
+  buttonSelected(str=""){
+    this.setState({ selected: str })
+    console.log(this.state.selected)
+
+  }
+
+  nextButton(){
+    if(this.state.selected){
+      return(
+        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+          <NextButton onPress={()=>this.onPress(this.state.selected)} >Next</NextButton>
+        </View>
+      )
+    } else {
+      return(
+        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+          <DisabledNextButton>'Next'</DisabledNextButton>
+        </View>
+      )
+    }
+  }
+
   render() {
     this.count = this.props.navigation.getParam('count', 0);
 
@@ -75,13 +123,22 @@ export class IntroQuestionsScreen extends React.Component {
     //if its the gender question
     if(this.count===0){
       return (
-        <View style={styles.questionView}>
-          <Text style={styles.question}>{this.question}</Text>
-          <View style={{flexDirection: 'row'}}>
-            <SaveButton text={options[this.count][0]} onPress={()=>this.onPress("Male")}/>
-            <SaveButton text={options[this.count][1]} onPress={()=>this.onPress("Female")}/>
+      <SafeAreaView style={styles.safeAreaViewSyle}>
+        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+
+    <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, alignSelf: 'center', color: '#00387e'}}>Basheret</Text>
+
+          <View style={styles.questionView}>
+            <Text style={styles.question}>{this.question}</Text>
           </View>
+
+          {this.buttonDisplay()}
+
+          {this.nextButton()}
+
+
       </View>
+    </SafeAreaView>
       );
     }
 
@@ -108,7 +165,9 @@ export class IntroQuestionsScreen extends React.Component {
             {this.generateLabels()}
           </View>
         </View>
-        <SaveButton text={"Save"} onPress={()=>this.onPress()}/>
+        <NextButton
+        onPress={()=>this.onPress()}
+        >{"Next"}</NextButton>
       </View>
     );
   }
@@ -119,18 +178,43 @@ export default connect()(IntroQuestionsScreen);
 
 
 const styles = StyleSheet.create({
+  safeAreaViewSyle:{
+    flex: 1,
+    backgroundColor: '#F4F4F4',
+  },
+
   questionView: {
     flex: 1,
-    alignItems: 'center',
+    backgroundColor: '#F4F4F4',
     justifyContent: 'center',
-    backgroundColor: '#fbfbfb',
-    padding: 50
   },
 
   question: {
     fontSize: 20,
-    textAlign: 'center',
+    paddingLeft: 30,
+    fontWeight: 'bold'
   },
+
+  optionButtonStyleUnselected:{
+    borderRadius: 30,
+    width: 300,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    margin: 7,
+  },
+
+  optionButtonStyleSelected:{
+    borderRadius: 30,
+    borderColor: 'blue',
+    borderWidth: 2,
+    width: 300,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    margin: 7,
+  },
+
 
   sliderLabels: {
     justifyContent: 'space-between',
@@ -140,5 +224,6 @@ const styles = StyleSheet.create({
   verticalSlider: {
       height: 300,
   },
+
 
 })

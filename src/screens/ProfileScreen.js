@@ -35,7 +35,7 @@ export class ProfileScreen extends React.Component {
                       <Ionicons
                         name="ios-settings"
                         size={34}
-                        color="grey"
+                        color="black"
                         style={{ paddingTop: 19, paddingLeft: 17, paddingRight: 10, }}
                       />
                     </TouchableOpacity>
@@ -43,7 +43,7 @@ export class ProfileScreen extends React.Component {
                       <Ionicons
                         name="ios-arrow-forward"
                         size={32}
-                        color="grey"
+                        color="black"
                         style={{ paddingTop: 19, paddingLeft: 10, paddingRight: 17,}}
                       />
                     </TouchableOpacity>
@@ -101,18 +101,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ProfileScreen);
-
-
-<View style={{
-position: 'absolute',
-left:     30,
-top:      30,
-flexDirection: 'row',
-justifyContent: 'space-between', width: 100, height: 100, backgroundColor: 'red' }}>
-<Ionicons
-name="ios-arrow-forward"
-size={30}
-color="grey"
-style={styles.headerIcons}
-/>
-</View>
