@@ -37,6 +37,7 @@ export const getUser = (props) => dispatch =>  {
         userFirebase.once("value")
         .then(snapshot=>{
             if(snapshot.val().initialSetupComplete){
+                console.log('1.ASKING LOCATION')
                 this._getLocationAsync(dispatch);
                 dispatch(fetchUserSuccess(snapshot.val()));
                 setTimeout( ()=> props.navigation.navigate('App'), 2000 );
@@ -52,6 +53,7 @@ export const getUser = (props) => dispatch =>  {
 }
 
 _getLocationAsync = async (dispatch) => {
+    console.log('2. GETTING LOCATION')
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
       dispatch(updateUserInfo('location', null, null));
