@@ -107,7 +107,7 @@ export class IntroQuestionsScreen extends React.Component {
     } else {
       return(
         <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <DisabledNextButton>'Next'</DisabledNextButton>
+          <DisabledNextButton>Next</DisabledNextButton>
         </View>
       )
     }
