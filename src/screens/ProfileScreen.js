@@ -9,11 +9,40 @@ import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontA
 
 export class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    return {
-      header: null,
-      gesturesEnabled: false,
-    }
-  };
+      return {
+        headerTintColor: '#F4F4F4',
+        headerStyle: {
+          backgroundColor: '#F4F4F4',
+          shadowColor: 'transparent',
+          borderBottomColor:'transparent',
+          borderBottomWidth: 0
+        },
+        headerRight: (
+          <TouchableOpacity style={ styles.touchableOpacityHeader } onPress={() => navigation.navigate('Home')}>
+            <Ionicons
+              name="ios-arrow-forward"
+              size={30}
+              color="grey"
+              style={styles.headerIcons}
+            />
+          </TouchableOpacity>
+        ),
+        headerTitle: (
+          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: '#00387e', }} >
+              Basheret
+          </Text>
+        ),
+        headerLeft: (
+          <Ionicons
+            onPress={() => navigation.navigate('Settings')}
+            name="ios-settings"
+            size={32}
+            color="grey"
+            style={styles.headerIcons}
+          />
+        ),
+      }
+    };
 
   render() {
     // console.log('AGE IS', moment().diff('1989-03-28', 'years'))
@@ -28,28 +57,6 @@ export class ProfileScreen extends React.Component {
                   source={{ uri: this.props.profilePhoto }}
                   style={styles.profilePhoto}
                   >
-
-                  <View style={{ justifyContent: 'space-between', flexDirection: 'row', }}>
-
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Settings')}>
-                      <Ionicons
-                        name="ios-settings"
-                        size={34}
-                        color="black"
-                        style={{ paddingTop: 19, paddingLeft: 17, paddingRight: 10, }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-                      <Ionicons
-                        name="ios-arrow-forward"
-                        size={32}
-                        color="black"
-                        style={{ paddingTop: 19, paddingLeft: 10, paddingRight: 17,}}
-                      />
-                    </TouchableOpacity>
-
-                    </View>
-
                   </ImageBackground>
 
               </View>

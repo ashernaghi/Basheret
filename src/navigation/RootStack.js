@@ -9,13 +9,13 @@ import { fromLeft, fromRight } from 'react-navigation-transitions';
 const handleCustomTransition = ({ scenes }) => {
   const prevScene = scenes[scenes.length - 2];
   const nextScene = scenes[scenes.length - 1];
- 
+
   // Custom transitions go there
   if (prevScene
     && prevScene.route.routeName === 'Home'
     && nextScene.route.routeName === 'Social') {
     return fromRight();
-  } 
+  }
   else{
     return fromLeft();
   }

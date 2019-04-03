@@ -1,31 +1,35 @@
 import React from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, TouchableOpacity, Text, ScrollView, SafeAreaView } from 'react-native';
 import { connect } from 'react-redux';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
+import {Header} from 'react-navigation'
+
 
 export class EditModalScreen extends React.Component {
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: '#f4f4f4' }}>
+      <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
 
-        <View style={{ flex: 1, alignSelf: 'flex-end', padding: 2}}>
-          <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Done"
-            style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
-          />
-        </View>
+  <ScrollView style={{ backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignSelf: 'flex-end', paddingTop: 5, paddingRight: 5, }}>
+              <Button
+                onPress={() => this.props.navigation.goBack()}
+                title="Done"
+                style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
+              />
+            </View>
 
-        <View style={{ flex: 9, alignSelf: 'stretch',}}>
-        <UnderlinedInput
-          onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-          defaultValue={this.props.name}
-        />
-        </View>
+            <View style={{ flex: 1, alignSelf: 'stretch',}}>
+            <UnderlinedInput
+              onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
+              defaultValue={this.props.name}
+            />
+            </View>
+  </ScrollView>
 
-      </View>
+      </SafeAreaView>
     );
   }
 }

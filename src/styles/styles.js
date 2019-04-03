@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 export default styles = StyleSheet.create({
 
   headerText: {
-    fontSize: 20,
-    paddingBottom: 3
+    fontSize: 15,
+    paddingBottom: 3,
+    fontWeight: 'bold',
   },
   touchableOpacityHeader: {
     alignItems: 'center',
@@ -41,7 +42,7 @@ export default styles = StyleSheet.create({
     paddingLeft: 20,
   },
   settingsContainer: {
-    backgroundColor: 'beige'
+    backgroundColor: '#F4F4F4'
   },
   settingsTitle: {
     paddingHorizontal: 15,

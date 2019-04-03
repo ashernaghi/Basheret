@@ -11,6 +11,13 @@ import {options, questions, category} from '../common/arrays'
 export class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
+      headerTintColor: '#F4F4F4',
+      headerStyle: {
+        backgroundColor: '#F4F4F4',
+        shadowColor: 'transparent',
+        borderBottomColor:'transparent',
+        borderBottomWidth: 0
+      },
       headerTitle: (
         <Text style={ styles.headerText} >
             Settings
@@ -21,11 +28,11 @@ export class SettingsScreen extends React.Component {
           <Text style={ styles.headerText } >
             Profile
           </Text>
-          <Ionicons 
-            name="ios-arrow-forward" 
-            size={32} 
-            color="black" 
-            style={styles.headerIcons} 
+          <Ionicons
+            name="ios-arrow-forward"
+            size={32}
+            color="black"
+            style={styles.headerIcons}
           />
         </TouchableOpacity>
       ),
@@ -34,7 +41,7 @@ export class SettingsScreen extends React.Component {
   };
 
   calculateIndex(value){
-    return  value >= 0 && value <25 ? 0 
+    return  value >= 0 && value <25 ? 0
     : value >= 25 && value <50  ? 1
     : value >= 50 && value <75  ? 2
     : value >= 75 && value <99  ? 3
@@ -76,7 +83,7 @@ export class SettingsScreen extends React.Component {
       return(
         <View key={index} style={styles.filterContainer}>
           <Text>
-            {key}: {this.calculateText(key, values[0], values[1])} 
+            {key}: {this.calculateText(key, values[0], values[1])}
           </Text>
 
           <MultiSlider
@@ -93,25 +100,25 @@ export class SettingsScreen extends React.Component {
   }
 
   render() {
-    let femaleIcon = 
-    <FontAwesome 
+    let femaleIcon =
+    <FontAwesome
       name="female"
-      size={25} 
-      color="black" 
+      size={25}
+      color="black"
     />
 
-    let maleIcon = 
-    <FontAwesome 
+    let maleIcon =
+    <FontAwesome
       name="male"
-      size={25} 
-      color="black" 
+      size={25}
+      color="black"
     />
 
-    let bothIcon = 
-    <Foundation 
+    let bothIcon =
+    <Foundation
       name="male-female"
-      size={25} 
-      color="black" 
+      size={25}
+      color="black"
     />
 
     let gp = this.props.genderPreference;
@@ -119,31 +126,31 @@ export class SettingsScreen extends React.Component {
     return (
       <ScrollView style={styles.settingsContainer}>
         <View style={styles.dividerContainer}>
-          <Text>
-            Discoverable 
+          <Text style={{ fontWeight: 'bold', }}>
+            Discoverable
           </Text>
 
-          <Switch 
-            trackColor={{true: "pink"}} 
-            onValueChange={() => this.changeValue(!this.props.discoverable, 'discoverable')} 
+          <Switch
+            trackColor={{true: "pink"}}
+            onValueChange={() => this.changeValue(!this.props.discoverable, 'discoverable')}
             value={this.props.discoverable} />
         </View>
 
         <Text style={styles.settingsTitle}>
-            Preferences For Potential Basheret 
+            Preferences For Potential Basheret
         </Text>
 
         {this.generateFilters()}
-        
+
         <View style={styles.filterContainer}>
           <Text>
-            Distance: 
+            Distance:
           </Text>
 
           <Text>
-            {this.props.distancePreference} 
+            {this.props.distancePreference}
           </Text>
-          
+
           <MultiSlider
             markerStyle={{width:10, height: 25}}
             values={[this.props.distancePreference]}
@@ -153,7 +160,7 @@ export class SettingsScreen extends React.Component {
             step={100}
           />
         </View>
-        
+
         <View style={styles.filterContainer}>
           <Text>
             Gender: {gp}
@@ -169,7 +176,7 @@ export class SettingsScreen extends React.Component {
             borderRadius='200'
             style={{width: 200}}
             options={[
-              { value: "Female", customIcon: femaleIcon }, 
+              { value: "Female", customIcon: femaleIcon },
               { value: "Male", customIcon: maleIcon },
               { value: "Both", customIcon: bothIcon },
             ]}
