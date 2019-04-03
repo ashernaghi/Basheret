@@ -8,14 +8,29 @@ export const userInfoUpdateSuccess = (category, response) => ({
     response
 });
 
+export const uploadFile = (location, rawFile) => dispatch => {
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let storage = firebase.storage();
+    fetch(rawFile.uri)
+        .then(buf => {
+            let fileName = location;
+            let file = new File([buf], fileName);
+            let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
+            fileLocation.put(file).then(snapshot=> {
+                console.log("uploaded"+location);
+            })
+        })
+};
+
 //Updates the user's information in the database: 
 export const updateUserInfo = (category, answer) => dispatch =>{
-    //QUESTION: these arent async?...
-    let user = firebase.auth().currentUser;
+  //QUESTION: these arent async?...
+  let user = firebase.auth().currentUser;
 	let userID = user.uid;
 	let userFirebase = firebase.database().ref('/users/'+userID);
-    userFirebase.child(category).set(answer);
-    dispatch(userInfoUpdateSuccess(category, answer));
+  userFirebase.child(category).set(answer);
+  dispatch(userInfoUpdateSuccess(category, answer));
 };
 
 export const fetchUserSuccess = (user) => ({
