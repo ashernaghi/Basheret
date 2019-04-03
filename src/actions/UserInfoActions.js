@@ -9,6 +9,21 @@ export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     category
 });
 
+export const uploadFile = (location, rawFile) => dispatch => {
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let storage = firebase.storage();
+    fetch(rawFile.uri)
+        .then(buf => {
+            let fileName = location;
+            let file = new File([buf], fileName);
+            let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
+            fileLocation.put(file).then(snapshot=> {
+                console.log("uploaded"+location);
+            })
+        })
+};
+
 //Updates the user's information in the database: 
 export const updateUserInfo = (category='', subcategory='', response) => dispatch =>{
     //QUESTION: these arent async?...
