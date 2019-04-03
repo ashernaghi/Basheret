@@ -1,8 +1,8 @@
 import * as firebase from 'firebase';
-import { 
-  LOGIN_FACEBOOK_REQUEST, 
-  LOGIN_FACEBOOK_SUCCESS, 
-  LOGIN_FACEBOOK_ERROR 
+import {
+  LOGIN_FACEBOOK_REQUEST,
+  LOGIN_FACEBOOK_SUCCESS,
+  LOGIN_FACEBOOK_ERROR
 } from './types';
 import { updateUserInfo } from './UserInfoActions';
 
@@ -24,7 +24,7 @@ export const loginWithFacebook = () => async (dispatch) => {
   dispatch(loginFacebookRequest());
 
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync
-  ('1073829486133421', { permissions: ['public_profile'] })
+  ('1073829486133421', { permissions: ['public_profile',] })
 
   if (type === 'success') {
     const credential = firebase.auth.FacebookAuthProvider.credential(token)

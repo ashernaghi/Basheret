@@ -4,6 +4,7 @@ import SocialScreen from '../screens/SocialScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditModalScreen from  '../screens/EditModalScreen';
+import ContactsScreen from '../screens/ContactsScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -36,6 +37,7 @@ export default RootStack = createStackNavigator(
   {
     Main: { screen: MainStack },
     EditProfileModal: { screen: EditModalScreen},
+    Contacts: { screen: ContactsScreen },
   },
   {
     mode: 'modal',

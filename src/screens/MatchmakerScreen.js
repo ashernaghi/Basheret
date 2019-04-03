@@ -9,8 +9,8 @@ import { DisabledNextButton } from '../components/DisabledNextButton';
 
 export class MatchmakerScreen extends React.Component {
 
-
   render() {
+
     return (
       <View style={{ flex: 1, }}>
         <View style={{ alignSelf: 'center'}}>
@@ -18,7 +18,8 @@ export class MatchmakerScreen extends React.Component {
         </View>
 
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',}}>
-          <TouchableOpacity style={styles.emptyCircleStyle}>
+          <TouchableOpacity style={styles.emptyCircleStyle}
+          >
             <Feather
             name="plus"
             size={25}

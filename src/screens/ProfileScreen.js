@@ -61,30 +61,12 @@ export class ProfileScreen extends React.Component {
 
               </View>
 
-              <View>
-                <TouchableOpacity
-                  onPress={()=>this.props.navigation.navigate('EditProfileModal')}
-                  style={{ width: 137, height: 41, backgroundColor: '#00387e', borderRadius: 30, margin: 10, alignSelf: 'center', justifyContent: 'center', flexDirection: 'row', }}
-                >
-                  <MaterialIcons
-                    name="edit"
-                    size={16}
-                    color="white"
-                    style={{ alignSelf: 'center', justifyContent: 'center', marginRight: 4, }}
-                  />
-                  <Text style={{ color: 'white', alignSelf: 'center',}}>Edit Profile</Text>
-                </TouchableOpacity>
-              </View>
-
             <View style={{ backgroundColor: '#F4F4F4' }}>
               <ProfileCard title= 'Name' content= {this.props.name} />
               <ProfileCard title= 'Gender' content= {this.props.gender} />
               <ProfileCard title= 'Denomination' content= {this.props.denomination} />
               <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
               <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
-              <ProfileCard title= 'Shabbat t' content= {this.props.shabbatObservance} />
-              <ProfileCard title= 'Shabbat s' content= {this.props.shabbatObservance} />
-              <ProfileCard title= 'Shabbat v' content= {this.props.shabbatObservance} />
             </View>
 
           </View>
@@ -108,3 +90,21 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ProfileScreen);
+
+
+
+//
+// <View>
+//   <TouchableOpacity
+//     onPress={()=>this.props.navigation.navigate('EditProfileModal')}
+//     style={{ width: 137, height: 41, backgroundColor: '#00387e', borderRadius: 30, margin: 10, alignSelf: 'center', justifyContent: 'center', flexDirection: 'row', }}
+//   >
+//     <MaterialIcons
+//       name="edit"
+//       size={16}
+//       color="white"
+//       style={{ alignSelf: 'center', justifyContent: 'center', marginRight: 4, }}
+//     />
+//     <Text style={{ color: 'white', alignSelf: 'center',}}>Edit Profile</Text>
+//   </TouchableOpacity>
+/// </View>

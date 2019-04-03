@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "User Flow Draft",
-    "slug": "user-flow-draft",
+    "name": "Basheret StartupUCLA",
+    "slug": "basheret-startupucla",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -24,6 +24,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
