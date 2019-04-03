@@ -2,10 +2,11 @@ import * as firebase from 'firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS } from './types';
 import { Location, Permissions } from 'expo';
 
-export const userInfoUpdateSuccess = (category, response) => ({
+export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     type: USER_INFO_UPDATE_SUCCESS,
-    category,
-    response
+    subcategory,
+    response,
+    category
 });
 
 export const uploadFile = (location, rawFile) => dispatch => {
@@ -24,13 +25,18 @@ export const uploadFile = (location, rawFile) => dispatch => {
 };
 
 //Updates the user's information in the database: 
-export const updateUserInfo = (category, answer) => dispatch =>{
-  //QUESTION: these arent async?...
-  let user = firebase.auth().currentUser;
+export const updateUserInfo = (category='', subcategory='', response) => dispatch =>{
+    //QUESTION: these arent async?...
+    let user = firebase.auth().currentUser;
 	let userID = user.uid;
-	let userFirebase = firebase.database().ref('/users/'+userID);
-  userFirebase.child(category).set(answer);
-  dispatch(userInfoUpdateSuccess(category, answer));
+    let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
+    if(subcategory){
+        userFirebase.child(subcategory).set(response);
+    }
+    else{
+        userFirebase.set(response);
+    }
+    dispatch(userInfoUpdateSuccess(category, subcategory, response));
 };
 
 export const fetchUserSuccess = (user) => ({
@@ -46,6 +52,7 @@ export const getUser = (props) => dispatch =>  {
         userFirebase.once("value")
         .then(snapshot=>{
             if(snapshot.val().initialSetupComplete){
+                console.log('1.ASKING LOCATION')
                 this._getLocationAsync(dispatch);
                 dispatch(fetchUserSuccess(snapshot.val()));
                 setTimeout( ()=> props.navigation.navigate('App'), 2000 );
@@ -61,13 +68,14 @@ export const getUser = (props) => dispatch =>  {
 }
 
 _getLocationAsync = async (dispatch) => {
+    console.log('2. GETTING LOCATION')
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
-      dispatch(updateUserInfo('location', null));
+      dispatch(updateUserInfo('location', null, null));
     }
     else{
       let location = await Location.getCurrentPositionAsync({});
-      dispatch(updateUserInfo('location', location.coords));
+      dispatch(updateUserInfo('location', null, location.coords));
     }
   };
 

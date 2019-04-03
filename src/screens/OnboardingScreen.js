@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity } from 'react-native';
 import {loginWithFacebook} from '../actions/AuthActions';
 import { FacebookLoginButton } from '../components/FacebookLoginButton'
+import { Font } from 'expo'
 
 export class OnboardingScreen extends React.Component {
   constructor(props){
@@ -22,15 +23,16 @@ export class OnboardingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
           <Text
           style={styles.loginLogoText}
           >
             Basheret
           </Text>
+        {this.props.loggingIn && <ActivityIndicator />}
         </View>
         <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 20 }}>
-          {this.props.loggingIn && <ActivityIndicator />}
+
           <FacebookLoginButton onPress={() => this.onPress()}/>
         </View>
 
@@ -76,5 +78,7 @@ facebookLoginButton: {
 
 loginLogoText: {
   color: '#fbfbfb',
+  fontFamily: 'fitamint-script',
+  fontSize: 90
 }
 });

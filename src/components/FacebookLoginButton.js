@@ -10,6 +10,7 @@ const FacebookLoginButton = ({ onPress }) => {
         name="lock"
         size={14}
         color="white"
+        style={{ alignSelf: 'center'}}
         />
         <Text
         style={styles.facebookSafeStyle}>
@@ -20,7 +21,6 @@ const FacebookLoginButton = ({ onPress }) => {
           <Text style={styles.loginButtonTextStyle}>
             Login with Facebook
           </Text>
-          <Text>Hi</Text>
       </TouchableOpacity>
     </View>
   )
@@ -47,6 +47,7 @@ facebookLoginButtonStyle: {
 facebookSafeStyle: {
   color: '#fbfbfb',
   alignSelf: 'center',
-  paddingLeft: 5
+  paddingLeft: 5,
+  fontSize: 14
 },
 });
