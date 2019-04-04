@@ -1,39 +1,46 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Button, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
 import { ProfileCard } from '../components/ProfileCard';
 import moment from 'moment';
-import styles from '../styles/styles';
-import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome, AntDesign, Feather } from '@expo/vector-icons';
+import { DisabledNextButton } from '../components/DisabledNextButton';
 
-// const DisplayThat = () => {
-//   return(
-//     <Text>{this.props}</Text>
-//   )
-// }
 
 export class MatchmakerScreen extends React.Component {
 
-  CardMaker(){
-    let cardArray = []
-    for (let thing in this.props.info) {
-      let value = this.props.info[thing]
-      console.log(value)
-      cardArray.push(<ProfileCard title={thing} content={this.props.info[thing]} />)
-    }
-    return cardArray
-  }
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        <TouchableOpacity
-          onPress={() => console.log(Object.keys(this.props).length)}
-          style={{ borderWidth: 1, marginTop: 40}}
-        >
-          <Text>Click Me</Text>
-        </TouchableOpacity>
-        {this.CardMaker()}
+      <View style={{ flex: 1, }}>
+        <View style={{ alignSelf: 'center'}}>
+          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 40, color: '#00387e', marginTop: 30 }} >Matchmaker</Text>
+        </View>
+
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',}}>
+          <TouchableOpacity style={styles.emptyCircleStyle}>
+            <Feather
+            name="plus"
+            size={25}
+            color="black"
+            style={{}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.emptyCircleStyle}>
+            <Feather
+            name="plus"
+            size={25}
+            color="black"
+            style={{}}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', }}><Text>Note: This feature is still under construction.</Text><Text>Thank you for your patience.</Text></View>
+
+        <View style={{ flex: 1, justifyContent: 'center', alignSelf: 'center', }}>
+            <DisabledNextButton>Next</DisabledNextButton>
+        </View>
       </View>
     );
   }
@@ -52,3 +59,16 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(MatchmakerScreen);
+
+const styles = StyleSheet.create({
+  emptyCircleStyle: {
+    backgroundColor: '#aeb1b7',
+    width: 135,
+    height: 135,
+    borderRadius: 67.5,
+    margin: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  }
+})

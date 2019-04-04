@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Button } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Button, TouchableWithoutFeedback } from 'react-native';
 
 const DisabledNextButton = ({ onPress, children }) => {
   return(

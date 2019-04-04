@@ -107,7 +107,7 @@ export class IntroQuestionsScreen extends React.Component {
     } else {
       return(
         <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <DisabledNextButton>'Next'</DisabledNextButton>
+          <DisabledNextButton>Next</DisabledNextButton>
         </View>
       )
     }
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
 
   optionButtonStyleSelected:{
     borderRadius: 30,
-    borderColor: 'blue',
+    borderColor: '#00387e',
     borderWidth: 2,
     width: 300,
     alignSelf: 'center',
