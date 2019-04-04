@@ -55,6 +55,9 @@ export const getUser = (props) => dispatch =>  {
                 console.log('1.ASKING LOCATION')
                 this._getLocationAsync(dispatch);
                 dispatch(fetchUserSuccess(snapshot.val()));
+                for(let match in snapshot.val().matches){
+                    dispatch(getAnotherUser(match, 'matchesCards'))
+                }
                 setTimeout( ()=> props.navigation.navigate('App'), 2000 );
             }
             else{
