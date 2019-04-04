@@ -3,7 +3,8 @@ import {
   LOGIN_FACEBOOK_SUCCESS,
   FETCH_USER_SUCCESS,
   USER_MATCH_UPDATE_SUCCESS,
-  GET_ANOTHER_USER_SUCCESS
+  GET_ANOTHER_USER_SUCCESS,
+  GET_MATCHES_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -18,7 +19,8 @@ const INITIAL_STATE = {
     location: { 
 
     },
-    matchesCards: []
+    matchesCards: [],
+    matches: [],
   },
 };
 
@@ -44,6 +46,13 @@ export default (state = INITIAL_STATE, action) => {
           }
         });
     }
+    case GET_MATCHES_SUCCESS:
+      return Object.assign({}, state, {
+        user: {
+          ...state.user,
+          matches: action.matches
+        }
+      });
     case GET_ANOTHER_USER_SUCCESS:  
       if(state.user[action.category]){
         return Object.assign({}, state, {
@@ -70,29 +79,6 @@ export default (state = INITIAL_STATE, action) => {
       return Object.assign({}, state, {
         user: action.user,
       });
-    // case LOGIN_FACEBOOK_SUCCESS:
-    //   return Object.assign({}, state, {
-    //     user: {
-    //       ...state.user,
-    //       name: action.user.additionalUserInfo.profile.name,
-    //     }
-    //   });
-      // console.log('FB', {
-      //   ...state.user,
-      //   'info': {
-      //     ...state.user['info'],
-      //     'name': action.user.additionalUserInfo.profile.name
-      //   }
-      // })
-      // return Object.assign({}, state, {
-      //   user: {
-      //     ...state.user,
-      //     'info': {
-      //       ...state.user['info'],
-      //       'name': action.user.additionalUserInfo.profile.name
-      //     }
-      //   }
-      // });
     default:
       return state;
   }

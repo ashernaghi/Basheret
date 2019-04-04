@@ -6,16 +6,17 @@ import {getAnotherUser} from '../actions/UserInfoActions';
 export class MatchesScreen extends React.Component {
   componentDidMount(){
     for(let match in this.props.matches){
-      this.props.dispatch(getAnotherUser(this.props.matches[match].id, 'matchesCards'))
+      this.props.dispatch(getAnotherUser(match, 'matchesCards'))
     }
   }
 
   generateMatchCards(){
-    if(this.props.matchesCards)
-    return this.props.matchesCards.map((matchCard, index)=>{
-      //ASHER: make a card of the match here: 
-      return <Text key={index}>{matchCard.name}</Text>
-    })
+    if(this.props.matchesCards) {
+      return this.props.matchesCards.map((matchCard, index)=>{
+        //ASHER: make a card of the match here: 
+        return <Text key={index}>{matchCard.name}</Text>
+      })
+    }
   }
 
   render() {
@@ -28,7 +29,6 @@ export class MatchesScreen extends React.Component {
 }
 
 const mapStateToProps = state => {
-  console.log('Matches Cards is', state.userInfo.user.matchesCards)
   return {
     matches: state.userInfo.user.matches,
     matchesCards: state.userInfo.user.matchesCards
