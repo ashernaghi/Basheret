@@ -47,6 +47,31 @@ export const addMatch = (category, matchID) => dispatch =>{
     dispatch(userMatchUpdateSuccess(category, matchID));
 };
 
+//Get next candidate, returns the id for the next candidate that isn't the same gender and isn't already in your matches. 
+//Return empty string if none. 
+export const getCandidate = () => dispatch => {
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    firebase.database().ref('/users/'+userID+'/info').on('value', function(snapshot) {
+        let userGender =  snapshot.gender;
+        let userCategoryRef = firebase.database().ref('/users/');
+        let priorMatches = new Array();
+        priorMatches.push(addMatch('matches'));
+        userCategoryRef.on("value",
+            function(snapshot) {
+                snapshot.forEach(value=>{
+                    if (!priorMatches.includes(value.key)) {
+                        if (userGender != value.info.gender) {
+                            return value.key;
+                        }
+                    }
+                });
+                return '';
+            }
+        )
+    });
+}
+
 //right now these fns are just adding/removing from a single user's account. needs to happen across two accounts (user and candidate)
 
 //Categories should be matches, potential, and never. In the future there will be a function to check this.
