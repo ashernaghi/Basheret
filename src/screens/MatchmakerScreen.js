@@ -1,13 +1,32 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Button, StyleSheet, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
+import { Permissions, Contacts } from 'expo';
 import { ProfileCard } from '../components/ProfileCard';
 import moment from 'moment';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome, AntDesign, Feather } from '@expo/vector-icons';
 import { DisabledNextButton } from '../components/DisabledNextButton';
-
+import { NavigationActions } from 'react-navigation';
 
 export class MatchmakerScreen extends React.Component {
+
+  async showFirstContactAsync() {
+      // Ask for permission to query contacts.
+      const permission = await Permissions.askAsync(Permissions.CONTACTS);
+
+      if (permission.status !== 'granted') {
+        // Permission was denied...
+        return;
+      }
+
+      const contacts = await Contacts.getContactsAsync({
+        fields:  [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails, Contacts.Fields.SocialProfiles, Contacts.Fields.Relationships,],
+      });
+      if (contacts.total > 0) {
+        console.log(contacts);
+
+      }
+    }
 
   render() {
 
@@ -19,6 +38,7 @@ export class MatchmakerScreen extends React.Component {
 
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between',}}>
           <TouchableOpacity style={styles.emptyCircleStyle}
+          onPress={this.props.navigate}
           >
             <Feather
             name="plus"

@@ -58,7 +58,9 @@ export class HomeScreen extends React.Component {
       renderComponent = <CandidatesScreen/>
     }
     else{
-      renderComponent = <MatchmakerScreen/>
+      renderComponent = <MatchmakerScreen
+      navigate={()=>this.props.navigation.navigate('ContactsModal')}
+      />
     }
 
     let candidatesIcon =
