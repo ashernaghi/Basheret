@@ -2,7 +2,8 @@ import {
   USER_INFO_UPDATE_SUCCESS,
   LOGIN_FACEBOOK_SUCCESS,
   FETCH_USER_SUCCESS,
-  USER_MATCH_UPDATE_SUCCESS
+  USER_MATCH_UPDATE_SUCCESS,
+  GET_ANOTHER_USER_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -17,10 +18,7 @@ const INITIAL_STATE = {
     location: { 
 
     },
-
-    matches: {
-
-    }
+    matchesCards: []
   },
 };
 
@@ -46,17 +44,28 @@ export default (state = INITIAL_STATE, action) => {
           }
         });
     }
-    // case USER_MATCH_UPDATE_SUCCESS:
-    //   let res = action.matchId;
-    //   return Object.assign({}, state, {
-    //     user: {
-    //       ...state.user,
-    //       [action.category]: {
-    //         ...state.user[action.category],
-    //         res
-    //       }
-    //     }
-    //   });
+    case GET_ANOTHER_USER_SUCCESS:  
+      if(state.user[action.category]){
+        return Object.assign({}, state, {
+          user: {
+            ...state.user,
+            [action.category]: [
+              ...state.user[action.category],
+              action.user
+            ]
+          }
+        });
+      }
+      else{
+        return Object.assign({}, state, {
+          user: {
+            ...state.user,
+            [action.category]: [
+              action.user
+            ]
+          }
+        });
+      }
     case FETCH_USER_SUCCESS:
       return Object.assign({}, state, {
         user: action.user,

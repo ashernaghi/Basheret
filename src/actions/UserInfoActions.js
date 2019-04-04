@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS } from './types';
+import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS } from './types';
 import { Location, Permissions } from 'expo';
 
 export const userInfoUpdateSuccess = (category, subcategory, response) => ({
@@ -79,15 +79,17 @@ _getLocationAsync = async (dispatch) => {
     }
   };
 
-//Fetches user info from fb
-// export const getUserInfo = (category) => next  => {
-// 	let user = firebase.auth().currentUser;
-// 	let userID = user.uid;
-// 	let ret = "";
-// 	let userFirebase = firebase.database().ref('/users/'+userID);
-//     userFirebase.child(category).on("value", function(snapshot) {
-//     	ret = snapshot.val();
-//     })
-//     console.log('userfirebase:', userFirebase);
-//     return ret;
-// }
+export const getAnotherUserSuccess = (user, category) => ({
+    type: GET_ANOTHER_USER_SUCCESS,
+    user,
+    category
+});
+
+//Fetches another user
+export const getAnotherUser = (userId, category) => dispatch  => {
+    let userFirebase = firebase.database().ref('/users/'+userId);
+    userFirebase.once("value")
+    .then(snapshot=>{
+        dispatch(getAnotherUserSuccess(snapshot.val().info, category));
+    })
+}
