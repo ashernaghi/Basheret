@@ -21,7 +21,7 @@ export const getMatchesSuccess = (matches) => ({
     matches,
 });
 
-//Returns a list of User IDs for the cooresponding category
+//Returns a list of User IDs for the cooresponding category - not currently using this since all the matches come in with user on load
 export const getMatches = (category) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
@@ -47,14 +47,6 @@ export const addMatch = (category, matchID) => dispatch =>{
     dispatch(userMatchUpdateSuccess(category, matchID));
 };
 
+//right now these fns are just adding/removing from a single user's account. needs to happen across two accounts (user and candidate)
 
-//Updates the user's information in the database: 
-// export const addMatch = (category, matchId) => dispatch =>{
-//     console.log("adding match");
-//     let user = firebase.auth().currentUser;
-// 	let userID = user.uid;
-//     let userCategoryRef = firebase.database().ref('/users/'+userID+"/"+category);
-//     userCategoryRef.push().set({id: matchId});
-//     dispatch(userMatchUpdateSuccess(category, matchId));
-// }
 //Categories should be matches, potential, and never. In the future there will be a function to check this.

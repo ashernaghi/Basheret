@@ -52,7 +52,6 @@ export class HomeScreen extends React.Component {
   //testing: 
   componentDidMount(){
     this.props.dispatch(addMatch('matches', '5HJqzzhyA0Vcgwt0fi5AYcxtTlO2'));
-    // this.props.dispatch(removeMatch('matches', 'PrnbHLzJTMbFQdbv3plVEoEwhWn1'))
   }
 
   render() {
