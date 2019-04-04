@@ -5,46 +5,43 @@ export const userMatchUpdateSuccess = (category) => ({
     category
 });
 
-//Updates the user's information in the database: 
+//Creates/updates the match category that the matching user belongs to
 export const addMatch = (category, matchID) => dispatch =>{
-    console.log("adding match");
+    console.log("added"+category+matchID);
     let user = firebase.auth().currentUser;
-	let userID = user.uid;
-	let userCategoryRef = firebase.database().ref('/users/'+userID+"/"+category);
-    userCategoryRef.push().set({id: matchID});
+    let userID = user.uid;
+    let userCategoryRef = firebase.database().ref('/users/'+userID+"/matches/"+matchID);
+    userCategoryRef.set({group: category});
     dispatch(userMatchUpdateSuccess(category));
 };
 
+//Remove the cooresponding category a user is in
 export const removeMatch = (category, matchID) => dispatch =>{
+    console.log("removing"+category+matchID);
     let user = firebase.auth().currentUser;
     let userID = user.uid;
-    let userCategoryRef = firebase.database().ref('/users/'+userID+"/"+category);
-    userCategoryRef.orderByChild('id').equalTo(matchID).on("value", function(snapshot) {
-        console.log(snapshot.val());
-        snapshot.forEach(function(data) {
-            console.log(data.key);
-        });
-    });
+    let userCategoryRef = firebase.database().ref('/users/'+userID+"/matches/"+matchID);
+    userCategoryRef.remove();
 };
 
 export const getMatches = (category) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
         let userID = user.uid;
-        let userFirebase = firebase.database().ref('/users/'+userID+"/"+category);
-        userFirebase.once("value")
-        .then(snapshot=>{
-            if(snapshot.val().initialSetupComplete){
-                this._getLocationAsync(dispatch);
-                dispatch(fetchUserSuccess(snapshot.val()));
-                setTimeout( ()=> props.navigation.navigate('App'), 2000 );
-            }
-            else{
-                props.navigation.navigate('IntroQuestions');
-            }
-        })
+        let userFirebase = firebase.database().ref('/users/'+userID+"/matches");
+        userFirebase.orderByChild("group").equalTo(category).on("value", 
+            function(snapshot) {
+               console.log(snapshot);
+               let matches = new Array();
+                snapshot.forEach(value=>{
+                    matches.push(value.key);
+                });
+                return matches;
+        });
     }
     else{
         props.navigation.navigate('Onboarding');
     }
 }
+
+
