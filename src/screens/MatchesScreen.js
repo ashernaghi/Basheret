@@ -4,12 +4,7 @@ import { View, Text } from 'react-native';
 import {getAnotherUser} from '../actions/UserInfoActions';
 
 export class MatchesScreen extends React.Component {
-  componentDidMount(){
-    for(let match in this.props.matches){
-      this.props.dispatch(getAnotherUser(match, 'matchesCards'))
-    }
-  }
-
+  
   generateMatchCards(){
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
