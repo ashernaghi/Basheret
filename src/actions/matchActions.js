@@ -5,6 +5,8 @@ export const userMatchUpdateSuccess = (category) => ({
     category
 });
 
+//Categories should be matches, potential, and never. In the future there will be a function to check this.
+
 //Creates/updates the match category that the matching user belongs to
 export const addMatch = (category, matchID) => dispatch =>{
     console.log("added"+category+matchID);
@@ -24,6 +26,7 @@ export const removeMatch = (category, matchID) => dispatch =>{
     userCategoryRef.remove();
 };
 
+//Returns a list of User IDs for the cooresponding category
 export const getMatches = (category) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
