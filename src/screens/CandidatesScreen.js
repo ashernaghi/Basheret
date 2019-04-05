@@ -36,21 +36,6 @@ export class CandidatesScreen extends React.Component {
                   <Text style={{ marginLeft: 30, fontSize: 17, fontWeight: 'bold', padding: 10 }}>{this.props.candidate.name}</Text>
                 </View>
 
-                <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
-                  <MaterialCommunityIcons
-                    name='checkbox-marked-circle'
-                    onPress={()=>this.props.dispatch(acceptMatch(this.props.candidate.id))}
-                    size={50}
-                    style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-                  />
-                  <MaterialCommunityIcons
-                    name='close-circle'
-                    onPress={()=>this.props.dispatch(declineMatch(this.props.candidate.id))}
-                    size={50}
-                    style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-                  />
-                </View>
-
               </View>
 
             </ImageBackground>

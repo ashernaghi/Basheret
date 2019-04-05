@@ -6,6 +6,7 @@ import { ProfileCard } from '../components/ProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
+import {acceptMatch, declineMatch} from '../actions/matchActions'
 
 export class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -73,6 +74,28 @@ export class ProfileScreen extends React.Component {
               <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
             </View>
 
+            {this.props.type==='candidate' && 
+            <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
+              <MaterialCommunityIcons
+                name='close-circle'
+                onPress={()=>{
+                  this.props.dispatch(declineMatch(this.props.id));
+                  this.props.navigation.goBack();
+                }}
+                size={50}
+                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+              />
+              <MaterialCommunityIcons
+                name='checkbox-marked-circle'
+                onPress={()=>{
+                  this.props.dispatch(acceptMatch(this.props.id))
+                  this.props.navigation.goBack()
+                }}
+                size={50}
+                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+              />
+            </View>
+            }
           </View>
 
         </ScrollView>
@@ -83,6 +106,7 @@ export class ProfileScreen extends React.Component {
 
 const mapStateToProps = state => {
   let type = state.nav.showProfileScreen;
+  console.log('TYPE IS', type)
   if(state.nav.showProfileScreen==='self'){
     return {
       denomination: state.userInfo.user.info.denomination,
@@ -90,18 +114,21 @@ const mapStateToProps = state => {
       kashrutObservance: state.userInfo.user.info.kashrutObservance,
       name: state.userInfo.user.info.name,
       profilePhoto: state.userInfo.user.info.profilePhoto,
-      gender: state.userInfo.user.info.gender
+      gender: state.userInfo.user.info.gender,
+      type: state.nav.showProfileScreen,
     };
   }
   //this might be either candidate or match: 
-  else{
+  else if (state.userInfo.user[type]!==null){
     return {
       name: state.userInfo.user[type].name,
       denomination: state.userInfo.user[type].denomination,
       shabbatObservance: state.userInfo.user[type].shabbatObservance,
       kashrutObservance: state.userInfo.user[type].kashrutObservance,
       profilePhoto: state.userInfo.user[type].profilePhoto,
-      gender: state.userInfo.user[type].gender
+      gender: state.userInfo.user[type].gender,
+      id: state.userInfo.user[type].id,
+      type: state.nav.showProfileScreen,
     }    
   }
 };
