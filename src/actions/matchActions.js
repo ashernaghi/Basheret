@@ -95,24 +95,44 @@ export const getCandidate = () => dispatch => {
 
 //right now these fns are just adding/removing from a single user's account. needs to happen across two accounts (user and candidate)
 
-//Categories should be matches, potential, and never. In the future there will be a function to check this.
+//Categories are from the types file
 
 //This fn should be responsible for doing checks after user "accepts" another user
 // -> Is Nikkie in Asher's "potential" category? If so, put Asher in Nikkie's "matches", put Nikkie in Asher's "matches", and remove Nikkie from Asher's "potential"
+
 // -> If Nikkie is in Asher's "never" category , then put Asher in Nikkie's "never" category
+//This one will never occur, the getCandidate function only shows people who didn't swipe no on you.
 // -> If Nikkie is neither category yet, put Asher in Nikkie's "potential" category
-export const acceptMatch = (category, matchID) => dispatch =>{
+//This one isn't necessary, I don't think we need the potential category at this point but might want it in the future.
+export const acceptMatch = (matchID) => dispatch =>{
     let user = firebase.auth().currentUser;
     let userID = user.uid;
-    let userCa
-    tegoryRef = firebase.database().ref('/users/'+userID+"/matches/"+matchID);
-    userCategoryRef.set({group: category});
-    dispatch(userMatchUpdateSuccess(category, matchID));
+    let userCategoryRef = firebase.database().ref('/users/'+userID+'/matches/'+matchID);
+    userCategoryRef.set({group: POSITIVE_MATCH});
+    let potentialMatchRef = firebase.database().ref('/users/'+matchID+'/matches/'+userID+'/group');
+    potentialMatchRef.once('value', function(snapshot) {
+        console.log('testing');
+        console.log(snapshot);
+        if (snapshot) {
+            if (snapshot.val() === POSITIVE_MATCH) {
+                userCategoryRef.set({group: MUTUAL_MATCH});
+                potentialMatchRef.set({group: MUTUAL_MATCH});
+            }
+        }
+        dispatch(userMatchUpdateSuccess(matchID));
+    });
 };
 
 //This fn is responsible for doing the proper work after user "declines" another user: 
 // -> Put Asher in Nikkie's "never" category
 // -> Put Nikkie in Asher's "never" category
 // -> Remove Nikkie from Asher's "potential" category if she is in there
-export const declineMatch = (category, matchID) => dispatch =>{
+//This may be needed in the future, but not yet
+export const declineMatch = (matchID) => dispatch =>{
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let userCategoryRef = firebase.database().ref('/users/'+userID+'/matches/'+matchID);
+    let potentialMatchRef = firebase.database().ref('/users/'+matchID+'/matches/'+userID);
+    userCategoryRef.set({group: NEGATIVE_MATCH});
+    potentialMatchRef.set({group: NEGATIVE_MATCH});
 };
