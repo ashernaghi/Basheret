@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet } from 'react-native';
+import {getMatches} from '../actions/matchActions';
 
 export class MatchesScreen extends React.Component {
+  componentDidMount(){
+    this.props.dispatch(getMatches());
+  }
 
   generateMatchCards(){
     if(this.props.matchesCards) {

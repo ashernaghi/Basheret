@@ -1,8 +1,8 @@
 import * as firebase from 'firebase';
-import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN } from './types';
+import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN, DELETE_ALL_MATCHES } from './types';
 import {getAnotherUser} from './UserInfoActions'
 
-//Removes the cooresponding category a user is in
+/*Removes the cooresponding category a user is in*/
 export const removeMatch = (category, matchID) => dispatch =>{
     console.log("removing"+category+matchID);
     let user = firebase.auth().currentUser;
@@ -16,28 +16,34 @@ export const getMatchesSuccess = (matches) => ({
     matches,
 });
 
-//Returns a list of User IDs for the cooresponding category - not currently using this since all the matches come in with user on load
-export const getMatches = (category) => dispatch =>  {
+export const deleteAllMatches = () => ({
+    type: DELETE_ALL_MATCHES,
+});
+
+/*Returns a list of User IDs that mutually match */
+export const getMatches = () => dispatch =>  {
+    //delete matchesCards (or else it'll duplicate - not scalable)
+    dispatch(deleteAllMatches());
+
     let user = firebase.auth().currentUser;
     if(user){
         let userID = user.uid;
         let userFirebase = firebase.database().ref('/users/'+userID+"/matches");
-        userFirebase.orderByChild("group").equalTo(category).once("value", 
+        userFirebase.orderByChild("group").equalTo('MUTUAL_MATCH').once("value", 
             function(snapshot) {
-               let matches = new Array();
                 snapshot.forEach(value=>{
-                    matches.push(value.key);
+                    //for each match, get the info on that user: 
+                    dispatch(getAnotherUser(value.key, 'matchesCards'))
                 });
-            getMatchesSuccess(matches)
+            // getMatchesSuccess(matches)
         });
     }
 }
 
-//Get next candidate, returns the id for the next candidate that isn't the same gender and isn't already in your matches. 
-//Return empty string if none. 
+/*Returns the id for the next candidate that matches gender preference and isn't already in your matches*/ 
 export const getCandidate = () => dispatch => {
     console.log('GETTING CANDIDATE')
-    let result='';
+    let result=''; //change later
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     //Get database reference to current user
@@ -107,6 +113,7 @@ export const acceptMatch = (matchID) => dispatch =>{
     });
 };
 
+/* Responsible for showing a mutual match screen */
 export const mutualMatch = (bool) => ({
     type: MUTUAL_MATCH_SCREEN,
     bool
