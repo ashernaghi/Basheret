@@ -47,7 +47,7 @@ export const getCandidate = () => dispatch => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     //Get database reference to current user
-    firebase.database().ref('/users/'+userID).on('value', function(snapshot) {
+    firebase.database().ref('/users/'+userID).once('value', function(snapshot) {
         let genderPreference =  snapshot.val().preferences.genderPreference;
         let userMatches = new Array();
         if(snapshot.val().matches){
@@ -103,7 +103,7 @@ export const acceptMatch = (matchID) => dispatch =>{
         if (snapshot) {
             if (snapshot.val() === POSITIVE_MATCH) {
                 userCategoryRef.set({group: MUTUAL_MATCH});
-                potentialMatchRef.set({group: MUTUAL_MATCH});
+                potentialMatchRef.parent.set({group: MUTUAL_MATCH});
             }
         }
         dispatch(userMatchUpdateSuccess(matchID));

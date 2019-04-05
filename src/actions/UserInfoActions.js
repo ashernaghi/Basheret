@@ -24,6 +24,16 @@ export const uploadFile = (location, rawFile) => dispatch => {
         })
 };
 
+export const getFile = (location, rawFile) => dispatch => {
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let storage = firebase.storage();
+    let fileRef = storage.ref().child('/users/'+userID+'/'+location);
+    fileRef.getDownloadURL().then(function(url) => {
+        return url;
+    })
+}
+
 //Updates the user's information in the database: 
 export const updateUserInfo = (category='', subcategory='', response) => dispatch =>{
     //QUESTION: these arent async?...
