@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
 import ChatScreen from './ChatScreen';
 import MatchesScreen from './MatchesScreen';
 import styles from '../styles/styles';
+import {showProfileScreen} from '../actions/UserInfoActions';
 
-export default class SocialScreen extends React.Component {
+export class SocialScreen extends React.Component {
   constructor(props){
     super(props)
 
@@ -36,7 +38,13 @@ export default class SocialScreen extends React.Component {
   render() {
     let renderComponent; 
     if(this.state.show==='matches'){
-      renderComponent = <MatchesScreen/>
+      renderComponent = <MatchesScreen
+        navigate={(card)=> {
+          console.log('HERE IN NAV')
+          this.props.dispatch(showProfileScreen('match', card));
+          this.props.navigation.navigate('CandidateModal')}
+        }
+      />
     }
     else{
       renderComponent = <ChatScreen/>
@@ -61,3 +69,5 @@ export default class SocialScreen extends React.Component {
     );
   }
 }
+
+export default connect()(SocialScreen);

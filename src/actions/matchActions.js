@@ -11,6 +11,7 @@ export const removeMatch = (category, matchID) => dispatch =>{
     userCategoryRef.remove();
 };
 
+/*Currently not being used */
 export const getMatchesSuccess = (matches) => ({
     type: GET_MATCHES_SUCCESS,
     matches,
@@ -35,7 +36,6 @@ export const getMatches = () => dispatch =>  {
                     //for each match, get the info on that user: 
                     dispatch(getAnotherUser(value.key, 'matchesCards'))
                 });
-            // getMatchesSuccess(matches)
         });
     }
 }
@@ -60,6 +60,7 @@ export const getCandidate = () => dispatch => {
         userCategoryRef.once("value",
             function(snapshot2) {
                 snapshot2.forEach(potentialMatch=>{
+                    console.log("LOOK HERE", potentialMatch.val())
                     if(!result){
                     //Check that didn't match previously with them
                     if (!userMatches.includes(potentialMatch.key)) {

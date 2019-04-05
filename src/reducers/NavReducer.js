@@ -14,7 +14,6 @@ export default (state = INITIAL_STATE, action) => {
         showMutualMatchScreen: action.bool,
       });
     case SHOW_PROFILE_SCREEN:
-      console.log('SHOWING', action.category);
       return Object.assign({}, state, {
         showProfileScreen: action.category,
       });
