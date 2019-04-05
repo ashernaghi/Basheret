@@ -2,6 +2,10 @@ import * as firebase from 'firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, POSITIVE_MATCH, NEGATIVE_MATCH, MUTUAL_MATCH } from './types';
 import {getAnotherUser} from './UserInfoActions'
 
+export const POSITIVE_MATCH = 'POSITIVE_MATCH';
+export const NEGATIVE_MATCH = 'NEGATIVE_MATCH';
+export const MUTUAL_MATCH = 'MUTUAL_MATCH';
+
 export const userMatchUpdateSuccess = (category, matchId) => ({
     type: USER_MATCH_UPDATE_SUCCESS,
     category,
@@ -28,7 +32,7 @@ export const getMatches = (category) => dispatch =>  {
     if(user){
         let userID = user.uid;
         let userFirebase = firebase.database().ref('/users/'+userID+"/matches");
-        userFirebase.orderByChild("group").equalTo(category).on("value", 
+        userFirebase.orderByChild("group").equalTo(category).once("value", 
             function(snapshot) {
                let matches = new Array();
                 snapshot.forEach(value=>{
@@ -57,7 +61,7 @@ export const getCandidate = () => dispatch => {
         }
         let userCategoryRef = firebase.database().ref('/users/');
         //Iterate over all users in the database (problem: should stop once it finds someone, but right now it doesnt)
-        userCategoryRef.on("value",
+        userCategoryRef.once("value",
             function(snapshot2) {
                 snapshot2.forEach(potentialMatch=>{
                     if(!result){

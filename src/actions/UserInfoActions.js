@@ -9,6 +9,12 @@ export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     category
 });
 
+export const uploadProfilePicture(rawFile) => dispatch => {
+    uploadFile('profilePicture', rawFile).then(function(url) => {
+        updateUserInfo('info', 'profilePhoto', url);
+    });
+}
+
 export const uploadFile = (location, rawFile) => dispatch => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
@@ -18,13 +24,34 @@ export const uploadFile = (location, rawFile) => dispatch => {
             let fileName = location;
             let file = new File([buf], fileName);
             let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
-            fileLocation.put(file).then(snapshot=> {
-                console.log("uploaded"+location);
-            })
+            let fileUpload = fileLocation.put(file);
+            fileUpload.on('state_changed', function(snapshot){
+              // Observe state change events such as progress, pause, and resume
+              // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+              var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                  console.log('Upload is paused');
+                  break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                  console.log('Upload is running');
+                  break;
+              }
+            }, function(error) {
+              // Handle unsuccessful uploads
+            }, function() {
+              // Handle successful uploads on complete
+              // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+              uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                console.log('File available at', downloadURL);
+                return downloadURL;
+              });
+            });
         })
 };
 
-export const getFile = (location, rawFile) => dispatch => {
+export const getFile = (location) => dispatch => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let storage = firebase.storage();
