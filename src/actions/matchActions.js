@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN, DELETE_ALL_MATCHES } from './types';
-import {getAnotherUser} from './UserInfoActions'
+import {getAnotherUser, getAnotherUserSuccess} from './UserInfoActions'
 
 /*Removes the cooresponding category a user is in*/
 export const removeMatch = (category, matchID) => dispatch =>{
@@ -56,11 +56,10 @@ export const getCandidate = () => dispatch => {
             });
         }
         let userCategoryRef = firebase.database().ref('/users/');
-        //Iterate over all users in the database (problem: should stop once it finds someone, but right now it doesnt)
+        //Iterate over all users in the database (problem: should stop once it finds someone, but right now it doesnt. problem: shouldnt be alphabetical, should be random)
         userCategoryRef.once("value",
             function(snapshot2) {
                 snapshot2.forEach(potentialMatch=>{
-                    console.log("LOOK HERE", potentialMatch.val())
                     if(!result){
                     //Check that didn't match previously with them
                     if (!userMatches.includes(potentialMatch.key)) {
@@ -83,8 +82,12 @@ export const getCandidate = () => dispatch => {
                         return;
                     }
                 });
-                console.log('here')
-                result && dispatch(getAnotherUser(result, 'candidate'))
+                if(result){
+                    dispatch(getAnotherUser(result, 'candidate'))
+                }
+                else{
+                    dispatch(getAnotherUserSuccess('', 'candidate'))
+                }
             }
         )
     });
