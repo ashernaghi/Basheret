@@ -70,7 +70,7 @@ export const getCandidate = () => dispatch => {
                     if (!userMatches.includes(potentialMatch.key)) {
                         if (userGender != potentialMatch.val().info.gender) {
                             //check if potential match matched with you
-                            if (potentialMatch.val().matches.userID != undefined) {
+                            if (potentialMatch.val().matches!=undefined && potentialMatch.val().matches.userID != undefined) {
                                 if (potentialMatch.val().matches.userID.group != 'never') {
                                     console.log('RETURNING', potentialMatch.key)
                                     return potentialMatch.key;
