@@ -86,7 +86,7 @@ export const getCandidate = () => dispatch => {
                     dispatch(getAnotherUser(result, 'candidate'))
                 }
                 else{
-                    dispatch(getAnotherUserSuccess('', 'candidate'))
+                    dispatch(getAnotherUserSuccess(null, 'candidate'))
                 }
             }
         )

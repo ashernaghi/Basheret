@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {acceptMatch, declineMatch, getCandidate, mutualMatch} from '../actions/matchActions'
 import {showProfileScreen} from '../actions/UserInfoActions';
 
@@ -49,8 +49,12 @@ export class CandidatesScreen extends React.Component {
         </View>
       );
     }
-    else{
+    else if (this.props.candidate===null){
       return <Text>No Candidates Left To Show At This Time. Come Back Soon!</Text>;
+    }
+    //loading
+    else{
+      return <ActivityIndicator/>
     }
   }
 }
