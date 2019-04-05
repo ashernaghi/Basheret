@@ -39,16 +39,6 @@ export const getMatches = (category) => dispatch =>  {
     }
 }
 
-//Creates/updates the match category that the matching user belongs to
-export const addMatch = (category, matchID) => dispatch =>{
-
-    let user = firebase.auth().currentUser;
-    let userID = user.uid;
-    let userCategoryRef = firebase.database().ref('/users/'+userID+"/matches/"+matchID);
-    userCategoryRef.set({group: category});
-    dispatch(userMatchUpdateSuccess(category, matchID));
-};
-
 export const getCandidateSuccess = (candidate) => ({
     type: GET_MATCHES_SUCCESS,
     matches,
@@ -106,3 +96,23 @@ export const getCandidate = () => dispatch => {
 //right now these fns are just adding/removing from a single user's account. needs to happen across two accounts (user and candidate)
 
 //Categories should be matches, potential, and never. In the future there will be a function to check this.
+
+//This fn should be responsible for doing checks after user "accepts" another user
+// -> Is Nikkie in Asher's "potential" category? If so, put Asher in Nikkie's "matches", put Nikkie in Asher's "matches", and remove Nikkie from Asher's "potential"
+// -> If Nikkie is in Asher's "never" category , then put Asher in Nikkie's "never" category
+// -> If Nikkie is neither category yet, put Asher in Nikkie's "potential" category
+export const acceptMatch = (category, matchID) => dispatch =>{
+    let user = firebase.auth().currentUser;
+    let userID = user.uid;
+    let userCa
+    tegoryRef = firebase.database().ref('/users/'+userID+"/matches/"+matchID);
+    userCategoryRef.set({group: category});
+    dispatch(userMatchUpdateSuccess(category, matchID));
+};
+
+//This fn is responsible for doing the proper work after user "declines" another user: 
+// -> Put Asher in Nikkie's "never" category
+// -> Put Nikkie in Asher's "never" category
+// -> Remove Nikkie from Asher's "potential" category if she is in there
+export const declineMatch = (category, matchID) => dispatch =>{
+};
