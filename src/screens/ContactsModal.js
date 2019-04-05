@@ -55,8 +55,12 @@ export class ContactsModal extends React.Component {
 
   render() {
     return (
-      <View>
-    //{this._retrieveData()}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text>This feature is under construction...</Text>
+      <Button
+                   onPress={() => this.props.navigation.goBack()}
+                   title="Done"
+                   />
       </View>
   )
 

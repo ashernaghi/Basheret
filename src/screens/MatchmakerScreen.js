@@ -47,7 +47,8 @@ export class MatchmakerScreen extends React.Component {
             style={{}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.emptyCircleStyle}>
+          <TouchableOpacity style={styles.emptyCircleStyle}
+            onPress={this.props.navigate}>
             <Feather
             name="plus"
             size={25}

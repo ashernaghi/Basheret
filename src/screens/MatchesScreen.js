@@ -13,11 +13,11 @@ export class MatchesScreen extends React.Component {
           <View style={styles.matchCardStyle}>
 
             <View style={styles.imageStyle}>
-              <Text>Image</Text>
+              <Text>Img</Text>
             </View>
 
-            <View>
-              <Text key={index}>{matchCard.name}</Text>
+            <View style={styles.textStyle}>
+              <Text key={index} >{matchCard.name}</Text>
             </View>
           </View>
         )
@@ -30,6 +30,7 @@ export class MatchesScreen extends React.Component {
       <View style={{ flex: 1, alignSelf: 'stretch' }}>
         {this.generateMatchCards()}
       </View>
+
     );
   }
 }
@@ -49,19 +50,23 @@ const styles = StyleSheet.create({
   },
   matchCardStyle: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'pink',
-    justifyContent: 'flex-start',
-    alignSelf: 'flex-start',
+    borderBottomWidth: 0.75,
+    borderColor: 'grey',
+    height: 75,
   },
 
   imageStyle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: 'grey',
+    alignSelf: 'center',
+    margin: 10,
+    justifyContent: 'center',
+  },
 
-
-  }
+  textStyle: {
+    alignSelf: 'center',
+    marginLeft: 5,
+  },
 })
