@@ -56,7 +56,7 @@ export const getFile = (location) => dispatch => {
     let userID = user.uid;
     let storage = firebase.storage();
     let fileRef = storage.ref().child('/users/'+userID+'/'+location);
-    fileRef.getDownloadURL().then(function(url) => {
+    fileRef.getDownloadURL().then((url) => {
         return url;
     })
 }

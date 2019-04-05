@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import {getAnotherUser} from '../actions/UserInfoActions';
 
 export class MatchesScreen extends React.Component {
 
