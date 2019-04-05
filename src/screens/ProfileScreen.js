@@ -3,9 +3,9 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackg
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ProfileCard } from '../components/ProfileCard';
-import moment from 'moment';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import {showProfileScreen} from '../actions/UserInfoActions';
 
 export class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -44,6 +44,10 @@ export class ProfileScreen extends React.Component {
       }
     };
 
+  componentWillUnmount(){
+    this.props.dispatch(showProfileScreen('self'))
+  }
+
   render() {
     // console.log('AGE IS', moment().diff('1989-03-28', 'years'))
     return (
@@ -77,16 +81,29 @@ export class ProfileScreen extends React.Component {
   };
 }
 
-
 const mapStateToProps = state => {
-  return {
-    denomination: state.userInfo.user.info.denomination,
-    shabbatObservance: state.userInfo.user.info.shabbatObservance,
-    kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.name,
-    profilePhoto: state.userInfo.user.info.profilePhoto,
-    gender: state.userInfo.user.info.gender
-  };
+  console.log('IN PROFILE SCREEN MAP STATE TO PROPS')
+  if(state.nav.showProfileScreen==='self'){
+    return {
+      denomination: state.userInfo.user.info.denomination,
+      shabbatObservance: state.userInfo.user.info.shabbatObservance,
+      kashrutObservance: state.userInfo.user.info.kashrutObservance,
+      name: state.userInfo.user.info.name,
+      profilePhoto: state.userInfo.user.info.profilePhoto,
+      gender: state.userInfo.user.info.gender
+    };
+  }
+  else if(state.nav.showProfileScreen==='candidate'){
+    console.log('THE CANDIDATE INFO IS', state.userInfo.user.candidate)
+    return {
+      name: state.userInfo.user.candidate.name,
+      denomination: state.userInfo.user.candidate.denomination,
+      shabbatObservance: state.userInfo.user.candidate.shabbatObservance,
+      kashrutObservance: state.userInfo.user.candidate.kashrutObservance,
+      profilePhoto: state.userInfo.user.candidate.profilePhoto,
+      gender: state.userInfo.user.candidate.gender
+    }    
+  }
 };
 
 export default connect(mapStateToProps)(ProfileScreen);

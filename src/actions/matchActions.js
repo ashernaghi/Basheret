@@ -60,7 +60,7 @@ export const getCandidate = () => dispatch => {
                         if (genderPreference === potentialMatch.val().info.gender) {
                             //check if potential match matched with you
                             if (potentialMatch.val().matches!=undefined && potentialMatch.val().matches.userID != undefined) {
-                                if (potentialMatch.val().matches.userID.group != 'never') {
+                                if (potentialMatch.val().matches.userID.group != 'NEGATIVE_MATCH') {
                                     console.log('RETURNING', potentialMatch.key)
                                     result = potentialMatch.key;
                                 }
@@ -84,9 +84,9 @@ export const getCandidate = () => dispatch => {
 }
 
 //This fn is responsible for doing checks after user "accepts" another user
-// [] If Nikkie is in Asher's "POSITIVE_MATCH" category, then put Asher in Nikkie's "MUTUAL_MATCH", and change Nikkie to "MUTUAL_MATCH" in Asher's
+// [x] If Nikkie is in Asher's "POSITIVE_MATCH" category, then put Asher in Nikkie's "MUTUAL_MATCH", and change Nikkie to "MUTUAL_MATCH" in Asher's
 // [] If Nikkie is in Asher's "NEGATIVE_MATCH" category , then put Asher in Nikkie's "NEGATIVE_MATCH" category (supposedly never occurs - check)
-// [] If Nikkie is neither category yet, put Asher in Nikkie's "POSITIVE_MATCH" category
+// [x] If Nikkie is neither category yet, put Asher in Nikkie's "POSITIVE_MATCH" category
 export const acceptMatch = (matchID) => dispatch =>{
     let user = firebase.auth().currentUser;
     let userID = user.uid;
@@ -111,7 +111,6 @@ export const mutualMatch = (bool) => ({
     type: MUTUAL_MATCH_SCREEN,
     bool
 });
-
 
 //This fn is responsible for doing the proper work after user "declines" another user: 
 //[x] Put Asher in Nikkie's "NEGATIVE_MATCH" category and put Nikkie in Asher's "NEGATIVE_MATCH" category

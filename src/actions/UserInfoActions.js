@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS } from './types';
+import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
 
 export const userInfoUpdateSuccess = (category, subcategory, response) => ({
@@ -24,7 +24,7 @@ export const uploadFile = (location, rawFile) => dispatch => {
         })
 };
 
-export const getFile = (location, rawFile) => dispatch => {
+export const getFile = (location) => dispatch => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let storage = firebase.storage();
@@ -108,3 +108,10 @@ export const getAnotherUser = (userId, category) => dispatch  => {
         dispatch(getAnotherUserSuccess(candidate, category));
     })
 }
+
+export const showProfileScreen = (category) => ({
+    type: SHOW_PROFILE_SCREEN,
+    category
+});
+
+

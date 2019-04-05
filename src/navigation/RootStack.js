@@ -37,7 +37,8 @@ export default RootStack = createStackNavigator(
   {
     Main: { screen: MainStack },
     EditProfileModal: { screen: EditModalScreen},
-    ContactsModal: {screen: ContactsModal}
+    ContactsModal: {screen: ContactsModal},
+    CandidateModal: {screen: ProfileScreen}
   },
   {
     mode: 'modal',

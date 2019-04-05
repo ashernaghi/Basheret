@@ -56,8 +56,6 @@ export class IntroQuestionsScreen extends React.Component {
       this.props.dispatch(updateUserInfo('preferences', 'agePreference', [18, 39]));
       this.props.dispatch(updateUserInfo('preferences', 'distancePreference', 1000));
       this.props.dispatch(updateUserInfo('preferences', 'discoverable', true));
-      //need to initiate matches so later it doesnt fail: 
-      this.props.dispatch(updateUserInfo('matches', null, true));
       this.props.dispatch(updateUserInfo('initialSetupComplete', null, true));
 
       setTimeout( ()=> this.props.navigation.navigate('LoadingApp'), 500 )

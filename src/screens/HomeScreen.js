@@ -7,6 +7,7 @@ import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-
 import SwitchSelector from "react-native-switch-selector";
 import styles from '../styles/styles';
 import {getCandidate} from '../actions/matchActions';
+import {showProfileScreen} from '../actions/UserInfoActions';
 
 export class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,7 +27,9 @@ export class HomeScreen extends React.Component {
       },
       headerLeft: (
         <Ionicons
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => {
+            navigation.navigate('Profile')}
+          }
           name="ios-contact"
           size={32}
           color="grey"
@@ -50,7 +53,6 @@ export class HomeScreen extends React.Component {
   }
 
   componentDidMount(){
-    console.log('HOME MOUNTED')
     this.props.dispatch(getCandidate());
   }
 
@@ -61,7 +63,13 @@ export class HomeScreen extends React.Component {
       renderComponent = <Text>Oops, looks like we dont have access to your location. Please go to your settings to change this!</Text>
     }
     else if(this.state.show==='candidates'){
-      renderComponent = <CandidatesScreen/>
+      renderComponent = <CandidatesScreen
+      navigate={()=> {
+        this.props.dispatch(showProfileScreen('candidate'));
+        this.props.navigation.navigate('CandidateModal')}
+      }
+
+      />
     }
     else{
       renderComponent = <MatchmakerScreen
