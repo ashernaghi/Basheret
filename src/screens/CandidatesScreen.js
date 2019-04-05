@@ -19,35 +19,42 @@ export class CandidatesScreen extends React.Component {
     if(this.props.showMutualMatchScreen){
       this.startTimer()
       return (
-        <Text>Mazal Tov You Matched With {this.props.candidate.name}</Text>
+        <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 45, color: '#00387e', marginTop: 30 }}>Mazal Tov You Matched With {this.props.candidate.name}</Text>
       )
     }
     else if(this.props.candidate){
       return (
         <View style={{ flex: 1, alignSelf: 'stretch'}}>
-          <ImageBackground style={{ flex: 1, borderRadius: 20, backgroundColor: 'grey', margin: 20, justifyContent: 'flex-end',  }}   onPress={this.props.navigate}>
-          <View style={{ justifyContent: 'flex-end'  }}>
-
-          <TouchableOpacity
+          <TouchableOpacity style={{ flex: 1, borderRadius: 20, backgroundColor: 'grey', margin: 20, justifyContent: 'flex-end',  }}
             //show Profile Modal and change profile to 'candidate'
+            onPress={this.props.navigate}>
+            <ImageBackground style={{ flex: 1, justifyContent: 'flex-end', }}>
 
-          >
-            <Text style={{ margin: 30, fontSize: 17, fontWeight: 'bold', }}>{this.props.candidate.name}</Text>
+              <View style={{}}>
+
+                <View style={{}}>
+                  <Text style={{ marginLeft: 30, fontSize: 17, fontWeight: 'bold', padding: 10 }}>{this.props.candidate.name}</Text>
+                </View>
+
+                <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
+                  <MaterialCommunityIcons
+                    name='checkbox-marked-circle'
+                    onPress={()=>this.props.dispatch(acceptMatch(this.props.candidate.id))}
+                    size={50}
+                    style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+                  />
+                  <MaterialCommunityIcons
+                    name='close-circle'
+                    onPress={()=>this.props.dispatch(declineMatch(this.props.candidate.id))}
+                    size={50}
+                    style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+                  />
+                </View>
+
+              </View>
+
+            </ImageBackground>
           </TouchableOpacity>
-
-          <MaterialCommunityIcons
-            name='checkbox-marked-circle'
-            onPress={()=>this.props.dispatch(acceptMatch(this.props.candidate.id))}
-            size={30}
-          />
-          <MaterialCommunityIcons
-            name='close-circle'
-            onPress={()=>this.props.dispatch(declineMatch(this.props.candidate.id))}
-            size={30}
-          />
-          
-          </View>
-          </ImageBackground>
         </View>
       );
     }

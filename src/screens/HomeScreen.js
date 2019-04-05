@@ -68,7 +68,6 @@ export class HomeScreen extends React.Component {
         this.props.dispatch(showProfileScreen('candidate'));
         this.props.navigation.navigate('CandidateModal')}
       }
-
       />
     }
     else{

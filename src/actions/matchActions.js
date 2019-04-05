@@ -30,17 +30,17 @@ export const getMatches = () => dispatch =>  {
     if(user){
         let userID = user.uid;
         let userFirebase = firebase.database().ref('/users/'+userID+"/matches");
-        userFirebase.orderByChild("group").equalTo('MUTUAL_MATCH').once("value", 
+        userFirebase.orderByChild("group").equalTo('MUTUAL_MATCH').once("value",
             function(snapshot) {
                 snapshot.forEach(value=>{
-                    //for each match, get the info on that user: 
+                    //for each match, get the info on that user:
                     dispatch(getAnotherUser(value.key, 'matchesCards'))
                 });
         });
     }
 }
 
-/*Returns the id for the next candidate that matches gender preference and isn't already in your matches*/ 
+/*Returns the id for the next candidate that matches gender preference and isn't already in your matches*/
 export const getCandidate = () => dispatch => {
     console.log('GETTING CANDIDATE')
     let result=''; //change later
@@ -120,7 +120,7 @@ export const mutualMatch = (bool) => ({
     bool
 });
 
-//This fn is responsible for doing the proper work after user "declines" another user: 
+//This fn is responsible for doing the proper work after user "declines" another user:
 //[x] Put Asher in Nikkie's "NEGATIVE_MATCH" category and put Nikkie in Asher's "NEGATIVE_MATCH" category
 export const declineMatch = (matchID) => dispatch =>{
     let user = firebase.auth().currentUser;
