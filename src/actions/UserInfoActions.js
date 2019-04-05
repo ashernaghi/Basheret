@@ -10,12 +10,7 @@ export const userInfoUpdateSuccess = (category, subcategory, response) => ({
 });
 
 export const uploadProfilePicture = (rawFile) => dispatch => {
-    uploadFile('profilePicture', rawFile).then(function(url) => {
-        updateUserInfo('info', 'profilePhoto', url);
-    });
-}
-
-export const uploadFile = (location, rawFile) => dispatch => {
+    let location = 'profilePicture';
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let storage = firebase.storage();
@@ -43,8 +38,9 @@ export const uploadFile = (location, rawFile) => dispatch => {
             }, function() {
               // Handle successful uploads on complete
               // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-              uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+              fileUpload.snapshot.ref.getDownloadURL().then(function(downloadURL) {
                 console.log('File available at', downloadURL);
+                dispatch(updateUserInfo('info', 'profilePhoto', downloadURL));
                 return downloadURL;
               });
             });
