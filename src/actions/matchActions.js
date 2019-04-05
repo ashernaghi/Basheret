@@ -97,13 +97,13 @@ export const acceptMatch = (matchID) => dispatch =>{
         if (snapshot) {
             if (snapshot.val() === 'POSITIVE_MATCH') {
                 userCategoryRef.set({group: 'MUTUAL_MATCH'});
-                potentialMatchRef.update({group: 'MUTUAL_MATCH'});
+                potentialMatchRef.parent.set({group: 'MUTUAL_MATCH'});
                 dispatch(mutualMatch(true));
             }
             else{
                 dispatch(getCandidate());
-            }
         }
+    }
     });
 };
 
