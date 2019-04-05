@@ -1,24 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import {getAnotherUser} from '../actions/UserInfoActions';
 
 export class MatchesScreen extends React.Component {
-  
+
   generateMatchCards(){
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
-        //ASHER: make a card of the match here: 
-        return <Text key={index}>{matchCard.name}</Text>
+        //ASHER: make a card of the match here:
+        return (
+          <View key={index} style={styles.matchCardStyle}>
+
+            <View style={styles.imageStyle}>
+              <Text>Img</Text>
+            </View>
+
+            <View style={styles.textStyle}>
+              <Text key={index} >{matchCard.name}</Text>
+            </View>
+          </View>
+        )
       })
     }
   }
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignSelf: 'stretch' }}>
         {this.generateMatchCards()}
       </View>
+
     );
   }
 }
@@ -32,3 +44,29 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(MatchesScreen);
 
+const styles = StyleSheet.create({
+  containerStyle: {
+    flex: 1
+  },
+  matchCardStyle: {
+    flexDirection: 'row',
+    borderBottomWidth: 0.75,
+    borderColor: 'grey',
+    height: 75,
+  },
+
+  imageStyle: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'grey',
+    alignSelf: 'center',
+    margin: 10,
+    justifyContent: 'center',
+  },
+
+  textStyle: {
+    alignSelf: 'center',
+    marginLeft: 5,
+  },
+})

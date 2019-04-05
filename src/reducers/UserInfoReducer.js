@@ -58,7 +58,7 @@ export default (state = INITIAL_STATE, action) => {
           return Object.assign({}, state, {
             user: {
               ...state.user,
-              [action.category]: action.user
+              [action.category]: action.user,
           }
         });
       }
