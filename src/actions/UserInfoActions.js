@@ -93,6 +93,7 @@ export const getAnotherUser = (userId, category) => dispatch  => {
     let userFirebase = firebase.database().ref('/users/'+userId);
     userFirebase.once("value")
     .then(snapshot=>{
+        console.log('GETTING ANOTHER USR', snapshot.val().info)
         dispatch(getAnotherUserSuccess(snapshot.val().info, category));
     })
 }

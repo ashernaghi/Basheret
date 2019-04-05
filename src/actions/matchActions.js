@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, POSITIVE_MATCH, NEGATIVE_MATCH, MUTUAL_MATCH } from './types';
+import {getAnotherUser} from './UserInfoActions'
 
 export const userMatchUpdateSuccess = (category, matchId) => ({
     type: USER_MATCH_UPDATE_SUCCESS,
@@ -48,9 +49,16 @@ export const addMatch = (category, matchID) => dispatch =>{
     dispatch(userMatchUpdateSuccess(category, matchID));
 };
 
+export const getCandidateSuccess = (candidate) => ({
+    type: GET_MATCHES_SUCCESS,
+    matches,
+});
+
 //Get next candidate, returns the id for the next candidate that isn't the same gender and isn't already in your matches. 
 //Return empty string if none. 
 export const getCandidate = () => dispatch => {
+    console.log('GETTING CANDIDATE')
+    let result;
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     //Get database reference to current user
@@ -62,10 +70,11 @@ export const getCandidate = () => dispatch => {
             userMatches.push(value.key);
         });
         let userCategoryRef = firebase.database().ref('/users/');
-        //Iterate over all users in the database
+        //Iterate over all users in the database (problem: should stop once it finds someone, but right now it doesnt)
         userCategoryRef.on("value",
             function(snapshot2) {
                 snapshot2.forEach(potentialMatch=>{
+                    if(!result){
                     //Check that didn't match previously with them
                     if (!userMatches.includes(potentialMatch.key)) {
                         if (userGender != potentialMatch.val().info.gender) {
@@ -73,18 +82,22 @@ export const getCandidate = () => dispatch => {
                             if (potentialMatch.val().matches!=undefined && potentialMatch.val().matches.userID != undefined) {
                                 if (potentialMatch.val().matches.userID.group != 'never') {
                                     console.log('RETURNING', potentialMatch.key)
-                                    return potentialMatch.key;
+                                    result = potentialMatch.key;
                                 }
                             }
                             else {
                                 console.log('RETURNING', potentialMatch.key)
-                                return potentialMatch.key;
+                                result = potentialMatch.key;
                             }
                         }
                     }
+                    }
+                    else{
+                        return;
+                    }
                 });
-                console.log('RETURNING EMPTY STRING')
-                return '';
+                dispatch(getAnotherUser(result, 'candidate'))
+                // return result || '';
             }
         )
     });
