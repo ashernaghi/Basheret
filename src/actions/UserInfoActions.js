@@ -9,7 +9,7 @@ export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     category
 });
 
-export const uploadProfilePicture(rawFile) => dispatch => {
+export const uploadProfilePicture = (rawFile) => dispatch => {
     uploadFile('profilePicture', rawFile).then(function(url) => {
         updateUserInfo('info', 'profilePhoto', url);
     });
