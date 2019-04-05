@@ -6,7 +6,7 @@ import MatchmakerScreen from './MatchmakerScreen';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
 import styles from '../styles/styles';
-import {addMatch, removeMatch, getMatches} from '../actions/matchActions';
+import {addMatch, removeMatch, getMatches, getCandidate} from '../actions/matchActions';
 
 export class HomeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -51,7 +51,8 @@ export class HomeScreen extends React.Component {
 
   //testing: 
   componentDidMount(){
-    this.props.dispatch(addMatch('matches', '5HJqzzhyA0Vcgwt0fi5AYcxtTlO2'));
+    // this.props.dispatch(addMatch('matches', '5HJqzzhyA0Vcgwt0fi5AYcxtTlO2'));
+    this.props.dispatch(getCandidate());
   }
 
   render() {

@@ -72,15 +72,18 @@ export const getCandidate = () => dispatch => {
                             //check if potential match matched with you
                             if (potentialMatch.val().matches.userID != undefined) {
                                 if (potentialMatch.val().matches.userID.group != 'never') {
+                                    console.log('RETURNING', potentialMatch.key)
                                     return potentialMatch.key;
                                 }
                             }
                             else {
+                                console.log('RETURNING', potentialMatch.key)
                                 return potentialMatch.key;
                             }
                         }
                     }
                 });
+                console.log('RETURNING EMPTY STRING')
                 return '';
             }
         )
