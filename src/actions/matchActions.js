@@ -84,7 +84,7 @@ export const getCandidate = () => dispatch => {
                     }
                 });
                 console.log('here')
-                dispatch(getAnotherUser(result, 'candidate'))
+                result && dispatch(getAnotherUser(result, 'candidate'))
             }
         )
     });

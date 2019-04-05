@@ -49,7 +49,7 @@ export class ProfileScreen extends React.Component {
   }
 
   render() {
-    // console.log('AGE IS', moment().diff('1989-03-28', 'years'))
+    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years'))
     return (
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
