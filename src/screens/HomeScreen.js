@@ -50,6 +50,7 @@ export class HomeScreen extends React.Component {
   }
 
   componentDidMount(){
+    console.log('HOME MOUNTED')
     this.props.dispatch(getCandidate());
   }
 

@@ -1,12 +1,6 @@
 import * as firebase from 'firebase';
-import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, POSITIVE_MATCH, NEGATIVE_MATCH, MUTUAL_MATCH } from './types';
+import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN } from './types';
 import {getAnotherUser} from './UserInfoActions'
-
-export const userMatchUpdateSuccess = (category, matchId) => ({
-    type: USER_MATCH_UPDATE_SUCCESS,
-    category,
-    matchId
-});
 
 //Removes the cooresponding category a user is in
 export const removeMatch = (category, matchID) => dispatch =>{
@@ -28,7 +22,7 @@ export const getMatches = (category) => dispatch =>  {
     if(user){
         let userID = user.uid;
         let userFirebase = firebase.database().ref('/users/'+userID+"/matches");
-        userFirebase.orderByChild("group").equalTo(category).on("value", 
+        userFirebase.orderByChild("group").equalTo(category).once("value", 
             function(snapshot) {
                let matches = new Array();
                 snapshot.forEach(value=>{
@@ -47,7 +41,7 @@ export const getCandidate = () => dispatch => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     //Get database reference to current user
-    firebase.database().ref('/users/'+userID).on('value', function(snapshot) {
+    firebase.database().ref('/users/'+userID).once('value', function(snapshot) {
         let genderPreference =  snapshot.val().preferences.genderPreference;
         let userMatches = new Array();
         if(snapshot.val().matches){
@@ -57,7 +51,7 @@ export const getCandidate = () => dispatch => {
         }
         let userCategoryRef = firebase.database().ref('/users/');
         //Iterate over all users in the database (problem: should stop once it finds someone, but right now it doesnt)
-        userCategoryRef.on("value",
+        userCategoryRef.once("value",
             function(snapshot2) {
                 snapshot2.forEach(potentialMatch=>{
                     if(!result){
@@ -82,6 +76,7 @@ export const getCandidate = () => dispatch => {
                         return;
                     }
                 });
+                console.log('here')
                 dispatch(getAnotherUser(result, 'candidate'))
             }
         )
@@ -96,30 +91,36 @@ export const acceptMatch = (matchID) => dispatch =>{
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let userCategoryRef = firebase.database().ref('/users/'+userID+'/matches/'+matchID);
-    userCategoryRef.set({group: POSITIVE_MATCH});
+    userCategoryRef.set({group: 'POSITIVE_MATCH'});
     let potentialMatchRef = firebase.database().ref('/users/'+matchID+'/matches/'+userID+'/group');
     potentialMatchRef.once('value', function(snapshot) {
-        console.log(snapshot);
         if (snapshot) {
-            if (snapshot.val() === POSITIVE_MATCH) {
-                userCategoryRef.set({group: MUTUAL_MATCH});
-                potentialMatchRef.set({group: MUTUAL_MATCH});
+            if (snapshot.val() === 'POSITIVE_MATCH') {
+                userCategoryRef.set({group: 'MUTUAL_MATCH'});
+                potentialMatchRef.update({group: 'MUTUAL_MATCH'});
+                dispatch(mutualMatch(true));
+            }
+            else{
+                dispatch(getCandidate());
             }
         }
-        dispatch(userMatchUpdateSuccess(matchID));
     });
 };
 
+export const mutualMatch = (bool) => ({
+    type: MUTUAL_MATCH_SCREEN,
+    bool
+});
+
+
 //This fn is responsible for doing the proper work after user "declines" another user: 
-// -> Put Asher in Nikkie's "never" category
-// -> Put Nikkie in Asher's "never" category
-// -> Remove Nikkie from Asher's "potential" category if she is in there
-//This may be needed in the future, but not yet
+//[x] Put Asher in Nikkie's "NEGATIVE_MATCH" category and put Nikkie in Asher's "NEGATIVE_MATCH" category
 export const declineMatch = (matchID) => dispatch =>{
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let userCategoryRef = firebase.database().ref('/users/'+userID+'/matches/'+matchID);
     let potentialMatchRef = firebase.database().ref('/users/'+matchID+'/matches/'+userID);
-    userCategoryRef.set({group: NEGATIVE_MATCH});
-    potentialMatchRef.set({group: NEGATIVE_MATCH});
+    userCategoryRef.set({group: 'NEGATIVE_MATCH'});
+    potentialMatchRef.set({group: 'NEGATIVE_MATCH'});
+    dispatch(getCandidate());
 };
