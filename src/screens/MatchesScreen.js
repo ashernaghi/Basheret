@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import {getMatches} from '../actions/matchActions';
 
 export class MatchesScreen extends React.Component {
@@ -11,7 +11,6 @@ export class MatchesScreen extends React.Component {
   generateMatchCards(){
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
-        //ASHER: make a card of the match here:
         return (
           <View key={index} style={styles.matchCardStyle}>
 
@@ -20,7 +19,12 @@ export class MatchesScreen extends React.Component {
             </View>
 
             <View style={styles.textStyle}>
+              <TouchableOpacity
+              //show Profile Modal and change profile to 'candidate'
+              onPress={()=>this.props.navigate(matchCard)}
+              >
               <Text key={index} >{matchCard.name}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )

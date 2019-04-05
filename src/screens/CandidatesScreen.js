@@ -15,6 +15,7 @@ export class CandidatesScreen extends React.Component {
   }
 
   render() {
+    console.log('THE CANDIDATE IS', this.props.candidate)
     if(this.props.showMutualMatchScreen){
       this.startTimer()
       return (
@@ -50,9 +51,8 @@ export class CandidatesScreen extends React.Component {
         </View>
       );
     }
-    //we'd show loading:
     else{
-      return null;
+      return <Text>No Candidates Left To Show At This Time. Come Back Soon!</Text>;
     }
   }
 }
