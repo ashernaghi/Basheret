@@ -2,10 +2,6 @@ import * as firebase from 'firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN } from './types';
 import {getAnotherUser} from './UserInfoActions'
 
-export const POSITIVE_MATCH = 'POSITIVE_MATCH';
-export const NEGATIVE_MATCH = 'NEGATIVE_MATCH';
-export const MUTUAL_MATCH = 'MUTUAL_MATCH';
-
 //Removes the cooresponding category a user is in
 export const removeMatch = (category, matchID) => dispatch =>{
     console.log("removing"+category+matchID);

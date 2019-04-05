@@ -89,7 +89,10 @@ export const getUser = (props) => dispatch =>  {
                 this._getLocationAsync(dispatch);
                 dispatch(fetchUserSuccess(snapshot.val()));
                 for(let match in snapshot.val().matches){
-                    dispatch(getAnotherUser(match, 'matchesCards'))
+                    //not scalable
+                    if(snapshot.val().matches[match]['group']==='MUTUAL_MATCH'){
+                        dispatch(getAnotherUser(match, 'matchesCards'))
+                    }
                 }
                 setTimeout( ()=> props.navigation.navigate('App'), 2000 );
             }

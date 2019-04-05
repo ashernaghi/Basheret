@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Image, View, Text, TouchableHighlight, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { ImagePicker, Permissions } from 'expo';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import { updateUserInfo } from '../actions/UserInfoActions';
+import { updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions';
 import SaveButton from '../components/SaveButton';
 import { NextButton } from '../components/NextButton';
 import ImageActionSheet from '../components/ImageActionSheet';
@@ -62,7 +62,8 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        // this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        this.props.dispatch(uploadProfilePicture(result))
       }
     }
   };
@@ -77,7 +78,9 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        // this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        console.log('RESULT IS', result);
+        this.props.dispatch(uploadProfilePicture(result))
       }
     }
 
