@@ -10,13 +10,12 @@ export class MatchesScreen extends React.Component {
 
   generateMatchCards(){
     if(this.props.matchesCards) {
+      console.log(this.props.matchesCards)
       return this.props.matchesCards.map((matchCard, index)=>{
         return (
           <View key={index} style={styles.matchCardStyle}>
 
-            <View style={styles.imageStyle}>
-              <Text>Img</Text>
-            </View>
+            <Image style={styles.imageStyle} uri={this.props.matchesCards.profilePhoto}/>
 
             <View style={styles.textStyle}>
               <TouchableOpacity
