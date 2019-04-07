@@ -31,7 +31,7 @@ export class MatchmakerScreen extends React.Component {
   render() {
 
     return (
-      <View style={{ flex: 1, }}>
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
         <View style={{ alignSelf: 'center'}}>
           <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 40, color: '#00387e', marginTop: 30 }} >Matchmaker</Text>
         </View>
