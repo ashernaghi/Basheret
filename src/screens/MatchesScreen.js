@@ -14,8 +14,9 @@ export class MatchesScreen extends React.Component {
         return (
           <View key={index} style={styles.matchCardStyle}>
 
-            <View style={styles.imageStyle}>
-              <Text>Img</Text>
+            <View >
+            <Image source={{ uri: matchCard.profilePhoto }} 
+             />
             </View>
 
             <View style={styles.textStyle}>

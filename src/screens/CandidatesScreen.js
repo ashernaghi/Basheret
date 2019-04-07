@@ -19,12 +19,14 @@ export class CandidatesScreen extends React.Component {
     if(this.props.showMutualMatchScreen){
       this.startTimer()
       return (
-        <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 45, color: '#00387e', marginTop: 30 }}>Mazal Tov You Matched With {this.props.candidate.name}</Text>
+        <View style={{ flex: 1, alignSelf: 'center', backgroundColor: '#F4F4F4'}}>
+          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>Mazal Tov You Matched With {this.props.candidate.name}</Text>
+        </View>
       )
     }
     else if(this.props.candidate){
       return (
-        <View style={{ flex: 1, alignSelf: 'stretch'}}>
+        <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor: '#f4f4f4'}}>
           <TouchableOpacity style={{ flex: 1, borderRadius: 20, backgroundColor: 'grey', margin: 20, justifyContent: 'flex-end',  }}
             //show Profile Modal and change profile to 'candidate'
             onPress={this.props.navigate}>
@@ -33,7 +35,7 @@ export class CandidatesScreen extends React.Component {
               <View style={{}}>
 
                 <View style={{}}>
-                  <Text style={{ marginLeft: 30, fontSize: 17, fontWeight: 'bold', padding: 10 }}>{this.props.candidate.name}</Text>
+                  <Text style={{ marginLeft: 30, fontSize: 17, fontWeight: 'bold', paddingBottom: 40 }}>{this.props.candidate.name}</Text>
                 </View>
 
               </View>
@@ -44,11 +46,15 @@ export class CandidatesScreen extends React.Component {
       );
     }
     else if (this.props.candidate===null){
-      return <Text>No Candidates Left To Show At This Time. Come Back Soon!</Text>;
+      return( <View style={{ flex: 1, alignSelf: 'center', backgroundColor: '#F4F4F4'}}>
+              <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>No Candidates Left To Show.</Text>
+              <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 10, alignSelf: 'center' }}>Come Back Soon!</Text>
+                </View>
+      )
     }
     //loading
     else{
-      return <ActivityIndicator/>
+      return (<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}><ActivityIndicator/></View>)
     }
   }
 }

@@ -14,7 +14,7 @@ export class HomeScreen extends React.Component {
     return {
       title: 'Basheret',
       headerStyle: {
-        backgroundColor: '#fbfbfb',
+        backgroundColor: '#f4f4f4',
         shadowColor: 'transparent',
         borderBottomColor:'transparent',
         borderBottomWidth: 0
@@ -92,7 +92,7 @@ export class HomeScreen extends React.Component {
 
 
     return (
-      <View style={{flex: 1, alignItems: 'center', backgroundColor: '#fbfbfb' }}>
+      <View style={{flex: 1, alignItems: 'center', backgroundColor: '#F4F4F4' }}>
         <View style={{ width: 100, paddingTop: 20 }}>
           <SwitchSelector
             initial={0}

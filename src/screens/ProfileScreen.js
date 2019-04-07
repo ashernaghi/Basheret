@@ -54,7 +54,18 @@ export class ProfileScreen extends React.Component {
     return (
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
-          <View style={{ backgroundColor: '#F4F4F4' }}>
+          <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
+
+          {this.props.type==='candidate' &&
+          <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
+            <MaterialCommunityIcons
+              name='close'
+              onPress={()=>{this.props.navigation.goBack();}}
+              size={25}
+              style={{ marginTop: 10, marginRight: 10,}}
+            />
+          </View>
+          }
 
               <View style={styles.profilePhoto}>
 
@@ -74,7 +85,7 @@ export class ProfileScreen extends React.Component {
               <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
             </View>
 
-            {this.props.type==='candidate' && 
+            {this.props.type==='candidate' &&
             <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
               <MaterialCommunityIcons
                 name='close-circle'
@@ -96,7 +107,7 @@ export class ProfileScreen extends React.Component {
               />
             </View>
             }
-          </View>
+          </SafeAreaView>
 
         </ScrollView>
 
@@ -118,7 +129,7 @@ const mapStateToProps = state => {
       type: state.nav.showProfileScreen,
     };
   }
-  //this might be either candidate or match: 
+  //this might be either candidate or match:
   else if (state.userInfo.user[type]!==null){
     return {
       name: state.userInfo.user[type].name,
@@ -129,7 +140,7 @@ const mapStateToProps = state => {
       gender: state.userInfo.user[type].gender,
       id: state.userInfo.user[type].id,
       type: state.nav.showProfileScreen,
-    }    
+    }
   }
 };
 
