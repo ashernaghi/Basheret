@@ -62,8 +62,8 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        // this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
-        this.props.dispatch(uploadProfilePicture(result))
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        // this.props.dispatch(uploadProfilePicture(result))
       }
     }
   };
@@ -78,9 +78,9 @@ export class ChooseProfilePictureScreen extends Component {
         base64: false,
       });
       if(!result.cancelled){
-        // this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
         console.log('RESULT IS', result);
-        this.props.dispatch(uploadProfilePicture(result))
+        // this.props.dispatch(uploadProfilePicture(result))
       }
     }
 
