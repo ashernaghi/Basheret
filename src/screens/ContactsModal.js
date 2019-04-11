@@ -7,69 +7,45 @@ import { UnderlinedInput } from '../components/UnderlinedInput';
 import { ProfileCard } from '../components/ProfileCard';
 import {Header} from 'react-navigation'
 
-
 export class ContactsModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      contacts: [],
+    };
+  }
 
-//Workingish Code Starts Here
+  componentDidMount(){
+    this._retrieveData();
+  }
 
   _retrieveData = async () => {
   try {
-    const value = await Contacts.getContactsAsync({
-      fields:  [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails, Contacts.Fields.SocialProfiles, Contacts.Fields.Relationships,],
+    const { data } = await Contacts.getContactsAsync({
+      fields: [Contacts.Fields.PhoneNumbers],
     });
-
-    if (value !== null) {
-      //console.log(value.data.name[0])
-        let contactNameArray = []
-        value.data.forEach(userValue=>{
-          contactNameArray.push(userValue.name)
-        })
-        console.log(contactnamearray);
-        let betterContactNameArray = []
-        betterContactNameArray = contactnamearray.forEach(nameOfContact=>{<View><Text>{nameOfContact}</Text></View>
-        }
-        )
-        console.log('-------------')
-        console.log(betterContactNameArray);
-    } else {
-      return(<ActivityIndicator/>)
+    //data is an array of objects, so we will now set the state with this new information 
+    if (data !== null) {
+      this.setState({contacts: data});
+    } 
+    else {
+      console.log('IN ELSE')
+      return <ActivityIndicator/>
     }
-
-  } catch (error) {
+  } 
+  catch (error) {
     // Error retrieving data
+    console.log('THERE WAS AN ERROR')
   }
 };
 
-//Workingish Code Ends here
-
-  //
-  // async showContacts(){
-  //
-  //   const contacts = await Contacts.getContactsAsync({
-  //     fields:  [Contacts.Fields.PhoneNumbers, Contacts.Fields.Emails, Contacts.Fields.SocialProfiles, Contacts.Fields.Relationships,],
-  //   });
-  //
-  //   if (contacts.total > 0) {
-  //     return(<View><Text>Please Work</Text></View>)
-  //   } else {
-  //     return( <View><ActivityIndicator /></View>)
-  //   }
-  //
-  // }
-
+  generateContactCards = () => {
+    if(this.state.contacts.length){
+      return this.state.contacts.map(contact=><Text>{contact.firstName}</Text>)
+    }
+  }
 
   render() {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-  //     {}
-  //     <Text>This feature is under construction...</Text>
-  //     <Button
-  //                  onPress={() => this.props.navigation.goBack()}
-  //                  title="Done"
-  //                  />
-  //     </View>
-  // )
-
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
             <View  style={{ flex: 1, backgroundColor: 'blue', flexDirection: 'row', justifyContent: 'flex-end' }}>
@@ -83,7 +59,7 @@ export class ContactsModal extends React.Component {
             </View>
             <View style={{ flex: 18, backgroundColor: 'pink' }}>
             <ScrollView>
-            <Button title='Touch Me' onPress={() => this._retrieveData()}/>
+            {this.generateContactCards()}
             </ScrollView>
             </View>
 
