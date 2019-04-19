@@ -5,6 +5,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import EditModalScreen from  '../screens/EditModalScreen';
 import ContactsModal from '../screens/ContactsModal';
+import EditNameScreen from '../screens/EditNameScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -27,6 +28,7 @@ const MainStack = createStackNavigator({
   Social: { screen: SocialScreen },
   Profile: { screen: ProfileScreen },
   Settings: { screen: SettingsScreen },
+  EditName: { screen: EditNameScreen }
 },
 {
   initialRouteName: 'Home',

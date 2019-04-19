@@ -47,7 +47,7 @@ export class CandidatesScreen extends React.Component {
     }
     else if (this.props.candidate===null){
       return( <View style={{ flex: 1, alignSelf: 'center', backgroundColor: '#F4F4F4'}}>
-              <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>No Candidates Left To Show.</Text>
+              <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>No Candidates To Show.</Text>
               <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 10, alignSelf: 'center' }}>Come Back Soon!</Text>
                 </View>
       )

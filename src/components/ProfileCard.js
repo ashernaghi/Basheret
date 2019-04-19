@@ -1,16 +1,26 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-const ProfileCard = (props) => {
-  return(
-    <View style={styles.newCardStyle}>
-      <Text style={styles.titleStyle}>{props.title}</Text>
-      <Text style={styles.textStyle}>{props.content}</Text>
-    </View>
-  )
+class ProfileCard extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={};
+  }
+  
+  render() {
+    return(
+      <TouchableOpacity onPress={this.props.onPress}>
+      <View style={styles.newCardStyle}>
+        <Text style={styles.titleStyle}>{this.props.title}</Text>
+        <Text style={styles.textStyle}>{this.props.content}</Text>
+      </View>
+      </TouchableOpacity>
+    )
+  }
 }
 
-export { ProfileCard };
+export default withNavigation(ProfileCard);
 
 const styles = StyleSheet.create({
   newCardStyle: {

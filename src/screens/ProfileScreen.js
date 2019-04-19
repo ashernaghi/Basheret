@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
-import { ProfileCard } from '../components/ProfileCard';
+import ProfileCard from '../components/ProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
@@ -78,8 +78,11 @@ export class ProfileScreen extends React.Component {
               </View>
 
             <View style={{ backgroundColor: '#F4F4F4' }}>
-              <ProfileCard title= 'Name' content= {this.props.name} />
+              <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
+              <ProfileCard title= 'Age' content = '22' />
               <ProfileCard title= 'Gender' content= {this.props.gender} />
+              <ProfileCard title= 'Hometown' content = 'Los Angeles' />
+              <ProfileCard title= 'Location' content = 'New York' />
               <ProfileCard title= 'Denomination' content= {this.props.denomination} />
               <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
               <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
