@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TextInput, TouchableOpacity, Text, Button } from 'react-native';
+import { Container, Content, DatePicker } from 'native-base';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
@@ -7,7 +8,7 @@ import { UnderlinedInput } from '../components/UnderlinedInput';
 import {Header} from 'react-navigation'
 
 
-export class EditNameScreen extends React.Component {
+export class EditAgeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Basheret',
@@ -34,24 +35,44 @@ export class EditNameScreen extends React.Component {
     }
   };
 
+  constructor(props) {
+   super(props);
+   this.state = { chosenDate: new Date() };
+   this.setDate = this.setDate.bind(this);
+  }
+
+  setDate(newDate) {
+    this.setState({ chosenDate: newDate });
+  }
+
   render() {
     return (
             <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
 
               <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your name:</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your Birthday:</Text>
               </View>
 
-              <View style={{ flex: 1,}}>
-                <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-                  defaultValue={this.props.name}
-                />
-              </View>
-
-              <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Save button rather than done?</Text>
-              </View>
+              <View style={{flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'row'}} >
+                    <DatePicker
+                      defaultDate={new Date(2018, 4, 4)}
+                      minimumDate={new Date(2018, 1, 1)}
+                      maximumDate={new Date(2018, 12, 31)}
+                      locale={"en"}
+                      timeZoneOffsetInMinutes={undefined}
+                      modalTransparent={true}
+                      animationType={"fade"}
+                      androidMode={"default"}
+                      placeHolderText="Select date"
+                      textStyle={{ color: "green" }}
+                      placeHolderTextStyle={{ color: "#d3d3d3" }}
+                      onDateChange={this.setDate}
+                      disabled={false}
+                      />
+                      <Text>
+                        Date: {this.state.chosenDate.toString().substr(4, 12)}
+                      </Text>
+                </View>
 
             </View>
     );
@@ -69,4 +90,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(EditNameScreen);
+export default connect(mapStateToProps)(EditAgeScreen);
