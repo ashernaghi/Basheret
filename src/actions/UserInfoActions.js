@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import firebase from './firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
 
@@ -62,13 +62,16 @@ export const updateUserInfo = (category='', subcategory='', response) => dispatc
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
 	let userID = user.uid;
-    let userFirebase = firebase.database().ref(`/users/${userID}/${category}`);
+    let userFirestore = firebase.firestore().collection('users').doc(userID);
+    let userInfo = {};
     if(subcategory){
-        userFirebase.child(subcategory).set(response);
+        userInfo[category] = {}
+        userInfo[category][subcategory]=response;
     }
     else{
-        userFirebase.set(response);
+        userInfo[category]=response;
     }
+    userFirestore.set({userInfo}, {merge: true});
     dispatch(userInfoUpdateSuccess(category, subcategory, response));
 };
 
@@ -81,19 +84,27 @@ export const getUser = (props) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
         let userID = user.uid;
-        let userFirebase = firebase.database().ref('/users/'+userID);
-        userFirebase.once("value")
-        .then(snapshot=>{
-            if(snapshot.val().initialSetupComplete){
-                console.log('1.ASKING LOCATION')
-                this._getLocationAsync(dispatch);
-                dispatch(fetchUserSuccess(snapshot.val()));
-                setTimeout( ()=> props.navigation.navigate('App'), 2000 );
+        let userFirestore = firebase.firestore().collection('users').doc(userID);
+        userFirestore.get().then(function(doc) {
+            if (doc.exists) {
+                let data = doc.data();
+                if(data.userInfo && data.userInfo.initialSetupComplete){
+                    console.log('1.ASKING LOCATION')
+                    this._getLocationAsync(dispatch);
+                    dispatch(fetchUserSuccess(data.userInfo));
+                    setTimeout( ()=> props.navigation.navigate('App'), 2000 );
+                }
+                else{
+                    props.navigation.navigate('IntroQuestions');
+                }
+                console.log("Document data:", doc.data());
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
             }
-            else{
-                props.navigation.navigate('IntroQuestions');
-            }
-        })
+        }).catch(function(error) {
+            console.log("Error getting document:", error);
+        });
     }
     else{
         props.navigation.navigate('Onboarding');
@@ -118,15 +129,20 @@ export const getAnotherUserSuccess = (user, category) => ({
     category
 });
 
-//Fetches another user
 export const getAnotherUser = (userId, category) => dispatch  => {
-    let userFirebase = firebase.database().ref('/users/'+userId);
-    userFirebase.once("value")
-    .then(snapshot=>{
-        console.log('GETTING ANOTHER USR', snapshot.val().info);
-        let candidate = {'id': userId, ...snapshot.val().info}
-        dispatch(getAnotherUserSuccess(candidate, category));
-    })
+    let userFirestore = firebase.firestore().collection('users').doc(userID);
+    userFirestore.get().then(function(doc) {
+        if (doc.exists) {
+            console.log('GETTING ANOTHER USR', doc.data().userInfo.info);
+            let candidate = {'id': userId, ...doc.data().userInfo.info}
+            dispatch(getAnotherUserSuccess(candidate, category));
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
 }
 
 export const showProfileScreen = (category, card=null) => ({
