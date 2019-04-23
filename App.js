@@ -72,8 +72,6 @@ export default class App extends React.Component {
       );
     }
 
-    firebase.initializeApp(firebaseConfig);
-
     const store = createStore(reducers, applyMiddleware(thunk));
 
       return (
