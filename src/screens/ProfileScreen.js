@@ -79,7 +79,7 @@ export class ProfileScreen extends React.Component {
               </View>
 
             <View style={{ backgroundColor: '#F4F4F4' }}>
-              <MultilineProfileCard title='About Me' content={this.props.aboutMe} filled={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
+              <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
               <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
               <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>

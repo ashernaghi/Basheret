@@ -16,7 +16,7 @@ class MultilineProfileCard extends Component {
   // }
 
   renderCard(){
-    if(this.props.filled){
+    if(this.props.content){
       return(
         <TouchableOpacity onPress={this.props.onPress}>
           <View style={styles.newCardStyle}>
