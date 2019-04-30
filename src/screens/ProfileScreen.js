@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackg
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import ProfileCard from '../components/ProfileCard';
+import MultilineProfileCard from '../components/MultilineProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
@@ -78,9 +79,10 @@ export class ProfileScreen extends React.Component {
               </View>
 
             <View style={{ backgroundColor: '#F4F4F4' }}>
+              <MultilineProfileCard title='About Me' content={this.props.aboutMe} filled={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
               <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
-              <ProfileCard title= 'Gender' content= {this.props.gender} />
+              <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
               <ProfileCard title= 'Hometown' content = 'Los Angeles' />
               <ProfileCard title= 'Location' content = 'New York' />
               <ProfileCard title= 'Denomination' content= {this.props.denomination} />
@@ -130,6 +132,7 @@ const mapStateToProps = state => {
       profilePhoto: state.userInfo.user.info.profilePhoto,
       gender: state.userInfo.user.info.gender,
       type: state.nav.showProfileScreen,
+      aboutMe: state.userInfo.user.info.aboutMe,
     };
   }
   //this might be either candidate or match:

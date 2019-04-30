@@ -7,6 +7,8 @@ import EditModalScreen from  '../screens/EditModalScreen';
 import ContactsModal from '../screens/ContactsModal';
 import EditNameScreen from '../screens/EditNameScreen';
 import EditAgeScreen from '../screens/EditAgeScreen';
+import EditGenderScreen from '../screens/EditGenderScreen';
+import EditAboutMeScreen from '../screens/EditAboutMeScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -31,6 +33,8 @@ const MainStack = createStackNavigator({
   Settings: { screen: SettingsScreen },
   EditName: { screen: EditNameScreen },
   EditAge: { screen: EditAgeScreen },
+  EditGender: { screen: EditGenderScreen },
+  EditAboutMe: { screen: EditAboutMeScreen },
 },
 {
   initialRouteName: 'Home',

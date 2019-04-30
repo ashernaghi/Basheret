@@ -57,7 +57,7 @@ export const getFile = (location) => dispatch => {
     })
 }
 
-//Updates the user's information in the database: 
+//Updates the user's information in the database:
 export const updateUserInfo = (category='', subcategory='', response) => dispatch =>{
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
@@ -150,5 +150,3 @@ export const showProfileScreen = (category, card=null) => ({
     category,
     card
 });
-
-
