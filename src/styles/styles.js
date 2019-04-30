@@ -55,6 +55,7 @@ export default styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
     alignSelf: 'center',
+    justifyContent: 'flex-end',
 
   },
 })

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { Ionicons, Feather } from '@expo/vector-icons';
 
 
 class MultilineProfileCard extends Component {
@@ -11,26 +12,54 @@ class MultilineProfileCard extends Component {
     };
   }
 
-  // notEmptyFn(){
-  //   if
-  // }
 
   renderCard(){
     if(this.props.content){
       return(
-        <TouchableOpacity onPress={this.props.onPress}>
-          <View style={styles.newCardStyle}>
-            <Text style={styles.titleStyle}>{this.props.title}</Text>
-            <Text style={styles.textStyle}>{this.props.content}</Text>
+        <TouchableOpacity
+          onPress={this.props.onPress}
+          style={styles.newCardStyle}
+          >
+            <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
+
+              <View style={{flexDirection: 'column', marginRight: 5, }}>
+                <Text style={styles.titleStyle}>{this.props.title}</Text>
+                <Text style={styles.textStyle}>{this.props.content}</Text>
+              </View>
+
+              <View style={{ justifyContent: 'center', margin: 5}}>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  size={30}
+                  color="grey"
+                  style={{}}/>
+              </View>
+
           </View>
         </TouchableOpacity>
       )
     } else {
       return(
-        <TouchableOpacity onPress={this.props.onPress}>
-          <View style={styles.newCardStyle}>
-            <Text style={styles.titleStyle}>{this.props.title}</Text>
-            <Text style={styles.textStyle}>+++++++++++++++Empty symbols++++++++++++++</Text>
+        <TouchableOpacity
+          onPress={this.props.onPress}
+          style={styles.newCardStyle}
+          >
+            <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
+
+              <View style={{flexDirection: 'column', }}>
+                <Text style={styles.titleStyle}>{this.props.title}</Text>
+                <Text style={styles.textStyle}>++++++++++++++++++++++++++++++++</Text>
+              </View>
+
+              <View style={{ justifyContent: 'center'}}>
+                <Feather
+                name="plus"
+                size={30}
+                color="grey"
+                style={{}}
+                />
+              </View>
+
           </View>
         </TouchableOpacity>
     )
@@ -85,7 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "#fbfbfb",
     alignSelf: 'stretch',
-    padding: 10
+    padding: 10,
   },
 
   titleStyle: {

@@ -72,15 +72,15 @@ export class ProfileScreen extends React.Component {
 
                 <ImageBackground
                   source={{ uri: this.props.profilePhoto }}
-                  style={styles.profilePhoto}
-                  >
+                  style={styles.profilePhoto}>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
                   </ImageBackground>
 
               </View>
 
             <View style={{ backgroundColor: '#F4F4F4' }}>
-              <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
+              <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
               <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
               <ProfileCard title= 'Hometown' content = 'Los Angeles' />

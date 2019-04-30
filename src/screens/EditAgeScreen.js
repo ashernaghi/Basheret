@@ -39,10 +39,26 @@ export class EditAgeScreen extends React.Component {
    super(props);
    this.state = { chosenDate: new Date() };
    this.setDate = this.setDate.bind(this);
+   this.handlePress = this.handlePress.bind(this);
+   this.updateAge = this.updateAge.bind(this)
+   this.navigateBack = this.navigateBack.bind(this)
   }
 
   setDate(newDate) {
     this.setState({ chosenDate: newDate });
+      () => this.props.dispatch(updateUserInfo('info', 'birthday', this.state.chosenDate.toString().substr(4, 12)))
+  }
+
+  updateAge(){
+    () => this.props.dispatch(updateUserInfo('info', 'birthday', this.state.chosenDate.toString().substr(4, 12)))
+  }
+
+  navigateBack(){
+    () => this.props.navigation.navigate('Profile')
+  }
+  handlePress(){
+    this.updateAge();
+    this.navigateBack();
   }
 
   render() {
@@ -72,6 +88,11 @@ export class EditAgeScreen extends React.Component {
                       <Text>
                         Date: {this.state.chosenDate.toString().substr(4, 12)}
                       </Text>
+                      <TouchableOpacity
+                      style={{backgroundColor: 'blue'}}
+                      onPress={() => this.handlePress()}>
+                        <Text>Click</Text>
+                      </TouchableOpacity>
                 </View>
 
             </View>
