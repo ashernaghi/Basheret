@@ -6,7 +6,7 @@ import ProfileCard from '../components/ProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
-import {acceptMatch, declineMatch} from '../actions/matchActions'
+import {positiveMatch, negativeMatch} from '../actions/matchActions'
 
 export class ProfileScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -93,7 +93,7 @@ export class ProfileScreen extends React.Component {
               <MaterialCommunityIcons
                 name='close-circle'
                 onPress={()=>{
-                  this.props.dispatch(declineMatch(this.props.id));
+                  this.props.dispatch(negativeMatch(this.props.id));
                   this.props.navigation.goBack();
                 }}
                 size={50}
@@ -102,7 +102,7 @@ export class ProfileScreen extends React.Component {
               <MaterialCommunityIcons
                 name='checkbox-marked-circle'
                 onPress={()=>{
-                  this.props.dispatch(acceptMatch(this.props.id))
+                  this.props.dispatch(positiveMatch(this.props.id))
                   this.props.navigation.goBack()
                 }}
                 size={50}

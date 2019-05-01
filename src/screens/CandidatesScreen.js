@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import {acceptMatch, declineMatch, getCandidate, mutualMatch} from '../actions/matchActions'
+import {getCandidate, mutualMatch} from '../actions/matchActions'
 import {showProfileScreen} from '../actions/UserInfoActions';
 
 export class CandidatesScreen extends React.Component {
