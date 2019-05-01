@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackg
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import ProfileCard from '../components/ProfileCard';
+import MultilineProfileCard from '../components/MultilineProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
@@ -71,16 +72,17 @@ export class ProfileScreen extends React.Component {
 
                 <ImageBackground
                   source={{ uri: this.props.profilePhoto }}
-                  style={styles.profilePhoto}
-                  >
+                  style={styles.profilePhoto}>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
                   </ImageBackground>
 
               </View>
 
             <View style={{ backgroundColor: '#F4F4F4' }}>
               <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
+              <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
-              <ProfileCard title= 'Gender' content= {this.props.gender} />
+              <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
               <ProfileCard title= 'Hometown' content = 'Los Angeles' />
               <ProfileCard title= 'Location' content = 'New York' />
               <ProfileCard title= 'Denomination' content= {this.props.denomination} />
@@ -130,6 +132,7 @@ const mapStateToProps = state => {
       profilePhoto: state.userInfo.user.info.profilePhoto,
       gender: state.userInfo.user.info.gender,
       type: state.nav.showProfileScreen,
+      aboutMe: state.userInfo.user.info.aboutMe,
     };
   }
   //this might be either candidate or match:

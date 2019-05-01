@@ -25,7 +25,7 @@ export const loginWithFacebook = () => async (dispatch) => {
   dispatch(loginFacebookRequest());
 
   const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync
-  ('1073829486133421', { permissions: ['public_profile', 'user_friends'] })
+  ('1073829486133421', { permissions: ['public_profile'] })
 
   if (type === 'success') {
     const credential = firebase.auth.FacebookAuthProvider.credential(token)

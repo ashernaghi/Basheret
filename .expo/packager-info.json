@@ -4,6 +4,6 @@
   "packagerNgrokUrl": "https://packager.kx-wci.levinioey.basheret.exp.direct",
   "ngrokPid": 35449,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null
+  "packagerPort": 19001,
+  "packagerPid": 8329
 }
