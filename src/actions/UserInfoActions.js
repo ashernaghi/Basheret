@@ -71,7 +71,7 @@ export const updateUserInfo = (category='', subcategory='', response) => dispatc
     else{
         userInfo[category]=response;
     }
-    userFirestore.set({userInfo}, {merge: true});
+    userFirestore.set(userInfo, {merge: true});
     dispatch(userInfoUpdateSuccess(category, subcategory, response));
 };
 
@@ -88,16 +88,15 @@ export const getUser = (props) => dispatch =>  {
         userFirestore.get().then(function(doc) {
             if (doc.exists) {
                 let data = doc.data();
-                if(data.userInfo && data.userInfo.initialSetupComplete){
+                if(data.initialSetupComplete){
                     console.log('1.ASKING LOCATION')
                     this._getLocationAsync(dispatch);
-                    dispatch(fetchUserSuccess(data.userInfo));
+                    dispatch(fetchUserSuccess(data));
                     setTimeout( ()=> props.navigation.navigate('App'), 2000 );
                 }
                 else{
                     props.navigation.navigate('IntroQuestions');
                 }
-                console.log("Document data:", doc.data());
             } else {
                 // doc.data() will be undefined in this case
                 console.log("No such document!");
@@ -129,12 +128,12 @@ export const getAnotherUserSuccess = (user, category) => ({
     category
 });
 
-export const getAnotherUser = (userId, category) => dispatch  => {
+export const getAnotherUser = (userID, category) => dispatch  => {
     let userFirestore = firebase.firestore().collection('users').doc(userID);
     userFirestore.get().then(function(doc) {
         if (doc.exists) {
-            console.log('GETTING ANOTHER USR', doc.data().userInfo.info);
-            let candidate = {'id': userId, ...doc.data().userInfo.info}
+            console.log('GETTING ANOTHER USR', doc.data().info);
+            let candidate = {'id': userID, ...doc.data().info}
             dispatch(getAnotherUserSuccess(candidate, category));
         } else {
             // doc.data() will be undefined in this case

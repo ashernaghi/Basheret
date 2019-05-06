@@ -1,8 +1,14 @@
 {
   "expoServerPort": null,
+<<<<<<< HEAD
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
   "ngrokPid": null,
+=======
+  "expoServerNgrokUrl": "https://kx-wci.levinioey.basheret.exp.direct",
+  "packagerNgrokUrl": "https://packager.kx-wci.levinioey.basheret.exp.direct",
+  "ngrokPid": 35449,
+>>>>>>> 4cda5f782e2ef486302eb8e3f0d9f59fc61f2a3e
   "devToolsPort": 19002,
   "packagerPort": null,
   "packagerPid": null,

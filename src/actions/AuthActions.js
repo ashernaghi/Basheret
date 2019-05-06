@@ -5,6 +5,7 @@ import {
   LOGIN_FACEBOOK_ERROR
 } from './types';
 import { updateUserInfo } from './UserInfoActions';
+import { initializeMatches } from './matchActions';
 
 export const loginFacebookRequest = () => ({
   type: LOGIN_FACEBOOK_REQUEST,
@@ -44,3 +45,9 @@ export const loginWithFacebook = () => async (dispatch) => {
     dispatch(loginFacebookError(type))
   }
 }
+
+
+
+
+
+
