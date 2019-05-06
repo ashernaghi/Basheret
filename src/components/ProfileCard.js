@@ -7,16 +7,28 @@ class ProfileCard extends React.Component {
     super(props);
     this.state={};
   }
-  
+
   render() {
-    return(
-      <TouchableOpacity onPress={this.props.onPress}>
-      <View style={styles.newCardStyle}>
-        <Text style={styles.titleStyle}>{this.props.title}</Text>
-        <Text style={styles.textStyle}>{this.props.content}</Text>
-      </View>
-      </TouchableOpacity>
-    )
+    if(this.props.content){
+      return(
+        <TouchableOpacity onPress={this.props.onPress}>
+        <View style={styles.newCardStyle}>
+          <Text style={styles.titleStyle}>{this.props.title}</Text>
+          <Text style={styles.textStyle}>{this.props.content}</Text>
+        </View>
+        </TouchableOpacity>
+      )
+    } else {
+      return(
+        <TouchableOpacity onPress={this.props.onPress}>
+        <View style={styles.newCardStyle}>
+          <Text style={styles.titleStyle}>{this.props.title}</Text>
+          <Text style={styles.textStyle}>Empty</Text>
+        </View>
+        </TouchableOpacity>
+      )
+    }
+
   }
 }
 

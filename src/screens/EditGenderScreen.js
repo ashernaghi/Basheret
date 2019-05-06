@@ -5,6 +5,8 @@ import {Header} from 'react-navigation'
 import OptionButton from '../components/OptionButton';
 import { NextButton } from '../components/NextButton';
 import { DisabledNextButton } from '../components/DisabledNextButton';
+import { updateUserInfo } from '../actions/UserInfoActions';
+
 
 
 
@@ -36,60 +38,30 @@ export class EditGenderScreen extends Component {
     }
   };
 
-  constructor(props){
-    super(props);
-    this.state={
-      selected: ''
-    }
-  }
-
 
   ////////
   buttonDisplay(){
-    if (this.state.selected==='Female'){
+    if (this.props.gender==='Female'){
       return(
       <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-        <OptionButton label='Male' onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleUnselected} />
-        <OptionButton label='Female' onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Male' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleSelected} />
       </View>)
-    } else if (this.state.selected==='Male') {
+    } else if (this.props.gender==='Male') {
       return(
       <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-        <OptionButton label='Male'  onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleSelected} />
-        <OptionButton label='Female' onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Male'  onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleUnselected} />
       </View>)
     } else {
       return(
     <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-      <OptionButton label='Male' onPress={()=>this.buttonSelected("Male")} style={styles.optionButtonStyleUnselected} />
-      <OptionButton label='Female' onPress={()=>this.buttonSelected("Female")} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Male' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleUnselected} />
     </View>)
     }
   }
 
-  buttonSelected(str=""){
-    this.setState({ selected: str })
-    console.log(this.state.selected)
-
-  }
-
-  nextButton(){
-    if(this.state.selected){
-      return(
-        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <NextButton onPress={()=>this.onPress(this.state.selected)} >Next</NextButton>
-        </View>
-      )
-    } else {
-      return(
-        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <DisabledNextButton>Next</DisabledNextButton>
-        </View>
-      )
-    }
-  }
-
-  //////
 
   render(){
     return(
@@ -100,8 +72,6 @@ export class EditGenderScreen extends Component {
       </View>
 
       {this.buttonDisplay()}
-
-      {this.nextButton()}
 
     </View>
   )
