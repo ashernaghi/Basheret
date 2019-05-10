@@ -40,48 +40,48 @@ export class EditAgeScreen extends React.Component {
    super(props);
    this.state = { chosenDate: new Date() };
    this.setDate = this.setDate.bind(this);
-   this.handlePress = this.handlePress.bind(this);
-   this.updateAge = this.updateAge.bind(this)
+   // this.handlePress = this.handlePress.bind(this);
+   // this.updateAge = this.updateAge.bind(this)
    this.navigateBack = this.navigateBack.bind(this)
-   this.calculateAge = this.calculateAge.bind(this)
+   // this.calculateAge = this.calculateAge.bind(this)
   }
 
   setDate(newDate) {
-    this.setState({ chosenDate: newDate });
+    this.props.dispatch(updateUserInfo('info', 'birthday', newDate ))
   }
 
-  updateAge(){
-    this.props.dispatch(updateUserInfo('info', 'birthday', this.state.chosenDate.toString().substr(4, 12)))
-  }
+  // updateAge(){
+  //   this.props.dispatch(updateUserInfo('info', 'birthday', this.state.chosenDate.toString().substr(4, 12)))
+  // }
 
   navigateBack(){
     this.props.navigation.navigate('Profile')
   }
 
-  handlePress(){
-    this.updateAge();
-    this.navigateBack();
-  }
+  // handlePress(){
+  //   this.updateAge();
+  //   this.navigateBack();
+  // }
 
-  calculateAge(){
-    let todayDate = new Date()
-    let todayYear = todayDate.getFullYear();
-    let todayMonth = todayDate.getMonth();
-    let todayDay = todayDate.getDay();
-    console.log(todayDate) // 2019-05-03T06:12:07.542Z
-    console.log(this.props.birthday) //Oct 31 2014
-    console.log(this.state.chosenDate.getMonth()) //chosen date resets every time you refresh the state
-    if(todayMonth < this.props.birthday.toString().substr(7, 12)){
-      console.log(this.props.birthday.toString().substr(0, 12))
-    }
-    let userAge= new Date().getFullYear() - this.props.birthday.toString().substr(7, 12);
-
-
-
-
-
-    return userAge
-  }
+  // calculateAge(){
+  //   let todayDate = new Date()
+  //   let todayYear = todayDate.getFullYear();
+  //   let todayMonth = todayDate.getMonth();
+  //   let todayDay = todayDate.getDay();
+  //   console.log(todayDate) // 2019-05-03T06:12:07.542Z
+  //   console.log(this.props.birthday) //Oct 31 2014
+  //   console.log(this.state.chosenDate.getMonth()) //chosen date resets every time you refresh the state
+  //   if(todayMonth < this.props.birthday.toString().substr(7, 12)){
+  //     console.log(this.props.birthday.toString().substr(0, 12))
+  //   }
+  //   let userAge= new Date().getFullYear() - this.props.birthday.toString().substr(7, 12);
+  //
+  //
+  //
+  //
+  //
+  //   return userAge
+  // }
 
   render() {
     return (
@@ -106,16 +106,16 @@ export class EditAgeScreen extends React.Component {
                       placeHolderTextStyle={{ color: "#d3d3d3" }}
                       onDateChange={this.setDate}
                       disabled={false}
-                      format="YYYY-MM-DD"
+                      format="DD-MM-YYYY"
                       />
                       <Text>
-                        Date: {this.props.birthday.toString().substr(0, 12)}
+                        //Date: {this.props.birthday.toString().substr(0, 12)}
                       </Text>
                 </View>
 
                 <View style={{ flex: 1 }}>
-                  <NextButton onPress={() => this.handlePress()}>Save</NextButton>
-                  <NextButton onPress={() => console.log(this.calculateAge())}>Date Tester</NextButton>
+                  //<NextButton onPress={() => this.handlePress()}>Save</NextButton>
+                  //<NextButton onPress={() => console.log(this.calculateAge())}>Date Tester</NextButton>
                 </View>
 
             </View>

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
+import { NextButton } from '../components/NextButton';
 import {Header} from 'react-navigation'
 
 
@@ -54,6 +55,13 @@ export class EditAboutMeScreen extends React.Component {
                   defaultValue={this.props.aboutMe}
                 />
               </View>
+
+              <View style={{ flex: 1 }}>
+                <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
+                <Text>Done</Text>
+                </NextButton>
+              </View>
+
 
             </View>
     );

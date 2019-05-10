@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
-import { NextButton } from '../components/NextButton';
 import {Header} from 'react-navigation'
+import  { NextButton } from '../components/NextButton';
 
 
-export class EditNameScreen extends React.Component {
+export class EditHometownScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Basheret',
@@ -40,13 +40,13 @@ export class EditNameScreen extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
 
               <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your name:</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your Hometown:</Text>
               </View>
 
               <View style={{ flex: 1,}}>
                 <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-                  defaultValue={this.props.name}
+                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'hometown', text))}
+                  defaultValue={this.props.hometown}
                 />
               </View>
 
@@ -68,8 +68,9 @@ const mapStateToProps = state => {
     kashrutObservance: state.userInfo.user.info.kashrutObservance,
     name: state.userInfo.user.info.name,
     profilePhoto: state.userInfo.user.info.profilePhoto,
-    gender: state.userInfo.user.info.gender
+    gender: state.userInfo.user.info.gender,
+    hometown: state.userInfo.user.info.hometown,
   };
 };
 
-export default connect(mapStateToProps)(EditNameScreen);
+export default connect(mapStateToProps)(EditHometownScreen);

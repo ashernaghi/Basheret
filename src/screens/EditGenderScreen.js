@@ -73,6 +73,12 @@ export class EditGenderScreen extends Component {
 
       {this.buttonDisplay()}
 
+      <View style={{ flex: 1 }}>
+        <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
+        <Text>Done</Text>
+        </NextButton>
+      </View>
+      
     </View>
   )
   }

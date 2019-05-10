@@ -83,12 +83,13 @@ export class ProfileScreen extends React.Component {
               <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
               <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
               <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
-              <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
-              <ProfileCard title= 'Hometown' content = 'Los Angeles' />
-              <ProfileCard title= 'Location' content = 'New York' />
               <ProfileCard title= 'Denomination' content= {this.props.denomination} />
               <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
               <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
+              <ProfileCard title= 'Hometown' content = {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
+              <ProfileCard title= 'Location' content = '' />
+              <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
+
             </View>
 
             {this.props.type==='candidate' &&
@@ -135,6 +136,7 @@ const mapStateToProps = state => {
       type: state.nav.showProfileScreen,
       aboutMe: state.userInfo.user.info.aboutMe,
       shomer: state.userInfo.user.info.shomer,
+      hometown: state.userInfo.user.info.hometown,
 
     };
   }

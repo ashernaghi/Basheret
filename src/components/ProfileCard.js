@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { Ionicons, Feather } from '@expo/vector-icons';
+
 
 class ProfileCard extends React.Component {
   constructor(props){
@@ -11,20 +13,52 @@ class ProfileCard extends React.Component {
   render() {
     if(this.props.content){
       return(
-        <TouchableOpacity onPress={this.props.onPress}>
-        <View style={styles.newCardStyle}>
-          <Text style={styles.titleStyle}>{this.props.title}</Text>
-          <Text style={styles.textStyle}>{this.props.content}</Text>
-        </View>
+        <TouchableOpacity
+        style={styles.newCardStyle}
+        onPress={this.props.onPress}>
+
+          <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between', alignItems: 'center',  }}>
+
+            <View>
+              <Text style={styles.titleStyle}>{this.props.title}</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
+              <Text style={styles.textStyle}>{this.props.content}</Text>
+              <Ionicons
+                name="ios-arrow-forward"
+                size={30}
+                color="grey"
+                style={{ marginLeft: 8, }}/>
+            </View>
+
+          </View>
+
         </TouchableOpacity>
       )
     } else {
       return(
-        <TouchableOpacity onPress={this.props.onPress}>
-        <View style={styles.newCardStyle}>
-          <Text style={styles.titleStyle}>{this.props.title}</Text>
-          <Text style={styles.textStyle}>Empty</Text>
-        </View>
+        <TouchableOpacity
+        style={styles.newCardStyle}
+        onPress={this.props.onPress}>
+
+          <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between', alignItems: 'center',  }}>
+
+            <View>
+              <Text style={styles.titleStyle}>{this.props.title}</Text>
+            </View>
+
+            <View style={{ justifyContent: 'center' }}>
+              <Feather
+              name="plus"
+              size={30}
+              color="grey"
+              style={{}}
+              />
+            </View>
+
+          </View>
+
         </TouchableOpacity>
       )
     }
@@ -40,9 +74,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 8,
     padding: 6,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-
   },
 
   cardStyle: {
@@ -67,9 +98,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Helvetica Neue',
     fontWeight: 'bold',
-    paddingTop: 5,
-    paddingLeft: 5,
     justifyContent: 'center',
+    paddingLeft: 5,
 
   },
 
