@@ -125,12 +125,6 @@ export class EditAgeScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
-    shabbatObservance: state.userInfo.user.info.shabbatObservance,
-    kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.name,
-    profilePhoto: state.userInfo.user.info.profilePhoto,
-    gender: state.userInfo.user.info.gender,
     birthday: state.userInfo.user.info.birthday,
   };
 };

@@ -25,13 +25,7 @@ export class EditAboutMeScreen extends React.Component {
         fontFamily: 'fitamint-script',
         fontSize: 30
       },
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('Profile')}
-          title="Done"
-          style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
-        />
-      ),
+      headerRight: null,
       headerLeft: null,
     }
   };
@@ -70,12 +64,6 @@ export class EditAboutMeScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
-    shabbatObservance: state.userInfo.user.info.shabbatObservance,
-    kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.name,
-    profilePhoto: state.userInfo.user.info.profilePhoto,
-    gender: state.userInfo.user.info.gender,
     aboutMe: state.userInfo.user.info.aboutMe,
   };
 };

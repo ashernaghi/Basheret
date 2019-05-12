@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {Header} from 'react-navigation'
 import OptionButton from '../components/OptionButton';
 import { NextButton } from '../components/NextButton';
 import { DisabledNextButton } from '../components/DisabledNextButton';
 import { updateUserInfo } from '../actions/UserInfoActions';
-
-
-
 
 
 export class EditGenderScreen extends Component {
@@ -27,19 +24,12 @@ export class EditGenderScreen extends Component {
         fontFamily: 'fitamint-script',
         fontSize: 30
       },
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('Profile')}
-          title="Done"
-          style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
-        />
-      ),
+      headerRight: null,
       headerLeft: null,
     }
   };
 
 
-  ////////
   buttonDisplay(){
     if (this.props.gender==='Female'){
       return(
@@ -78,7 +68,7 @@ export class EditGenderScreen extends Component {
         <Text>Done</Text>
         </NextButton>
       </View>
-      
+
     </View>
   )
   }
@@ -86,11 +76,6 @@ export class EditGenderScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
-    shabbatObservance: state.userInfo.user.info.shabbatObservance,
-    kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.name,
-    profilePhoto: state.userInfo.user.info.profilePhoto,
     gender: state.userInfo.user.info.gender
   };
 };

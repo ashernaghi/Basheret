@@ -156,21 +156,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ProfileScreen);
-
-
-
-//
-// <View>
-//   <TouchableOpacity
-//     onPress={()=>this.props.navigation.navigate('EditProfileModal')}
-//     style={{ width: 137, height: 41, backgroundColor: '#00387e', borderRadius: 30, margin: 10, alignSelf: 'center', justifyContent: 'center', flexDirection: 'row', }}
-//   >
-//     <MaterialIcons
-//       name="edit"
-//       size={16}
-//       color="white"
-//       style={{ alignSelf: 'center', justifyContent: 'center', marginRight: 4, }}
-//     />
-//     <Text style={{ color: 'white', alignSelf: 'center',}}>Edit Profile</Text>
-//   </TouchableOpacity>
-/// </View>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import {Header} from 'react-navigation'
 import OptionButton from '../components/OptionButton';
+import { NextButton } from '../components/NextButton';
 import { updateUserInfo } from '../actions/UserInfoActions';
 
 
@@ -11,7 +12,7 @@ export class EditShomerScreen extends Component {
     super(props);
     this.generateButtons.bind(this)
   }
-  
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Basheret',
@@ -27,18 +28,12 @@ export class EditShomerScreen extends Component {
         fontFamily: 'fitamint-script',
         fontSize: 30
       },
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('Profile')}
-          title="Done"
-          style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
-        />
-      ),
+      headerRight: null,
       headerLeft: null,
     }
   };
 
-  generateButtons(){ //you can generate the state by storing it directly in the database not having a local state - problem is you need to also be able to delete
+  generateButtons(){
       if(this.props.shomer==="Yes") {
         return(
         <View style={{ flex: 1 }}>
@@ -111,6 +106,13 @@ export class EditShomerScreen extends Component {
     return(
       <View style={{flex: 1, backgroundColor: '#F4F4F4'}}>
         {this.generateButtons()}
+
+        <View style={{ flex: 1 }}>
+          <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
+          <Text>Done</Text>
+          </NextButton>
+        </View>
+
       </View>
     )
   }
@@ -118,13 +120,6 @@ export class EditShomerScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
-    shabbatObservance: state.userInfo.user.info.shabbatObservance,
-    kashrutObservance: state.userInfo.user.info.kashrutObservance,
-    name: state.userInfo.user.info.name,
-    profilePhoto: state.userInfo.user.info.profilePhoto,
-    gender: state.userInfo.user.info.gender,
-    birthday: state.userInfo.user.info.birthday,
     shomer: state.userInfo.user.info.shomer,
   };
 };
@@ -168,7 +163,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 7,
   },
-
-
-
 })
