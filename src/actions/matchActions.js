@@ -101,10 +101,10 @@ export const negativeMatch = (matchID) => dispatch => {
     let matchRef = firebase.firestore().collection('users').doc(matchID);
     let userRef = firebase.firestore().collection('users').doc(userID);
     removeMatch(matchRef, POSITIVE_MATCH, userID);
-    removePotential(userRef, matchID);
-    removePotential(matchRef, userID);
+    dispatch(removePotential(userRef, matchID));
+    dispatch(removePotential(matchRef, userID));
     addMatch(userRef, NEGATIVE_MATCH, userID);
-    addMatch(matchID, NEGATIVE_MATCH, matchID);
+    addMatch(matchRef, NEGATIVE_MATCH, matchID);
 }
 
 //Given a userID, check if they are in the potential matches collection
@@ -133,7 +133,7 @@ export const positiveMatch = (matchID) => dispatch => {
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
         console.log('pos match', matchCategory);
-        removePotential(userRef, matchID);
+        dispatch(removePotential(userRef, matchID));
         if (matchCategory === POSITIVE_MATCH) {
             addMatch(userRef, MUTUAL_MATCH, matchID);
             addMatch(matchRef, MUTUAL_MATCH, userID);
@@ -141,7 +141,7 @@ export const positiveMatch = (matchID) => dispatch => {
         }
         else {
             addMatch(userRef, POSITIVE_MATCH, matchID);
-            addPotential(matchRef, userID);
+            dispatch(addPotential(matchRef, userID));
         }
     })
 }
