@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackg
 import { connect } from 'react-redux';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
+import CandidateProfileCard from '../components/CandidateProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
@@ -51,48 +52,35 @@ export class ProfileScreen extends React.Component {
   }
 
   render() {
-    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years'))
+    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')), 
     return (
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
           <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
 
           {this.props.type==='candidate' &&
-          <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
-            <MaterialCommunityIcons
-              name='close'
-              onPress={()=>{this.props.navigation.goBack();}}
-              size={25}
-              style={{ marginTop: 10, marginRight: 10,}}
-            />
-          </View>
-          }
-
-              <View style={styles.profilePhoto}>
-
-                <ImageBackground
-                  source={{ uri: this.props.profilePhoto }}
-                  style={styles.profilePhoto}>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
-                  </ImageBackground>
-
-              </View>
-
-            <View style={{ backgroundColor: '#F4F4F4' }}>
-              <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
-              <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
-              <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
-              <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
-              <ProfileCard title= 'Denomination' content= {this.props.denomination} />
-              <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
-              <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
-              <ProfileCard title= 'Hometown' content = {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
-              <ProfileCard title= 'Location' content = '' />
-              <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
-
+          <View>
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
+              <MaterialCommunityIcons
+                name='close'
+                onPress={()=>{this.props.navigation.goBack();}}
+                size={25}
+                style={{ marginTop: 10, marginRight: 10,}}
+              />
             </View>
 
-            {this.props.type==='candidate' &&
+            <View>
+              <CandidateProfileCard title= 'Name' content= {this.props.name} />
+              <CandidateProfileCard title= 'Age' content = '22' />
+              <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
+              <CandidateProfileCard title= 'Denomination' content= {this.props.denomination} />
+              <CandidateProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
+              <CandidateProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
+              <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
+              <CandidateProfileCard title= 'Location' content = '' />
+              <CandidateProfileCard title= 'Shomer' content= {this.props.shomer} />
+            </View>
+
             <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
               <MaterialCommunityIcons
                 name='close-circle'
@@ -113,7 +101,38 @@ export class ProfileScreen extends React.Component {
                 style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
               />
             </View>
-            }
+
+          </View>
+          }
+
+              {this.props.type==='self' &&
+            <View style={{ flex: 1, }}>
+              <View style={styles.profilePhoto}>
+
+                <ImageBackground
+                  source={{ uri: this.props.profilePhoto }}
+                  style={styles.profilePhoto}>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
+                  </ImageBackground>
+
+              </View>
+
+              <View style={{ backgroundColor: '#F4F4F4' }}>
+
+                <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
+                <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
+                <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
+                <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
+                <ProfileCard title= 'Denomination' content= {this.props.denomination} />
+                <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
+                <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
+                <ProfileCard title= 'Hometown' content = {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
+                <ProfileCard title= 'Location' content = '' />
+                <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
+
+              </View>
+            </View>}
+
           </SafeAreaView>
 
         </ScrollView>
