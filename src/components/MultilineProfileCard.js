@@ -48,7 +48,7 @@ class MultilineProfileCard extends Component {
 
               <View style={{flexDirection: 'column', }}>
                 <Text style={styles.titleStyle}>{this.props.title}</Text>
-                <Text style={styles.textStyle}>++++++++++++++++++++++++++++++++</Text>
+                <Text style={styles.emptyTextStyle}>Tell us about yourself...</Text>
               </View>
 
               <View style={{ justifyContent: 'center'}}>
@@ -130,6 +130,15 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 15,
     fontFamily: 'Helvetica Neue',
+    padding: 5,
+    justifyContent: 'center',
+
+  },
+
+  emptyTextStyle: {
+    fontSize: 15,
+    fontFamily: 'Helvetica Neue',
+    color: 'grey',
     padding: 5,
     justifyContent: 'center',
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
 import CandidateProfileCard from '../components/CandidateProfileCard';
+import CandidateMultilineProfileCard from '../components/CandidateMultilineProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import {showProfileScreen} from '../actions/UserInfoActions';
@@ -52,7 +53,7 @@ export class ProfileScreen extends React.Component {
   }
 
   render() {
-    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')), 
+    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
@@ -69,8 +70,19 @@ export class ProfileScreen extends React.Component {
               />
             </View>
 
+            <View style={styles.profilePhoto}>
+
+              <ImageBackground
+                source={{ uri: this.props.profilePhoto }}
+                style={styles.profilePhoto}>
+                <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
+                </ImageBackground>
+
+            </View>
+
             <View>
               <CandidateProfileCard title= 'Name' content= {this.props.name} />
+              <CandidateMultilineProfileCard title='About Me' content={this.props.aboutMe} />
               <CandidateProfileCard title= 'Age' content = '22' />
               <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
               <CandidateProfileCard title= 'Denomination' content= {this.props.denomination} />
@@ -146,10 +158,10 @@ const mapStateToProps = state => {
   console.log('TYPE IS', type)
   if(state.nav.showProfileScreen==='self'){
     return {
+      name: state.userInfo.user.info.name,
       denomination: state.userInfo.user.info.denomination,
       shabbatObservance: state.userInfo.user.info.shabbatObservance,
       kashrutObservance: state.userInfo.user.info.kashrutObservance,
-      name: state.userInfo.user.info.name,
       profilePhoto: state.userInfo.user.info.profilePhoto,
       gender: state.userInfo.user.info.gender,
       type: state.nav.showProfileScreen,
@@ -162,14 +174,17 @@ const mapStateToProps = state => {
   //this might be either candidate or match:
   else if (state.userInfo.user[type]!==null){
     return {
+      id: state.userInfo.user[type].id,
       name: state.userInfo.user[type].name,
       denomination: state.userInfo.user[type].denomination,
       shabbatObservance: state.userInfo.user[type].shabbatObservance,
       kashrutObservance: state.userInfo.user[type].kashrutObservance,
       profilePhoto: state.userInfo.user[type].profilePhoto,
       gender: state.userInfo.user[type].gender,
-      id: state.userInfo.user[type].id,
       type: state.nav.showProfileScreen,
+      aboutMe: state.userInfo.user[type].aboutMe,
+      shomer: state.userInfo.user[type].shomer,
+      hometown: state.userInfo.user[type].hometown,
     }
   }
 };
