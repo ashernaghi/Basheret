@@ -11,6 +11,10 @@ import EditGenderScreen from '../screens/EditGenderScreen';
 import EditAboutMeScreen from '../screens/EditAboutMeScreen';
 import EditShomerScreen from '../screens/EditShomerScreen';
 import EditHometownScreen from '../screens/EditHometownScreen';
+import EditCurrentResidenceScreen from '../screens/EditCurrentResidenceScreen';
+import EditHighSchoolScreen from '../screens/EditHighSchoolScreen';
+import EditUniversityScreen from '../screens/EditUniversityScreen';
+import EditYeshivaMidrashaScreen from '../screens/EditYeshivaMidrashaScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -38,7 +42,12 @@ const MainStack = createStackNavigator({
   EditGender: { screen: EditGenderScreen },
   EditAboutMe: { screen: EditAboutMeScreen },
   EditShomer: { screen: EditShomerScreen },
-  EditHometown: {screen: EditHometownScreen },
+  EditHometown: { screen: EditHometownScreen },
+  EditCurrentResidence: {screen: EditCurrentResidenceScreen},
+  EditHighSchool: { screen: EditHighSchoolScreen },
+  EditUniversity: { screen: EditUniversityScreen },
+  EditYeshivaMidrasha: { screen: EditYeshivaMidrashaScreen },
+
 },
 {
   initialRouteName: 'Home',

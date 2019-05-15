@@ -89,7 +89,11 @@ export class ProfileScreen extends React.Component {
               <CandidateProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
               <CandidateProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
               <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
+              <CandidateProfileCard title= 'Current Residence' content = {this.props.currentresidence} />
               <CandidateProfileCard title= 'Location' content = '' />
+              <CandidateProfileCard title= 'High School' content = {this.props.highschool} />
+              <CandidateProfileCard title= 'Yeshiva/Midrasha' content = {this.props.yeshivamidrasha} />
+              <CandidateProfileCard title= 'University' content = {this.props.university} />
               <CandidateProfileCard title= 'Shomer' content= {this.props.shomer} />
             </View>
 
@@ -138,8 +142,11 @@ export class ProfileScreen extends React.Component {
                 <ProfileCard title= 'Denomination' content= {this.props.denomination} />
                 <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
                 <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
-                <ProfileCard title= 'Hometown' content = {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
-                <ProfileCard title= 'Location' content = '' />
+                <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
+                <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
+                <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
+                <ProfileCard title= 'Yeshiva/Midrasha' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
+                <ProfileCard title= 'University' content= {this.props.university} onPress={() => this.props.navigation.navigate('EditUniversity')} />
                 <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
 
               </View>
@@ -168,6 +175,10 @@ const mapStateToProps = state => {
       aboutMe: state.userInfo.user.info.aboutMe,
       shomer: state.userInfo.user.info.shomer,
       hometown: state.userInfo.user.info.hometown,
+      currentresidence: state.userInfo.user.info.currentresidence,
+      highschool: state.userInfo.user.info.highschool,
+      university: state.userInfo.user.info.university,
+      yeshivamidrasha: state.userInfo.user.info.yeshivamidrasha,
 
     };
   }
@@ -185,6 +196,10 @@ const mapStateToProps = state => {
       aboutMe: state.userInfo.user[type].aboutMe,
       shomer: state.userInfo.user[type].shomer,
       hometown: state.userInfo.user[type].hometown,
+      currentresidence:  state.userInfo.user[type].currentresidence,
+      highschool: state.userInfo.user[type].highschool,
+      university: state.userInfo.user[type].university,
+      yeshivamidrasha: state.userInfo.user[type].yeshivamidrasha,
     }
   }
 };
