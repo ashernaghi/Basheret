@@ -2,16 +2,28 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
+import { ImagePicker, Permissions } from 'expo';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
 import CandidateProfileCard from '../components/CandidateProfileCard';
 import CandidateMultilineProfileCard from '../components/CandidateMultilineProfileCard';
 import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
-import {showProfileScreen} from '../actions/UserInfoActions';
+import { showProfileScreen, updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions';
 import {positiveMatch, negativeMatch} from '../actions/matchActions'
+import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 
 export class ProfileScreen extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      profilePhoto: '',
+      permissionsError: null,
+      cameraRollPermissions: null,
+      cameraPermissions: null,
+      choosemethod: '',};
+  }
+
   static navigationOptions = ({ navigation }) => {
       return {
         headerTintColor: '#F4F4F4',
@@ -52,6 +64,71 @@ export class ProfileScreen extends React.Component {
     this.props.dispatch(showProfileScreen('self'))
   }
 
+  askCameraPermissionsAsync = async () => {
+    let cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
+
+    console.log(cameraPermission);
+
+    if(cameraPermission.status==="denied"){
+      console.log('1');
+      this.setState({permissionsError: 'Oops! Looks like you haven\'t granted Basheret permission to your Camera. Please go into your settings and change that so you can take a picture for your profile!'});
+    }
+    else{
+      console.log('2')
+      this.setState({permissionsError: null, cameraPermissions: true})
+    }
+  };
+
+  askCameraRollPermissionsAsync = async () => {
+    let cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+    if(cameraRollPermission.status==="denied"){
+      console.log('1');
+      this.setState({permissionsError: 'Oops! Looks like you haven\'t granted Basheret permission to your Camera Roll. Please go into your settings and change that so you can upload a picture for your profile!'});
+    }
+    else{
+      console.log('2');
+      this.setState({permissionsError: null, cameraRollPermissions: true})
+    }
+  };
+
+  useLibraryHandler = async () => {
+    await this.askCameraRollPermissionsAsync();
+    if(this.state.cameraRollPermissions){
+      let result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: false,
+      });
+      if(!result.cancelled){
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        // this.props.dispatch(uploadProfilePicture(result))
+      }
+    }
+  };
+
+  useCameraHandler = async () => {
+    let x = await this.askCameraPermissionsAsync();
+    console.log('x', x);
+    if(this.state.cameraPermissions){
+      let result = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [4, 3],
+        base64: false,
+      });
+      if(!result.cancelled){
+        this.props.dispatch(updateUserInfo('info', 'profilePhoto', result.uri));
+        console.log('RESULT IS', result);
+        // this.props.dispatch(uploadProfilePicture(result))
+      }
+    }
+
+  };
+
+  onClick(clickedState){
+    this.setState({choosemethod: clickedState})
+  }
+
   render() {
     //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
@@ -73,10 +150,10 @@ export class ProfileScreen extends React.Component {
             <View style={styles.profilePhoto}>
 
               <ImageBackground
-                source={{ uri: this.props.profilePhoto }}
-                style={styles.profilePhoto}>
+              source={{ uri: this.props.profilePhoto }}
+              style={styles.profilePhoto}>
                 <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
-                </ImageBackground>
+              </ImageBackground>
 
             </View>
 
@@ -123,18 +200,19 @@ export class ProfileScreen extends React.Component {
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
-              <View style={styles.profilePhoto}>
+              <View style={{}}>
 
-                <ImageBackground
-                  source={{ uri: this.props.profilePhoto }}
-                  style={styles.profilePhoto}>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
-                  </ImageBackground>
+                <EditProfilePhotoActionSheet
+                  onClick={clickedState => this.setState({choosemethod: clickedState})}
+                  handleCamera={this.useCameraHandler}
+                  handleLibrary={this.useLibraryHandler}
+                  style={styles.profilePhoto}
+                  />
 
               </View>
 
               <View style={{ backgroundColor: '#F4F4F4' }}>
-
+              {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
