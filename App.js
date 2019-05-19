@@ -1,7 +1,7 @@
 import React from 'react';
 import * as firebase from 'firebase';
-import { Image, View, Text, ActivityIndicator } from 'react-native';
-import { Font, Asset, AppLoading } from 'expo';
+import { Image, View, Text, ScrollView, ActivityIndicator, TextInput, Button } from 'react-native';
+import { Font, Asset, AppLoading, Linking, WebBrowser } from 'expo';
 import {firebaseConfig} from './config';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { Provider } from 'react-redux';
