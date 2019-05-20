@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import {loginWithFacebook} from '../actions/AuthActions';
+import {loginWithFacebook, loginPhoneNumberSuccess} from '../actions/AuthActions';
 import { FacebookLoginButton } from '../components/FacebookLoginButton'
 import { Font, Linking, WebBrowser } from 'expo'
 import firebase from '../actions/firebase'
+import { loginWithPhoneNumber } from '../actions/AuthActions'
 
 const captchaUrl = `https://fblogintest-18329.firebaseapp.com/?appurl=${Linking.makeUrl('')}`
 
@@ -22,29 +23,31 @@ export class OnboardingScreen extends React.Component {
         })
     }
 
+    componentDidUpdate(){
+        console.log('update', this.state);
+        if(this.state.user){
+            this.props.dispatch(loginWithPhoneNumber(this.state.user));
+            this.props.navigation.navigate('LoadingApp');
+        }
+      }
+
     onPhoneChange = (phone) => {
         this.setState({phone})
     }
 
-
     onPhoneComplete = async () => {
         let token = null
         const listener = ({url}) => {
-          console.log('listening', url)
             WebBrowser.dismissBrowser()
             const tokenEncoded = Linking.parse(url).queryParams['token']
             if (tokenEncoded)
               console.log('token', tokenEncoded)
                 token = decodeURIComponent(tokenEncoded)
         }
-        console.log('test6')
         Linking.addEventListener('url',listener)
         await WebBrowser.openBrowserAsync(captchaUrl)
-        console.log('tests1', captchaUrl)
         Linking.removeEventListener('url', listener)
-        console.log('test5', token)
         if (token) {
-          console.log('test2')
             const {phone} = this.state
             //fake firebase.auth.ApplicationVerifier
             const captchaVerifier = {
@@ -53,7 +56,6 @@ export class OnboardingScreen extends React.Component {
             }
             try {
                 const confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, captchaVerifier)
-                console.log('test3')
                 this.setState({confirmationResult})
             } catch (e) {
                 console.warn(e)
@@ -100,7 +102,6 @@ export class OnboardingScreen extends React.Component {
                     />
                 </ScrollView>
             )
-
         if (!this.state.confirmationResult)
             return (
                 <ScrollView style={{padding: 20, marginTop: 20}}>

@@ -2,6 +2,7 @@ import {
   LOGIN_FACEBOOK_REQUEST,
   LOGIN_FACEBOOK_SUCCESS,
   LOGIN_FACEBOOK_ERROR,
+  LOGIN_PHONE_NUMBER_SUCCESS
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -23,6 +24,12 @@ export default (state = INITIAL_STATE, action) => {
         error: null,
         user: action.user
       });
+    case LOGIN_PHONE_NUMBER_SUCCESS: 
+      return Object.assign({}, state, {
+        loggingIn: false,
+        error: null,
+        user: action.user
+      })  
     case LOGIN_FACEBOOK_ERROR:
       return Object.assign({}, state, {
         loggingIn: false,
