@@ -10,11 +10,13 @@ export const userInfoUpdateSuccess = (category, subcategory, response) => ({
 });
 
 export const uploadProfilePicture = (rawFile) => async(dispatch) => {
-    let location = 'profilePicture';
+    dispatch(uploadFile(rawFile, 'profilePhoto'));
+}
+
+export const uploadFile = (rawFile, location) => async(dispatch) => {
     let user = firebase.auth().currentUser;
     let userID = user.uid;
     let storage = firebase.storage();
-    console.log('uploading', rawFile);
     const blob = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.onload = function() {
@@ -27,35 +29,34 @@ export const uploadProfilePicture = (rawFile) => async(dispatch) => {
         xhr.responseType = 'blob';
         xhr.open('GET', rawFile.uri, true);
         xhr.send(null);
+    });
+    // let file = new File([buf], fileName);
+    let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
+    let fileUpload = fileLocation.put(blob);
+    fileUpload.on('state_changed', function(snapshot){
+      // Observe state change events such as progress, pause, and resume
+      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + '% done');
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log('Upload is running');
+          break;
+      }
+    }, function(error) {
+      console.log('ERROR UPLOADING', error);
+    }, function() {
+      // Handle successful uploads on complete
+      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+      fileUpload.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('File available at', downloadURL);
+        dispatch(updateUserInfo('info', 'profilePhoto', downloadURL));
+        return downloadURL;
       });
-        let fileName = location;
-        // let file = new File([buf], fileName);
-        let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
-        let fileUpload = fileLocation.put(blob);
-        fileUpload.on('state_changed', function(snapshot){
-          // Observe state change events such as progress, pause, and resume
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log('Upload is paused');
-              break;
-            case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log('Upload is running');
-              break;
-          }
-        }, function(error) {
-          // Handle unsuccessful uploads
-        }, function() {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-          fileUpload.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-            console.log('File available at', downloadURL);
-            dispatch(updateUserInfo('info', 'profilePhoto', downloadURL));
-            return downloadURL;
-          });
-        });
+    });
 };
 
 export const getFile = (location) => dispatch => {
@@ -82,7 +83,10 @@ export const updateUserInfo = (category='', subcategory='', response) => dispatc
     else{
         userInfo[category]=response;
     }
-    userFirestore.set(userInfo, {merge: true});
+    userFirestore.set(userInfo, {merge: true})
+    .catch(error => {
+        console.log('ERROR WRITING DOC', error);
+    })
     dispatch(userInfoUpdateSuccess(category, subcategory, response));
 };
 

@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView, Switch,  } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Switch, Button } from 'react-native';
 import SwitchSelector from "react-native-switch-selector";
 import { Ionicons, FontAwesome, Foundation } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
 import {options, questions, category} from '../common/arrays'
+import firebase from '../actions/firebase'
 
 export class SettingsScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -99,6 +100,16 @@ export class SettingsScreen extends React.Component {
     })
   }
 
+  onSignOut = async () => {
+    try {
+      console.log('SIGNING OUT')
+        await firebase.auth().signOut()
+        this.props.navigation.navigate('Onboarding');
+    } catch (e) {
+        console.warn(e)
+    }
+  }
+
   render() {
     let femaleIcon =
     <FontAwesome
@@ -180,6 +191,12 @@ export class SettingsScreen extends React.Component {
               { value: "Male", customIcon: maleIcon },
               { value: "Both", customIcon: bothIcon },
             ]}
+          />
+        </View>
+        <View>
+          <Button
+            onPress={this.onSignOut}
+            title="Sign out"
           />
         </View>
       </ScrollView>

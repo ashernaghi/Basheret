@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import {loginWithFacebook, loginPhoneNumberSuccess} from '../actions/AuthActions';
-import { FacebookLoginButton } from '../components/FacebookLoginButton'
 import { Font, Linking, WebBrowser } from 'expo'
 import firebase from '../actions/firebase'
 import { loginWithPhoneNumber } from '../actions/AuthActions'
+import PhoneInput from 'react-native-phone-input'
 
 const captchaUrl = `https://fblogintest-18329.firebaseapp.com/?appurl=${Linking.makeUrl('')}`
 
@@ -24,7 +24,6 @@ export class OnboardingScreen extends React.Component {
     }
 
     componentDidUpdate(){
-        console.log('update', this.state);
         if(this.state.user){
             this.props.dispatch(loginWithPhoneNumber(this.state.user));
             this.props.navigation.navigate('LoadingApp');
@@ -35,15 +34,46 @@ export class OnboardingScreen extends React.Component {
         this.setState({phone})
     }
 
+    validNumber = () => {
+        console.log('validating')
+        let {phone} = this.state
+        phone = phone.replace("-",'')
+        if (phone=='') {
+            const error = "Please enter a phone number"
+            this.setState({error});
+            return false;
+        }
+        else if(isNaN(phone)){
+            const error = "Please enter a valid phone number"
+            this.setState({error});
+        }
+        else if (phone.length < 10) {
+            const error = "Please check that you entered the correct number of digits"
+            this.setState({error});
+        }
+        else {
+            this.setState({phone});
+            return true;
+        }
+    }
+
     onPhoneComplete = async () => {
+        if (!this.validNumber()) {
+            return;
+        }
+        console.log('test')
         let token = null
         const listener = ({url}) => {
             WebBrowser.dismissBrowser()
             const tokenEncoded = Linking.parse(url).queryParams['token']
             if (tokenEncoded)
-              console.log('token', tokenEncoded)
                 token = decodeURIComponent(tokenEncoded)
+            else {
+                const error = "Please try again"
+                this.setState({error});
+            }
         }
+        console.log('phone',this.state.phone);
         Linking.addEventListener('url',listener)
         await WebBrowser.openBrowserAsync(captchaUrl)
         Linking.removeEventListener('url', listener)
@@ -55,6 +85,7 @@ export class OnboardingScreen extends React.Component {
                 verify: () => Promise.resolve(token)
             }
             try {
+                console.log('siging in', phone)
                 const confirmationResult = await firebase.auth().signInWithPhoneNumber(phone, captchaVerifier)
                 this.setState({confirmationResult})
             } catch (e) {
@@ -70,18 +101,13 @@ export class OnboardingScreen extends React.Component {
         const {confirmationResult, code} = this.state
         try {
             await confirmationResult.confirm(code)
+            this.reset()
         } catch (e) {
-            console.warn(e)
-        }
-        this.reset()
-    }
-    onSignOut = async () => {
-        try {
-            await firebase.auth().signOut()
-        } catch (e) {
-            console.warn(e)
+            const error = "Invalid Code, please try again"
+            this.setState({error});
         }
     }
+
     reset = () => {
         this.setState({
             phone: '',
@@ -92,35 +118,48 @@ export class OnboardingScreen extends React.Component {
     }
 
     render() {
-        if (this.state.user)
-            return (
-                <ScrollView style={{padding: 20, marginTop: 20}}>
-                    <Text>You signed in</Text>
-                    <Button
-                        onPress={this.onSignOut}
-                        title="Sign out"
-                    />
-                </ScrollView>
-            )
         if (!this.state.confirmationResult)
             return (
-                <ScrollView style={{padding: 20, marginTop: 20}}>
-                    <TextInput
-                        value={this.state.phone}
-                        onChangeText={this.onPhoneChange}
-                        keyboardType="phone-pad"
-                        placeholder="Your phone"
-                    />
-                    <Button
-                        onPress={this.onPhoneComplete}
-                        title="Next"
-                    />
-                </ScrollView>
+                <View style={styles.container}>
+                    <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
+                      <Text
+                      style={styles.loginLogoText}
+                      >
+                        Basheret
+                      </Text>
+                    {this.props.loggingIn && <ActivityIndicator />}
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 400 }}>
+                        <PhoneInput 
+                            ref='phone'
+                            value={this.state.phone}
+                            onChangePhoneNumber={this.onPhoneChange}
+                            placeholder="Your phone"
+
+                        />
+                        <Button
+                            onPress={this.onPhoneComplete}
+                            title="Sign In/Sign Up"
+                        />
+                        <Text>
+                            {this.state.error}
+                        </Text>
+                    </View>
+                  </View>
             )
         else
             return (
-                <ScrollView style={{padding: 20, marginTop: 20}}>
-                    <TextInput
+                <View style={styles.container}>
+                    <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
+                      <Text
+                      style={styles.loginLogoText}
+                      >
+                        Basheret
+                      </Text>
+                    {this.props.loggingIn && <ActivityIndicator />}
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 400 }}>
+                        <TextInput
                         value={this.state.code}
                         onChangeText={this.onCodeChange}
                         keyboardType="numeric"
@@ -130,7 +169,11 @@ export class OnboardingScreen extends React.Component {
                         onPress={this.onSignIn}
                         title="Sign in"
                     />
-                </ScrollView>
+                    </View>
+                    <Text>
+                        {this.state.error}
+                    </Text>
+                  </View>
             )
     }
 }
