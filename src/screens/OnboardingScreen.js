@@ -109,7 +109,7 @@ export class OnboardingScreen extends React.Component {
                         value={this.state.phone}
                         onChangeText={this.onPhoneChange}
                         keyboardType="phone-pad"
-                        placeholder="Your phone"
+                        placeholder="Enter your phone number"
                     />
                     <Button
                         onPress={this.onPhoneComplete}
