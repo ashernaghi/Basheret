@@ -38,87 +38,84 @@ export class EditAgeScreen extends React.Component {
 
   constructor(props) {
    super(props);
-   this.state = { chosenDate: new Date() };
    this.setDate = this.setDate.bind(this);
-   // this.handlePress = this.handlePress.bind(this);
-   // this.updateAge = this.updateAge.bind(this)
-   this.navigateBack = this.navigateBack.bind(this)
-   // this.calculateAge = this.calculateAge.bind(this)
+   this.calculateAge =this.calculateAge.bind(this)
+   this.handleDate = this.handleDate.bind(this)
+  }
+
+   async handleDate(newDate){
+    await this.setDate(newDate);
+    this.calculateAge(newDate);
   }
 
   setDate(newDate) {
     this.props.dispatch(updateUserInfo('info', 'birthday', newDate ))
   }
 
-  // updateAge(){
-  //   this.props.dispatch(updateUserInfo('info', 'birthday', this.state.chosenDate.toString().substr(4, 12)))
-  // }
+  calculateAge(newDate) {
+    var todayFull = new Date()
+    var todayDate = todayFull.getDate()
+    var todayMonth = todayFull.getMonth()
+    var todayFullYear = todayFull.getFullYear()
+
+    var birthdayFull = new Date(newDate) // MUST BE A String
+    var birthdayDate = birthdayFull.getDate()
+    var birthdayMonth = birthdayFull.getMonth()
+    var birthdayFullYear = birthdayFull.getFullYear()
+
+    console.log(todayDate, todayMonth, todayFullYear)
+    console.log(birthdayDate, birthdayMonth, birthdayFullYear)
+
+    if(todayMonth > birthdayMonth){
+        var age = todayFullYear - birthdayFullYear
+      console.log(age)
+    }
+    else if(todayMonth < birthdayMonth){
+      var age = todayFullYear - birthdayFullYear - 1
+      console.log(age)
+    }
+    else if(todayMonth === birthdayMonth){
+
+        if(todayDate > birthdayDate){
+          var age = todayFullYear - birthdayFullYear
+          console.log(age)
+        }
+        else if(todayDate < birthdayDate){
+          var age = todayFullYear - birthdayFullYear - 1
+          console.log(age)
+        }
+        else if (todayDate === birthdayDate){
+          var age = todayFullYear - birthdayFullYear
+          console.log(age)
+        }
+      }
+      this.props.dispatch(updateUserInfo('info', 'age', age ))
+  }
 
   navigateBack(){
     this.props.navigation.navigate('Profile')
+
   }
-
-  // handlePress(){
-  //   this.updateAge();
-  //   this.navigateBack();
-  // }
-
-  // calculateAge(){
-  //   let todayDate = new Date()
-  //   let todayYear = todayDate.getFullYear();
-  //   let todayMonth = todayDate.getMonth();
-  //   let todayDay = todayDate.getDay();
-  //   console.log(todayDate) // 2019-05-03T06:12:07.542Z
-  //   console.log(this.props.birthday) //Oct 31 2014
-  //   console.log(this.state.chosenDate.getMonth()) //chosen date resets every time you refresh the state
-  //   if(todayMonth < this.props.birthday.toString().substr(7, 12)){
-  //     console.log(this.props.birthday.toString().substr(0, 12))
-  //   }
-  //   let userAge= new Date().getFullYear() - this.props.birthday.toString().substr(7, 12);
-  //
-  //
-  //
-  //
-  //
-  //   return userAge
-  // }
 
   render() {
     return (
-            <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
-
-              <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your Birthday:</Text>
-              </View>
-
-              <View style={{flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'column'}} >
-                    <DatePicker
-                      defaultDate={new Date()} //can make if statement fn that says if null use new Date but otherwise use props
-                      minimumDate={new Date(1950, 1, 1)}
-                      maximumDate={new Date(2018, 12, 31)}
-                      locale={"en"}
-                      timeZoneOffsetInMinutes={undefined}
-                      modalTransparent={false}
-                      animationType={"fade"}
-                      androidMode={"default"}
-                      placeHolderText="Select date"
-                      textStyle={{ color: "green" }}
-                      placeHolderTextStyle={{ color: "#d3d3d3" }}
-                      onDateChange={this.setDate}
-                      disabled={false}
-                      format="DD-MM-YYYY"
-                      />
-                      <Text>
-                        //Date: {this.props.birthday.toString().substr(0, 12)}
-                      </Text>
-                </View>
-
-                <View style={{ flex: 1 }}>
-                  //<NextButton onPress={() => this.handlePress()}>Save</NextButton>
-                  //<NextButton onPress={() => console.log(this.calculateAge())}>Date Tester</NextButton>
-                </View>
-
-            </View>
+      <View>
+        <DatePicker
+              defaultDate={new Date(this.props.birthday)}
+              minimumDate={new Date(1980, 1, 1)}
+              maximumDate={new Date(2018, 12, 31)}
+              locale={"en"}
+              timeZoneOffsetInMinutes={undefined}
+              modalTransparent={true}
+              animationType={"fade"}
+              androidMode={"default"}
+              placeHolderText='Birthday'
+              textStyle={{ color: "green" }}
+              placeHolderTextStyle={{ color: "#d3d3d3" }}
+              onDateChange={this.handleDate}
+              disabled={false}
+              />
+        </View>
     );
   }
 }
@@ -126,6 +123,7 @@ export class EditAgeScreen extends React.Component {
 const mapStateToProps = state => {
   return {
     birthday: state.userInfo.user.info.birthday,
+    age: state.userInfo.user.info.age,
   };
 };
 

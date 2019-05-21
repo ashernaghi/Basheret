@@ -120,20 +120,6 @@ export class OnboardingScreen extends React.Component {
     render() {
         if (!this.state.confirmationResult)
             return (
-<<<<<<< HEAD
-                <ScrollView style={{padding: 20, marginTop: 20}}>
-                    <TextInput
-                        value={this.state.phone}
-                        onChangeText={this.onPhoneChange}
-                        keyboardType="phone-pad"
-                        placeholder="Enter your phone number"
-                    />
-                    <Button
-                        onPress={this.onPhoneComplete}
-                        title="Next"
-                    />
-                </ScrollView>
-=======
                 <View style={styles.container}>
                     <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
                       <Text
@@ -160,7 +146,6 @@ export class OnboardingScreen extends React.Component {
                         </Text>
                     </View>
                   </View>
->>>>>>> b9b7912d08b4f9a4219a260b94330b4137adf497
             )
         else
             return (

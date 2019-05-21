@@ -39,7 +39,7 @@ export class EditUniversityScreen extends React.Component {
 
               <View style={{ flex: 1,}}>
                 <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'highschool', text))}
+                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'university', text))}
                   defaultValue={this.props.university}
                 />
               </View>
