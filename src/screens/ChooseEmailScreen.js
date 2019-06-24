@@ -8,7 +8,7 @@ import { NextButton } from '../components/NextButton';
 import {Header} from 'react-navigation'
 
 
-export class EditUniversityScreen extends React.Component {
+export class ChooseEmailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Basheret',
@@ -34,18 +34,18 @@ export class EditUniversityScreen extends React.Component {
             <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
 
               <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your University:</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your email:</Text>
               </View>
 
               <View style={{ flex: 1,}}>
                 <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'university', text))}
-                  defaultValue={this.props.university}
+                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'email', text))}
+                  defaultValue={this.props.email}
                 />
               </View>
 
               <View style={{ flex: 1 }}>
-                <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
+                <NextButton onPress={() => this.props.navigation.navigate('ChooseProfilePicture')}>
                 <Text>Done</Text>
                 </NextButton>
               </View>
@@ -57,8 +57,8 @@ export class EditUniversityScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    university: state.userInfo.user.info.university,
+    name: state.userInfo.user.info.name,
   };
 };
 
-export default connect(mapStateToProps)(EditUniversityScreen);
+export default connect(mapStateToProps)(ChooseEmailScreen);

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.9.0",
+    "@expo/vector-icons": "^10.0.1",
     "@ptomasroos/react-native-multi-slider": "^1.0.0",
     "expo": "^33.0.6",
     "firebase": "^5.11.1",

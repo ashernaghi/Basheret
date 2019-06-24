@@ -160,7 +160,7 @@ export class ProfileScreen extends React.Component {
             <View>
               <CandidateProfileCard title= 'Name' content= {this.props.name} />
               <CandidateMultilineProfileCard title='About Me' content={this.props.aboutMe} />
-              <CandidateProfileCard title= 'Age' content = '22' />
+              <CandidateProfileCard title= 'Age' content = {this.props.age} />
               <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
               <CandidateProfileCard title= 'Denomination' content= {this.props.denomination} />
               <CandidateProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
@@ -215,7 +215,7 @@ export class ProfileScreen extends React.Component {
               {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
-                <ProfileCard title= 'Age' content = '22' onPress={() => this.props.navigation.navigate('EditAge')}/>
+                <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <ProfileCard title= 'Denomination' content= {this.props.denomination} />
                 <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
@@ -244,6 +244,7 @@ const mapStateToProps = state => {
   if(state.nav.showProfileScreen==='self'){
     return {
       name: state.userInfo.user.info.name,
+      age: state.userInfo.user.info.age,
       denomination: state.userInfo.user.info.denomination,
       shabbatObservance: state.userInfo.user.info.shabbatObservance,
       kashrutObservance: state.userInfo.user.info.kashrutObservance,
@@ -265,6 +266,8 @@ const mapStateToProps = state => {
     return {
       id: state.userInfo.user[type].id,
       name: state.userInfo.user[type].name,
+      age: state.userInfo.user[type].age,
+
       denomination: state.userInfo.user[type].denomination,
       shabbatObservance: state.userInfo.user[type].shabbatObservance,
       kashrutObservance: state.userInfo.user[type].kashrutObservance,
