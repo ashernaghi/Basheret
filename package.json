@@ -7,24 +7,27 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
     "@ptomasroos/react-native-multi-slider": "^1.0.0",
-    "expo": "^32.0.6",
-    "firebase": "^5.8.6",
+    "expo": "^33.0.6",
+    "firebase": "^5.11.1",
     "moment": "^2.24.0",
     "native-base": "^2.12.1",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-elements": "^1.1.0",
-    "react-native-switch-selector": "^1.1.12",
-    "react-native-vector-icons": "^6.4.1",
-    "react-navigation": "^3.3.2",
-    "react-navigation-transitions": "^1.0.8",
+    "react-native-gifted-chat": "^0.9.6",
+    "react-native-phone-input": "^0.2.2",
+    "react-native-switch-selector": "^1.1.14",
+    "react-native-vector-icons": "^6.5.0",
+    "react-navigation": "^3.11.0",
+    "react-navigation-transitions": "^1.0.10",
     "react-redux": "^6.0.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
+    "babel-preset-expo": "^5.2.0"
   },
   "private": true,
   "rnpm": {

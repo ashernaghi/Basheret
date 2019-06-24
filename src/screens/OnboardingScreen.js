@@ -46,13 +46,17 @@ export class OnboardingScreen extends React.Component {
         else if(isNaN(phone)){
             const error = "Please enter a valid phone number"
             this.setState({error});
+            return false;
         }
         else if (phone.length < 10) {
             const error = "Please check that you entered the correct number of digits"
-            this.setState({error});
+            this.setState({error}); 
+            return false;
         }
         else {
             this.setState({phone});
+            const error = "";
+            this.setState({error});
             return true;
         }
     }
@@ -169,10 +173,10 @@ export class OnboardingScreen extends React.Component {
                         onPress={this.onSignIn}
                         title="Sign in"
                     />
-                    </View>
                     <Text>
                         {this.state.error}
                     </Text>
+                    </View>
                   </View>
             )
     }

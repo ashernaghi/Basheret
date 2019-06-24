@@ -5,6 +5,7 @@ import {getCurrentMatches} from '../actions/matchActions';
 
 export class MatchesScreen extends React.Component {
   componentDidMount(){
+    // getCurrentMatches();
     this.props.dispatch(getCurrentMatches());
   }
 
