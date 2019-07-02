@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEntry, defaultValue }) => {
+const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEntry, defaultValue, textContentType, returnKeyType, onSubmitEditing, autoFocus }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -14,6 +14,12 @@ const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEn
         value={value}
         onChangeText={onChangeText}
         defaultValue={defaultValue}
+        enablesReturnKeyAutomatically={true}
+        clearButtonMode= 'while-editing'
+        textContentType={textContentType}
+        returnKeyType={returnKeyType}
+        onSubmitEditing={onSubmitEditing}
+        autoFocus = {autoFocus}
       />
     </View>
   );
@@ -24,9 +30,10 @@ const styles = {
     color: '#000',
     paddingRight: 10,
     paddingLeft: 10,
-    fontSize: 18,
-    lineHeight: 30,
-    borderBottomColor: 'black',
+    paddingBottom: 3,
+    fontSize: 20,
+    fontWeight: 'bold',
+    borderBottomColor: 'grey',
     borderBottomWidth: 1.5,
   },
 

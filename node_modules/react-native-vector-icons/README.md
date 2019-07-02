@@ -36,20 +36,21 @@ Perfect for buttons, logos and nav/tab bars. Easy to extend, style and integrate
 - [`AntDesign`](https://ant.design/) by AntFinance (**297** icons)
 - [`Entypo`](http://entypo.com) by Daniel Bruce (**411** icons)
 - [`EvilIcons`](http://evil-icons.io) by Alexander Madyankin & Roman Shamin (v1.10.1, **70** icons)
-- [`Feather`](http://feathericons.com) by Cole Bemis & Contributors (v4.7.0, **266** icons)
+- [`Feather`](http://feathericons.com) by Cole Bemis & Contributors (v4.21.0, **279** icons)
 - [`FontAwesome`](http://fortawesome.github.io/Font-Awesome/icons/) by Dave Gandy (v4.7.0, **675** icons)
 - [`FontAwesome 5`](https://fontawesome.com) by Fonticons, Inc. (v5.7.0, 1500 (free) **5082** (pro) icons)
+- [`Fontisto`](https://github.com/kenangundogan/fontisto) by Kenan Gündoğan (v3.0.4, **615** icons)
 - [`Foundation`](http://zurb.com/playground/foundation-icon-fonts-3) by ZURB, Inc. (v3.0, **283** icons)
 - [`Ionicons`](https://ionicons.com/) by Ben Sperry (v4.2.4, **696** icons)
 - [`MaterialIcons`](https://www.google.com/design/icons/) by Google, Inc. (v3.0.1, **932** icons)
-- [`MaterialCommunityIcons`](https://materialdesignicons.com/) by MaterialDesignIcons.com (v3.5.95, **3596** icons)
+- [`MaterialCommunityIcons`](https://materialdesignicons.com/) by MaterialDesignIcons.com (v3.6.95, **3695** icons)
 - [`Octicons`](http://octicons.github.com) by Github, Inc. (v8.4.1, **184** icons)
 - [`Zocial`](http://zocial.smcllns.com/) by Sam Collins (v1.0, **100** icons)
 - [`SimpleLineIcons`](https://simplelineicons.github.io/) by Sabbir & Contributors (v2.4.1, **189** icons)
 
 ## Installation
 
-1. Run: `$ npm install react-native-vector-icons`
+1. Run: `$ npm install --save react-native-vector-icons`
 2. For each platform (iOS/Android/Windows) you plan to use, follow one of the options for the corresponding platform.
 3. If you intend to use FontAwesome 5, check out [`this guide`](FONTAWESOME5.md) to get you started.
 
@@ -484,7 +485,7 @@ const Icon = createIconSetFromIcoMoon(
 
 Make sure you're using the _Download_ option in [IcoMoon](https://icomoon.io/app), and use the `.json` file that's included in the `.zip` you've downloaded. You'll also need to import the `.ttf` font file into your project, following the instructions above.
 
-###`createMultiStyleIconSet(styles [, options])`
+### `createMultiStyleIconSet(styles [, options])`
 
 ```jsx
 import { createMultiStyleIconSet } from 'react-native-vector-icons';

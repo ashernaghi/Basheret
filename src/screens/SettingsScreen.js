@@ -104,7 +104,7 @@ export class SettingsScreen extends React.Component {
     try {
       console.log('SIGNING OUT')
         await firebase.auth().signOut()
-        this.props.navigation.navigate('Onboarding');
+        this.props.navigation.navigate('OnboardingStack');
     } catch (e) {
         console.warn(e)
     }

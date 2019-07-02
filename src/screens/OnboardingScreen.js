@@ -10,6 +10,11 @@ import PhoneInput from 'react-native-phone-input'
 const captchaUrl = `https://fblogintest-18329.firebaseapp.com/?appurl=${Linking.makeUrl('')}`
 
 export class OnboardingScreen extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: null,
+    }
+  };
     constructor(props) {
         super(props)
         this.state = {
@@ -50,7 +55,7 @@ export class OnboardingScreen extends React.Component {
         }
         else if (phone.length < 10) {
             const error = "Please check that you entered the correct number of digits"
-            this.setState({error}); 
+            this.setState({error});
             return false;
         }
         else {
@@ -134,7 +139,7 @@ export class OnboardingScreen extends React.Component {
                     {this.props.loggingIn && <ActivityIndicator />}
                     </View>
                     <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 400 }}>
-                        <PhoneInput 
+                        <PhoneInput
                             ref='phone'
                             value={this.state.phone}
                             onChangePhoneNumber={this.onPhoneChange}
@@ -143,7 +148,7 @@ export class OnboardingScreen extends React.Component {
                         />
                         <Button
                             onPress={this.onPhoneComplete}
-                            title="Sign In/Sign Up"
+                            title="Sign In"
                         />
                         <Text>
                             {this.state.error}
@@ -198,7 +203,7 @@ export default connect(mapStateToProps)(OnboardingScreen);
 const styles = StyleSheet.create({
 container: {
   flex: 1,
-  backgroundColor: '#00387e',
+  backgroundColor: 'white',
   justifyContent: 'center',
   padding: 10
 },
@@ -218,7 +223,7 @@ facebookLoginButton: {
 },
 
 loginLogoText: {
-  color: '#fbfbfb',
+  color: '#00387e',
   fontFamily: 'fitamint-script',
   fontSize: 90
 }

@@ -28,7 +28,7 @@ export class IntroQuestionsScreen extends React.Component {
       maxObservance: 100,
       thumb: 24,
       borderRadius: 12,
-      selected: null,
+      selected: '',
     }
 
     count;
@@ -99,21 +99,6 @@ export class IntroQuestionsScreen extends React.Component {
 
   }
 
-  nextButton(){
-    if(this.state.selected){
-      return(
-        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <NextButton onPress={()=>this.onPress(this.state.selected)} >Next</NextButton>
-        </View>
-      )
-    } else {
-      return(
-        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-          <DisabledNextButton>Next</DisabledNextButton>
-        </View>
-      )
-    }
-  }
 
   render() {
     this.count = this.props.navigation.getParam('count', 0);
@@ -136,7 +121,14 @@ export class IntroQuestionsScreen extends React.Component {
 
           {this.buttonDisplay()}
 
-          {this.nextButton()}
+          <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
+            <NextButton
+            onPress={()=>this.onPress(this.state.selected)}
+            content={this.state.selected}
+            >
+            Next
+            </NextButton>
+          </View>
 
 
       </View>
@@ -169,7 +161,10 @@ export class IntroQuestionsScreen extends React.Component {
         </View>
         <NextButton
         onPress={()=>this.onPress()}
-        >{"Next"}</NextButton>
+        content={this.state.responseValue}
+        >
+          {"Next"}
+        </NextButton>
       </View>
     );
   }

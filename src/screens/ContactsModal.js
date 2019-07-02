@@ -7,22 +7,33 @@ import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
 import { ProfileCard } from '../components/ProfileCard';
 import {Header} from 'react-navigation'
+import { SearchBar } from 'react-native-elements';
 
 export class ContactsModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      contacts: [],
+      contacts: '',
+
+      loading: true,
+      data: null,
+      error: null,
+      value: '',
     };
+
+  this.arrayholder = [];
+
   }
 
-  componentDidMount(){
-    this._retrieveData();
+  async componentDidMount(){
+    await this._retrieveData();
     this._textmessage();
+    this.setState({loading: false})
   }
 
   _retrieveData = async () => {
   try {
+    console.log('retrieving')
     const { data } = await Contacts.getContactsAsync({
       fields: [Contacts.Fields.PhoneNumbers],
     });
@@ -57,65 +68,96 @@ _textmessage = async () => {
   }
 }
 
-  //
-  // generateContactCards = () => {
-  //   if(this.state.contacts.length){
-  //     return this.state.contacts.map(contact=>
-  //       <TouchableOpacity style={styles.contactCardViewStyle}>
-  //         <Text>{contact.name}</Text>
-  //           <Ionicons
-  //             name="ios-arrow-forward"
-  //             size={30}
-  //             color="grey"
-  //             style={styles.arrowIconStyle}
-  //           />
-  //       </TouchableOpacity>
-  //     )
-  //   }
-  // }
+renderText() {
+  if(this.state.loading){
+    <ActivityIndicator />
+  } else{
+    <Text>No Contacts Match Your Search</Text>
+  }
+}
+
+
+  renderHeader = () => {
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+        value={this.state.value}
+
+      />
+    );
+  };
+
+
+  searchFilterFunction = text => {
+   this.setState({
+     value: text,
+   });
+
+   const newData = this.state.contacts.filter(item => {
+     if (item.name){
+      console.log(item.name)
+      console.log(this.state.value)
+     const itemData = `${item.name.toUpperCase()}`
+     const textData = text.toUpperCase()
+
+     return itemData.indexOf(textData) > -1
+ }});
+   this.setState({
+     contacts: newData,
+   });
+
+ };
 
   render() {
-    return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
-      <View style={{ flex: 1,}}>
+    if(this.state.loading){
+      return(<View style={{flex: 1}}><ActivityIndicator /></View>)
+    } else {
+        return (
+          <SafeAreaView style={{ flex: 1, backgroundColor: '#F4F4F4' }}>
+          <View style={{ flex: 1,}}>
 
-      <View  style={{ flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'row', justifyContent: 'flex-end' }}>
-        <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Done"
-            />
-        </View>
+          <View  style={{ flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <Button
+                onPress={() => this.props.navigation.goBack()}
+                title="Done"
+                />
+            </View>
 
-      <View style={{ flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', }}>
-        <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Contacts</Text>
-      </View>
-
-          <View style={{ flex: 10, }}>
-            <FlatList
-            data={this.state.contacts}
-            initialNumToRender={10}
-            ListEmptyComponent={<View style={{ margin: 80, justifyContent: 'center', alignSelf: 'center', }}
-><ActivityIndicator/></View>}
-            renderItem={({item}) =>
-            <TouchableOpacity
-            style={styles.contactCardViewStyle}
-            onPress={() => SMS.sendSMSAsync(item.phoneNumbers[0].digits, `${item.firstName}, I want to set you up in Basheret. Download the app here...`)}>
-              <View style={styles.innerCardViewStyle}>
-                <Text>{item.name}</Text>
-                  <Ionicons
-                    name="ios-arrow-forward"
-                    size={30}
-                    color="grey"
-                    style={styles.arrowIconStyle}
-                  />
-              </View>
-            </TouchableOpacity>
-          }
-            />
+          <View style={{ flex: 1, backgroundColor: '#F4F4F4', flexDirection: 'row', justifyContent: 'center', alignSelf: 'center', }}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>Contacts</Text>
           </View>
-      </View>
-      </SafeAreaView>
-    );
+
+              <View style={{ flex: 10, }}>
+                <FlatList
+                data={this.state.contacts}
+                initialNumToRender={10}
+                ListHeaderComponent={this.renderHeader}
+                ListEmptyComponent={<View>{this.renderText}</View>}
+                renderItem={({item}) =>
+                <TouchableOpacity
+                style={styles.contactCardViewStyle}
+                onPress={() => SMS.sendSMSAsync(item.phoneNumbers[0].digits, `${item.firstName}, I want to set you up in Basheret. Download the app here...`)}>
+                  <View style={styles.innerCardViewStyle}>
+                    <Text>{item.name}</Text>
+                      <Ionicons
+                        name="ios-arrow-forward"
+                        size={30}
+                        color="grey"
+                        style={styles.arrowIconStyle}
+                      />
+                  </View>
+                </TouchableOpacity>
+              }
+                />
+              </View>
+          </View>
+        </SafeAreaView>
+      );
+    }
   }
 }
 

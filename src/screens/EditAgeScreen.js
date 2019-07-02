@@ -12,27 +12,7 @@ import {Header} from 'react-navigation'
 export class EditAgeScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Basheret',
-      headerStyle: {
-        backgroundColor: '#f4f4f4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTintColor: '#00387e',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'fitamint-script',
-        fontSize: 30
-      },
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('Profile')}
-          title="Done"
-          style={{ alignSelf: 'flex-end', justifyContent:'flex-end' }}
-        />
-      ),
-      headerLeft: null,
+      header: null,
     }
   };
 
@@ -41,6 +21,7 @@ export class EditAgeScreen extends React.Component {
    this.setDate = this.setDate.bind(this);
    this.calculateAge =this.calculateAge.bind(this)
    this.handleDate = this.handleDate.bind(this)
+
   }
 
    async handleDate(newDate){
@@ -97,28 +78,59 @@ export class EditAgeScreen extends React.Component {
 
   }
 
+
+
   render() {
+    console.log(this.props.birthday)
     return (
-      <View>
-        <DatePicker
-              defaultDate={new Date(this.props.birthday)}
-              minimumDate={new Date(1980, 1, 1)}
-              maximumDate={new Date(2018, 12, 31)}
-              locale={"en"}
-              timeZoneOffsetInMinutes={undefined}
-              modalTransparent={true}
-              animationType={"fade"}
-              androidMode={"default"}
-              placeHolderText='Birthday'
-              textStyle={{ color: "green" }}
-              placeHolderTextStyle={{ color: "#d3d3d3" }}
-              onDateChange={this.handleDate}
-              disabled={false}
-              />
+      <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
+
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
         </View>
+
+        <View style={{ flex: 0.5 }}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Choose your Birthday:</Text>
+        </View>
+
+        <View style={{ flex: 0.5, paddingLeft: 40, }}>
+          <DatePicker
+                defaultDate={new Date(1995, 0, 1 )}
+                minimumDate={new Date(1980, 1, 1)}
+                maximumDate={new Date(2018, 12, 31)}
+                locale={"en"}
+                timeZoneOffsetInMinutes={undefined}
+                modalTransparent={true}
+                animationType={"fade"}
+                androidMode={"default"}
+                placeHolderText={'Choose Date'}
+                textStyle={{ color: "grey" }}
+                placeHolderTextStyle={{ color: "#d3d3d3" }}
+                onDateChange={this.handleDate}
+                disabled={false}
+                autoFocus={true}
+                />
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <NextButton
+          onPress={() => this.props.navigation.navigate('Profile')}
+          content={this.props.birthday}
+          >
+            <Text>Save</Text>
+          </NextButton>
+        </View>
+
+        <View style={{ flex: 2, justifyContent: 'center'  }}>
+
+        </View>
+
+      </View>
     );
   }
 }
+
+
+
 
 const mapStateToProps = state => {
   return {

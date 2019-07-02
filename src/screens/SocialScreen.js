@@ -21,11 +21,11 @@ export class SocialScreen extends React.Component {
     return {
       headerLeft: (
         <TouchableOpacity style={ styles.touchableOpacityHeader } onPress={() => navigation.navigate('Home')}>
-          <Ionicons 
-            name="ios-arrow-back" 
-            size={32} 
-            color="black" 
-            style={styles.headerIcons} 
+          <Ionicons
+            name="ios-arrow-back"
+            size={32}
+            color="black"
+            style={styles.headerIcons}
           />
           <Text style={ styles.headerText } >
             Home
@@ -36,7 +36,7 @@ export class SocialScreen extends React.Component {
   };
 
   render() {
-    let renderComponent; 
+    let renderComponent;
     if(this.state.show==='matches'){
       renderComponent = <MatchesScreen
         navigate={(card)=> {
@@ -49,7 +49,7 @@ export class SocialScreen extends React.Component {
     else{
       renderComponent = <ChatScreen/>
     }
-    
+
     return (
       <View style={{flex: 1, alignItems: 'center' }}>
         <SwitchSelector
@@ -60,7 +60,7 @@ export class SocialScreen extends React.Component {
           height={50}
           borderRadius='0'
           options={[
-            { value: "matches", label: 'Matches' }, 
+            { value: "matches", label: 'Matches' },
             { value: "chats", label: 'Chats'  },
           ]}
         />
