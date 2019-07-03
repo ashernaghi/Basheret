@@ -1,37 +1,60 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
-const NextButton = ({ onPress, children }) => {
-  return(
+
+const NextButton = ({ onPress, children, content }) => {
+  if(content){
+    return(
+        <TouchableOpacity
+        onPress={onPress}
+        style={styles.enabledButtonStyle}
+        disabled={false}
+        >
+        <Text style={styles.buttonTextStyle}>
+          {children}
+        </Text>
+        </TouchableOpacity>
+      )
+  } else {
+    return(
       <TouchableOpacity
-      onPress={onPress}
-      style={styles.buttonStyle}
+      style={styles.disabledButtonStyle}
       disabled={false}
       >
-      <Text style={styles.buttonTextStyle}>
-        {children}
-      </Text>
+        <Text style={styles.buttonTextStyle}>
+          {children}
+        </Text>
       </TouchableOpacity>
     )
+  }
+
   };
 
 export { NextButton };
 
 const styles = StyleSheet.create ({
-  buttonStyle: {
+  enabledButtonStyle: {
     backgroundColor: '#00387e',
     borderRadius: 30,
-    width: 300,
+    width: 180,
     alignSelf: 'center',
+  },
 
-
+  disabledButtonStyle: {
+    backgroundColor: 'grey',
+    borderRadius: 30,
+    width: 180,
+    alignSelf: 'center',
   },
 
   buttonTextStyle: {
     fontSize: 15,
     color: 'white',
     alignSelf: 'center',
-    padding: 18,
+    fontWeight: 'bold',
+    paddingTop: 16,
+    paddingBottom: 16,
   },
 
 });

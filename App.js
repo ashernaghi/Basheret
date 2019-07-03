@@ -10,15 +10,15 @@ import { fromRight } from 'react-navigation-transitions';
 import thunk from 'redux-thunk';
 import RootStack from './src/navigation/RootStack.js';
 import IntroQuestionsStack from './src/navigation/IntroQuestionsStack';
+import OnboardingStack  from './src/navigation/OnboardingStack';
 import LoadingAppScreen from './src/screens/LoadingAppScreen';
-import OnboardingScreen from './src/screens/OnboardingScreen';
 import reducers from './src/reducers';
 import { Root } from "native-base";
 
 const AppContainer = createAppContainer(createSwitchNavigator(
   {
     LoadingApp: LoadingAppScreen,
-    Onboarding: OnboardingScreen,
+    OnboardingStack: OnboardingStack,
     App: RootStack,
     IntroQuestions: IntroQuestionsStack,
   },
@@ -43,7 +43,7 @@ function cacheFonts(fonts) {
 }
 
 export default class App extends React.Component {
-  state = {
+    state = {
     isReady: false,
   };
 

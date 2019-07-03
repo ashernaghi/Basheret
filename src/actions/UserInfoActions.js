@@ -121,7 +121,7 @@ export const getUser = (props) => dispatch =>  {
         });
     }
     else{
-        props.navigation.navigate('Onboarding');
+        props.navigation.navigate('OnboardingStack');
     }
 }
 

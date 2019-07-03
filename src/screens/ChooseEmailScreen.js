@@ -11,21 +11,7 @@ import {Header} from 'react-navigation'
 export class ChooseEmailScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Basheret',
-      headerStyle: {
-        backgroundColor: '#f4f4f4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTintColor: '#00387e',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'fitamint-script',
-        fontSize: 30
-      },
-      headerRight: null,
-      headerLeft: null,
+      header: null,
     }
   };
 
@@ -33,21 +19,35 @@ export class ChooseEmailScreen extends React.Component {
     return (
             <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
 
-              <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your email:</Text>
-              </View>
-
-              <View style={{ flex: 1,}}>
-                <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'email', text))}
-                  defaultValue={this.props.email}
-                />
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
               </View>
 
               <View style={{ flex: 1 }}>
-                <NextButton onPress={() => this.props.navigation.navigate('ChooseProfilePicture')}>
-                <Text>Done</Text>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Enter your email:</Text>
+
+                <UnderlinedInput
+                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'email', text))}
+                  defaultValue={this.props.email}
+                  placeholder='email address'
+                  textContentType='email'
+                  returnKeyType='next'
+                  autoFocus = {true}
+                  onSubmitEditing={() => this.props.navigation.navigate('ChooseProfilePicture')}
+                />
+              </View>
+
+              <View style={{ flex: 1, justifyContent: 'center'  }}>
+                <NextButton
+                onPress={() => this.props.navigation.navigate('ChooseProfilePicture')}
+                content={this.props.email}
+                >
+                <Text>Next</Text>
                 </NextButton>
+              </View>
+
+              <View style={{ flex: 2, justifyContent: 'center'  }}>
+
               </View>
 
             </View>
@@ -57,7 +57,7 @@ export class ChooseEmailScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    name: state.userInfo.user.info.name,
+    email: state.userInfo.user.info.email,
   };
 };
 

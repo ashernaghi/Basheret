@@ -109,7 +109,9 @@ export class ChooseProfilePictureScreen extends Component {
     if(this.props.profilePhoto){
       return(
       <NextButton
-         onPress={() => this.props.navigation.navigate('Questions')}>
+         onPress={() => this.props.navigation.navigate('Questions')}
+         content={this.props.profilePhoto}
+         >
          Next
       </NextButton>
       )
@@ -152,7 +154,7 @@ export class ChooseProfilePictureScreen extends Component {
         return(
           <View>
           <Text style={styles.textBoldStyle}>
-            {this.props.name}, please upload a profile picture
+            Please upload a profile picture
           </Text>
           <Text style={styles.textLightStyle}>
             We ask, in the hopes of the broadest possible community, that all pictures for both men and women are Tzniut
