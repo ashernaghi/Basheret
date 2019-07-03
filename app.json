@@ -3,7 +3,7 @@
     "name": "Basheret 042919",
     "slug": "basheret-050619",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android"
@@ -26,6 +26,6 @@
       "supportsTablet": true
     },
     "description": "",
-    "scheme": "appName",
+    "scheme": "appname",
   }
 }
