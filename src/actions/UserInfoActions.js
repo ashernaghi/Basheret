@@ -1,6 +1,7 @@
 import firebase from './firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
+import { initializeMatches } from './matchActions'
 
 export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     type: USER_INFO_UPDATE_SUCCESS,
@@ -70,7 +71,7 @@ export const updateUserInfo = (category='', subcategory='', response) => dispatc
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
 	let userID = user.uid;
-    let userFirestore = firebase.firestore().collection('users').doc(userID);
+    let userFirestore = firebase.firestore().collection('users2').doc(userID);
     let userInfo = {};
     if(subcategory){
         userInfo[category] = {}
@@ -95,7 +96,7 @@ export const getUser = (props) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
         let userID = user.uid;
-        let userFirestore = firebase.firestore().collection('users').doc(userID);
+        let userFirestore = firebase.firestore().collection('users2').doc(userID);
         userFirestore.get().then(function(doc) {
             if (doc.exists) {
                 let data = doc.data();
@@ -103,6 +104,8 @@ export const getUser = (props) => dispatch =>  {
                     console.log('1.ASKING LOCATION')
                     this._getLocationAsync(dispatch);
                     dispatch(fetchUserSuccess(data));
+                    dispatch(initializeMatches());
+                    dispatch(updateUserInfo('lastSignIn', null, new Date()))
                     setTimeout( ()=> props.navigation.navigate('App'), 2000 );
                 }
                 else{
@@ -140,7 +143,7 @@ export const getAnotherUserSuccess = (user, category) => ({
 });
 
 export const getAnotherUser = (userID, category) => dispatch  => {
-    let userFirestore = firebase.firestore().collection('users').doc(userID);
+    let userFirestore = firebase.firestore().collection('users2').doc(userID);
     userFirestore.get().then(function(doc) {
         if (doc.exists) {
             console.log('GETTING ANOTHER USR', doc.data().info);
