@@ -5,6 +5,7 @@ const POSITIVE_MATCH = 'POSITIVE_MATCH';
 const NEGATIVE_MATCH = 'NEGATIVE_MATCH';
 const MUTUAL_MATCH = 'MUTUAL_MATCH';
 const POTENTIAL_MATCH = 'POTENTIAL_MATCH'
+const RECCOMENDED_MATCH = 'RECCOMENDED_MATCH'
 
 //Initialzie the arrays for POS, NEG, MUT arrays and set a counter for potential matches.
 //Later will also initialize the getMatches Function
@@ -13,9 +14,6 @@ export const initializeMatches = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
     let userRef = firebase.firestore().collection('users').doc(userID);
     let userInfo = {};
-    userInfo[POSITIVE_MATCH]=[];
-    userInfo[NEGATIVE_MATCH]=[];
-    userInfo[MUTUAL_MATCH]=[];
     userRef.get()
     .then(doc => {
         if (!doc.exists) {
@@ -31,7 +29,7 @@ export const initializeMatches = () => dispatch => {
                 else {
                     snapshot.forEach(doc => {
                         console.log('dispatch', doc.id);
-                        dispatch(addPotential(userRef, doc.id));
+                        dispatch(updateMatch(userRef, POTENTIAL_MATCH, doc.id));
                     });
                     userRef.update(userInfo);  
                 }
@@ -41,38 +39,49 @@ export const initializeMatches = () => dispatch => {
 }
 
 //Helper Functions
-//These functions add/remove a new matchID from the POS, NEG, MUT match arrays
-const addMatch = (ref, category, matchID) => {
-    console.log('ADDING', category, matchID);
+//These functions add/remove a new matchID from the match collection
+const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
+    console.log('UPDATING', category, matchID);
     let matchInfo = {};
-    matchInfo[category] = firebase.firestore.FieldValue.arrayUnion(matchID);
-    ref.update(matchInfo);
+    if (category==POTENTIAL_MATCH) {
+        matchInfo['score'] = calculateScore(matchID);
+    }
+    if (reccomendedBy) {
+        matchInfo[reccomendedBy] = reccomendedBy;
+    }
+    matchInfo['dateAdded'] = new Date();
+    matchInfo['category'] = category;
+    ref.collection('matches').doc(matchID).set(matchInfo)
+    .then(function() {
+        console.log("Match successfully Added!");
+    })
+    .catch(function(error) {
+        console.error("Error adding Match: ", error);
+    });
 }
-const removeMatch = (ref, category, matchID) => {
-    console.log('REMOVING', category, matchID);
-    let matchInfo = {};
-    matchInfo[category] = firebase.firestore.FieldValue.arrayRemove(matchID);
-    ref.update(matchInfo);
+
+const deleteMatch = (ref, matchID) => {
+    console.log('REMOVING', matchID);
+    ref.collection('matches').doc(matchID).delete()
+    .then(function() {
+        console.log("Document successfully removed!");
+    })
+    .catch(function(error) {
+        console.error("Error removing: ", category, error);
+    });
 }
+
 //Check if the match is in a category and return the category
 //Returns a promise to return the category
 const getMatchCategory = (ref, matchID) => {
     console.log('getMatchCategory', matchID);
     return new Promise((resolve, reject) => {
-        ref.get()
+        ref.collection('matches').doc(matchID).get()
         .then(doc => {
             if (doc.exists) {
                 let data = doc.data();
-                console.log('matchCategory', data, matchID)
-                if (data[POSITIVE_MATCH].includes(matchID)) {
-                    resolve(POSITIVE_MATCH);
-                }
-                else if (data[MUTUAL_MATCH].includes(matchID)) {
-                    resolve(MUTUAL_MATCH);
-                }
-                else if (data[NEGATIVE_MATCH].includes(matchID)) {
-                    resolve(NEGATIVE_MATCH);
-                }
+                console.log('matchCategory', data, matchID);
+                resolve(data.category);
             }
             resolve(POTENTIAL_MATCH);  
         })
@@ -83,45 +92,31 @@ const calculateScore = (matchID) => {
     return 10;
 }
 
-const addPotential = (ref, matchID) => dispatch => {
-    let matchInfo = {};
-    matchInfo['score'] = calculateScore(matchID);
-    console.log("potential", matchInfo);
-    ref.collection(POTENTIAL_MATCH).doc(matchID).set(matchInfo)
-}
-const removePotential = (ref, matchID) => dispatch => {
-    console.log('remove POTENTIAL_MATCH', matchID);
-    ref.collection(POTENTIAL_MATCH).doc(matchID).delete();
-}
-
 //Given a matchID, put the match in the user's negative array and the user in the matches negative array
 export const negativeMatch = (matchID) => dispatch => {
     let userID = firebase.auth().currentUser.uid;
     console.log("NEGATIVE_MATCH", userID, matchID);
     let matchRef = firebase.firestore().collection('users').doc(matchID);
     let userRef = firebase.firestore().collection('users').doc(userID);
-    removeMatch(matchRef, POSITIVE_MATCH, userID);
-    dispatch(removePotential(userRef, matchID));
-    dispatch(removePotential(matchRef, userID));
-    addMatch(userRef, NEGATIVE_MATCH, userID);
-    addMatch(matchRef, NEGATIVE_MATCH, matchID);
+    updateMatch(userRef, NEGATIVE_MATCH, userID);
+    updateMatch(matchRef, NEGATIVE_MATCH, matchID);
 }
 
-//Given a userID, check if they are in the potential matches collection
-export const getPotential = (ref, docID) => dispatch => {
-    ref.collection(POTENTIAL_MATCH).doc(docID).get()
-      .then(doc => {
-        if (!doc.exists) {
-          return null;
-        } else {
-            console.log(doc.data());
-          return doc.data();
-        }
-      })
-      .catch(err => {
-        console.log('Error getting document', err);
-      });
-}
+// //Given a userID, check if they are in the matches collection
+// export const getPotential = (ref, docID) => dispatch => {
+//     ref.collection(matches).doc(docID).get()
+//       .then(doc => {
+//         if (!doc.exists) {
+//           return null;
+//         } else {
+//             console.log(doc.data());
+//           return doc.data();
+//         }
+//       })
+//       .catch(err => {
+//         console.log('Error getting document', err);
+//       });
+// }
 
 //Given a match that the user matched positively with, update the coorepsonding
 //collections and documents
@@ -133,15 +128,13 @@ export const positiveMatch = (matchID) => dispatch => {
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
         console.log('pos match', matchCategory);
-        dispatch(removePotential(userRef, matchID));
         if (matchCategory === POSITIVE_MATCH) {
-            addMatch(userRef, MUTUAL_MATCH, matchID);
-            addMatch(matchRef, MUTUAL_MATCH, userID);
-            removeMatch(matchRef, POSITIVE_MATCH, userID);
+            updateMatch(userRef, MUTUAL_MATCH, matchID);
+            updateMatch(matchRef, MUTUAL_MATCH, userID);
         }
         else {
-            addMatch(userRef, POSITIVE_MATCH, matchID);
-            dispatch(addPotential(matchRef, userID));
+            updateMatch(userRef, POSITIVE_MATCH, matchID);
+            updateMatch(matchRef, POTENTIAL_MATCH, userID);
         }
     })
 }
@@ -149,8 +142,8 @@ export const positiveMatch = (matchID) => dispatch => {
 //Return the highest candidate in the potential list.
 export const getCandidate = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let potentialRef = firebase.firestore().collection('users').doc(userID).collection(POTENTIAL_MATCH);
-    let nextMatch = potentialRef.orderBy('score').limit(1).onSnapshot(querySnapshot => {
+    let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
+    let nextMatch = matchRef.where("category", "==", POTENTIAL_MATCH).orderBy('score').limit(1).onSnapshot(querySnapshot => {
         querySnapshot.docs.forEach(doc => {
             if (doc.exists) {
                 console.log('found candiddate', doc.id, doc.data());
@@ -162,28 +155,22 @@ export const getCandidate = () => dispatch => {
             }
         });
     })
-    // .then(snapshot => {
-        
-    // })
 }
 
 //Get all ids of users currently in the mutual match category
 export const getCurrentMatches = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users').doc(userID);
-    matchRef.get()
-    .then(doc => {
-        if (doc.exists) {
+    let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
+    matchRef.where("category", "==", MUTUAL_MATCH).get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
             console.log('curMatch',doc.data());
-            doc.data()[MUTUAL_MATCH].forEach(match => {
-                dispatch(getAnotherUser(match, 'matchesCards'))
-            })
-        }
-        else {
-            console.log('No matching documents.');
-            return;
-        }
-
+            dispatch(getAnotherUser(doc.data(), 'matchesCards'))
+        });
+    })
+    .catch(error => {
+        console.log('no matching users')
+        return;
     })
 }
 
@@ -192,6 +179,25 @@ export const mutualMatch = (bool) => ({
     bool
 });
 
+
+//Matchmaker functions
+export const reccomendedMatch = (otherID, matchID) => dispatch => {
+    let userID = firebase.auth().currentUser.uid;
+    let matchRef = firebase.firestore().collection('users').doc(matchID);
+    let otherRef = firebase.firestore().collection('users').doc(otherID);
+    console.log('reccomendedMatch', matchID, otherID);
+    getMatchCategory(matchRef, otherID)
+    .then(matchCategory => {
+        console.log('reccomended match', matchCategory);
+        if (matchCategory === MUTUAL_MATCH) {
+            return;
+        }
+        else {
+            updateMatch(otherRef, RECCOMENDED_MATCH, matchID, userID);
+            updateMatch(matchRef, RECCOMENDED_MATCH, otherID, userID);
+        }
+    })
+}
 
 /*Currently not being used */
 // export const getMatchesSuccess = (matches) => ({
