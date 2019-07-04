@@ -38,6 +38,30 @@ class MultilineProfileCard extends Component {
           </View>
         </TouchableOpacity>
       )
+    } else if(this.props.gradient){
+        return(
+          <TouchableOpacity
+            onPress={this.props.onPress}
+            style={styles.newCardStyle}
+            >
+              <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
+
+                <View style={{flexDirection: 'column', marginRight: 5, flex: 14}}>
+                  <Text style={styles.titleStyle}>{this.props.title}</Text>
+                  {this.props.gradient}
+                </View>
+
+                <View style={{ justifyContent: 'center', margin: 5, flex: 1}}>
+                  <Ionicons
+                    name="ios-arrow-forward"
+                    size={30}
+                    color="grey"
+                    style={{}}/>
+                </View>
+
+            </View>
+          </TouchableOpacity>
+        )
     } else {
       return(
         <TouchableOpacity

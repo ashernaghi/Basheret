@@ -58,14 +58,17 @@ export class EditGenderScreen extends Component {
     <View style={styles.viewStyle}>
 
       <View>
-        <Text>Edit your gender: </Text>
+        <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Edit your gender: </Text>
       </View>
 
       {this.buttonDisplay()}
 
       <View style={{ flex: 1 }}>
-        <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
-        <Text>Done</Text>
+        <NextButton
+        onPress={() => this.props.navigation.navigate('Profile')}
+        content={this.props.gender}
+        >
+          <Text>Save</Text>
         </NextButton>
       </View>
 

@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
+import { View, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
+import Svg, { Line, Circle, G, Text, } from 'react-native-svg';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
 import CandidateProfileCard from '../components/CandidateProfileCard';
 import CandidateMultilineProfileCard from '../components/CandidateMultilineProfileCard';
-import styles from '../styles/styles';
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { showProfileScreen, updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions';
 import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
+import {options, questions, category} from '../common/arrays'
+
 
 export class ProfileScreen extends React.Component {
   constructor(props){
@@ -21,8 +23,14 @@ export class ProfileScreen extends React.Component {
       permissionsError: null,
       cameraRollPermissions: null,
       cameraPermissions: null,
-      choosemethod: '',};
+      choosemethod: '',
+      gradientLineHeight: '100',
+      gradientLineWidth: '250',
+      count: 1,
+    };
   }
+
+
 
   static navigationOptions = ({ navigation }) => {
       return {
@@ -129,6 +137,42 @@ export class ProfileScreen extends React.Component {
     this.setState({choosemethod: clickedState})
   }
 
+
+
+  renderLabels(){
+    return options[1].map((label, index)=> {
+      console.log(index)
+      return <Text x={this.state.gradientLineWidth*((index)/4)} y='70'  textAnchor="middle" key={index}>{label}</Text>
+    })
+
+  }
+
+
+
+//gradient type can be used to index --> if gradientType = this.props.denom..
+  renderGradient(gradientType){
+    return(
+      <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
+        <Line
+          x1='5'
+          y1={this.state.gradientLineHeight/2}
+          x2={this.state.gradientLineWidth-5}
+          y2={this.state.gradientLineHeight/2}
+          stroke='black'
+          strokeWidth='1.5'
+          strokeLinecap='round'
+        />
+        <Circle
+          cx={0.96*(gradientType*(this.state.gradientLineWidth/100))+5}
+          cy={this.state.gradientLineHeight/2}
+          r='3'
+          fill='#00387e'
+        />
+        {this.renderLabels()}
+      </Svg>
+    )
+  }
+
   render() {
     //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
@@ -200,6 +244,7 @@ export class ProfileScreen extends React.Component {
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
+
               <View style={{}}>
 
                 <EditProfilePhotoActionSheet
@@ -207,7 +252,24 @@ export class ProfileScreen extends React.Component {
                   handleCamera={this.useCameraHandler}
                   handleLibrary={this.useLibraryHandler}
                   style={styles.profilePhoto}
-                  />
+                  overlay={
+                    <View style={{ flex: 1, }}>
+
+                      <View>
+                      </View>
+
+                      <View>
+                        <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >
+                          {this.props.name}
+                        </Text>
+
+                      </View>
+
+                    </View>
+
+                }
+                  >
+                </EditProfilePhotoActionSheet>
 
               </View>
 
@@ -217,9 +279,9 @@ export class ProfileScreen extends React.Component {
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
-                <ProfileCard title= 'Denomination' content= {this.props.denomination} />
-                <ProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
-                <ProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
+                <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination)} />
+                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance)} />
+                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance)} />
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
@@ -286,3 +348,31 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(ProfileScreen);
+
+const styles = StyleSheet.create({
+  permissionsErrorStyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'fitamint-script',
+    color: 'grey',
+    fontSize: 25,
+  },
+
+  touchableOpacityHeader: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+  },
+
+  profilePhoto: {
+    height: 360,
+    width: 375,
+    borderRadius: 15,
+    overflow: 'hidden',
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+
+  },
+
+});

@@ -53,7 +53,7 @@ export class EditProfilePhotoActionSheet extends Component {
             <ImageBackground
               source={{ uri: this.props.profilePhoto }}
               style={{ flex: 1, justifyContent: 'flex-end' }}>
-              <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
+              {this.props.overlay}
             </ImageBackground>
 
           </TouchableOpacity>

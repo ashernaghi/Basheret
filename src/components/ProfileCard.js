@@ -3,7 +3,6 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Ionicons, Feather } from '@expo/vector-icons';
 
-
 class ProfileCard extends React.Component {
   constructor(props){
     super(props);

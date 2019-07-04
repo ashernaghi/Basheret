@@ -109,7 +109,7 @@ export class ChooseProfilePictureScreen extends Component {
     if(this.props.profilePhoto){
       return(
       <NextButton
-         onPress={() => this.props.navigation.navigate('Questions')}
+         onPress={() => this.props.navigation.navigate('ChooseAge')}
          content={this.props.profilePhoto}
          >
          Next
