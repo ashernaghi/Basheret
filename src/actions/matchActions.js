@@ -21,7 +21,8 @@ export const initializeMatches = () => dispatch => {
           console.log('No such document!');
         } else {
             let genderPreference =  doc.data().preferences.genderPreference;
-            firebase.firestore().collection('users').where('info.gender', '==', genderPreference).get()
+            let lastSignIn = doc.data().lastSignIn;
+            firebase.firestore().collection('users').where('info.gender', '==', genderPreference).where('lastSignIn', ">=", lastSignIn).get()
             .then(snapshot => {
                 if (snapshot.empty) {
                     userRef.update(userInfo); 
@@ -29,13 +30,19 @@ export const initializeMatches = () => dispatch => {
                 }
                 else {
                     snapshot.forEach(doc => {
-                        console.log('dispatch', doc.id);
+                        console.log('dispatch', doc.id, doc.data());
                         dispatch(updateMatch(userRef, POTENTIAL_MATCH, doc.id));
                     });
                     userRef.update(userInfo);  
                 }
             })
+            .catch(error => {
+                console.log('initializing failed', error);
+            })
         }
+    })
+    .catch(error => {
+        console.log('initializing outer failed', error);
     })
 }
 
@@ -68,6 +75,9 @@ export const positiveMatch = (matchID) => dispatch => {
             dispatch(updateMatch(matchRef, POTENTIAL_MATCH, userID));
         }
     })
+    .catch(error => {
+        console.log('error positiveMatch', error);
+    })
 }
 
 
@@ -93,15 +103,16 @@ export const getCandidate = () => dispatch => {
 export const getCurrentMatches = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
     let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
+    console.log('getting matches', userID);
     matchRef.where("category", "==", MUTUAL_MATCH).orderBy("dateAdded", "desc").get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            console.log('curMatch',doc.data());
-            dispatch(getAnotherUser(doc.data(), 'matchesCards'))
+            //console.log('curMatch',doc.data());
+            dispatch(getAnotherUser(doc.id, 'matchesCards'))
         });
     })
     .catch(error => {
-        console.log('no matching users')
+        console.log('no matching users', error)
         return;
     })
 }
@@ -115,7 +126,7 @@ export const reccomendedMatch = (otherID, matchID) => dispatch => {
     console.log('reccomendedMatch', matchID, otherID);
     getMatchCategory(matchRef, otherID)
     .then(matchCategory => {
-        console.log('reccomended match', matchCategory);
+        //console.log('reccomended match', matchCategory);
         if (matchCategory === MUTUAL_MATCH) {
             return;
         }
@@ -123,6 +134,9 @@ export const reccomendedMatch = (otherID, matchID) => dispatch => {
             updateMatch(otherRef, RECCOMENDED_MATCH, matchID, userID);
             updateMatch(matchRef, RECCOMENDED_MATCH, otherID, userID);
         }
+    })
+    .catch(error => {
+        console.log('no reccomendedMatch', error);
     })
 }
 
@@ -145,6 +159,9 @@ export const positiveReccomended = (matchID) => {
         else {
             dispatch(updateMatch(userRef, NEGATIVE_MATCH, matchID));
         }
+    })
+    .catch(error => {
+        console.log('positiveReccomended error', error);
     })
 }
 export const negativeReccomended = (matchID) => {
@@ -200,6 +217,9 @@ const getMatchCategory = (ref, matchID) => {
                 resolve(data.category);
             }
             resolve(POTENTIAL_MATCH);  
+        })
+        .catch(error => {
+            console.log('error getting match category'. error);
         })
     });
 }
