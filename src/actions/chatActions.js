@@ -81,7 +81,7 @@ const chatRef = (recipientID) => {
 //Parse message
 const parse = (snapshot) => {
 	console.log('parsing', snapshot)
-	const { timestamp, text, user } = snapshot;
+	const { numberStamp, text, user } = snapshot;
   	const { key: _id } = snapshot;
   	const timestamp = new Date(numberStamp);
   	const message = {

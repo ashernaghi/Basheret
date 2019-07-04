@@ -163,11 +163,11 @@ const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
         matchInfo['score'] = calculateScore(matchID);
     }
     if (reccomendedBy) {
-        matchInfo[reccomendedBy] = reccomendedBy;
+        matchInfo['reccomendedBy'] = reccomendedBy;
     }
     matchInfo['dateAdded'] = new Date();
     matchInfo['category'] = category;
-    ref.collection('matches').doc(matchID).update(matchInfo)
+    ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
     .then(function() {
         console.log("Match successfully Added!");
     })
