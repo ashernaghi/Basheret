@@ -6,14 +6,16 @@ import {getCurrentMatches} from '../actions/matchActions';
 export class MatchesScreen extends React.Component {
   componentDidMount(){
     // getCurrentMatches();
-    this.props.dispatch(getCurrentMatches());
+    if (!this.props.matchesCards) {
+        this.props.dispatch(getCurrentMatches());
+    }
   }
 
   generateMatchCards(){
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
         return (
-          <View key={index} style={styles.matchCardStyle}>
+          <View key={index} style={styles.matchqCardStyle}>
 
             <View>
             <Image style={styles.imageStyle} source={{ uri: matchCard.profilePhoto }}/>

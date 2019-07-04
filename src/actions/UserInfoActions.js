@@ -1,6 +1,7 @@
 import firebase from './firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
+import { initializeMatches } from './matchActions'
 
 export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     type: USER_INFO_UPDATE_SUCCESS,
@@ -34,9 +35,7 @@ export const uploadFile = (rawFile, location) => async(dispatch) => {
     let fileLocation = storage.ref().child("/users/"+userID+"/"+location);
     let fileUpload = fileLocation.put(blob);
     fileUpload.on('state_changed', function(snapshot){
-      // Observe state change events such as progress, pause, and resume
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       console.log('Upload is ' + progress + '% done');
       switch (snapshot.state) {
         case firebase.storage.TaskState.PAUSED: // or 'paused'
@@ -49,8 +48,6 @@ export const uploadFile = (rawFile, location) => async(dispatch) => {
     }, function(error) {
       console.log('ERROR UPLOADING', error);
     }, function() {
-      // Handle successful uploads on complete
-      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
       fileUpload.snapshot.ref.getDownloadURL().then(function(downloadURL) {
         console.log('File available at', downloadURL);
         dispatch(updateUserInfo('info', 'profilePhoto', downloadURL));
@@ -107,6 +104,8 @@ export const getUser = (props) => dispatch =>  {
                     console.log('1.ASKING LOCATION')
                     this._getLocationAsync(dispatch);
                     dispatch(fetchUserSuccess(data));
+                    dispatch(initializeMatches());
+                    dispatch(updateUserInfo('lastSignIn', null, new Date()))
                     setTimeout( ()=> props.navigation.navigate('App'), 2000 );
                 }
                 else{

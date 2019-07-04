@@ -1,16 +1,5 @@
 import firebase from './firebase'
 
-const chatRef = (recipientID) => {
-	let location = ""
-	let userID = firebase.auth().currentUser.uid
-	if (userID < recipientID) 
-		location = userID + recipientID
-	else 
-		location = recipientID + "--"+ userID
-	let messageRef = firebase.firestore().collection('chats').doc(location)
-	return messageRef
-}
-
 export const getUser = () => {
 	console.log('getuser')
 	return new Promise((resolve, reject) => {
@@ -77,9 +66,22 @@ export const sendMessage = (messages, recipientID) => {
     }
 };
 
+//Create the location for the chat by using the format
+const chatRef = (recipientID) => {
+	let location = ""
+	let userID = firebase.auth().currentUser.uid
+	if (userID < recipientID) 
+		location = userID + recipientID
+	else 
+		location = recipientID + "--"+ userID
+	let messageRef = firebase.firestore().collection('chats').doc(location)
+	return messageRef
+}
+
+//Parse message
 const parse = (snapshot) => {
 	console.log('parsing', snapshot)
-	const { timestamp: numberStamp, text, user } = snapshot;
+	const { numberStamp, text, user } = snapshot;
   	const { key: _id } = snapshot;
   	const timestamp = new Date(numberStamp);
   	const message = {
