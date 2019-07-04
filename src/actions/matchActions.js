@@ -13,7 +13,7 @@ const RECCOMENDED_POSITIVE_MATCH = 'RECCOMENDED_POSITIVE_MATCH';
 export const initializeMatches = () => dispatch => {
     console.log("initializing matches")
     let userID = firebase.auth().currentUser.uid;
-    let userRef = firebase.firestore().collection('users2').doc(userID);
+    let userRef = firebase.firestore().collection('users').doc(userID);
     let userInfo = {};
     userRef.get()
     .then(doc => {
@@ -21,7 +21,7 @@ export const initializeMatches = () => dispatch => {
           console.log('No such document!');
         } else {
             let genderPreference =  doc.data().preferences.genderPreference;
-            firebase.firestore().collection('users2').where('info.gender', '==', genderPreference).get()
+            firebase.firestore().collection('users').where('info.gender', '==', genderPreference).get()
             .then(snapshot => {
                 if (snapshot.empty) {
                     userRef.update(userInfo); 
@@ -43,8 +43,8 @@ export const initializeMatches = () => dispatch => {
 export const negativeMatch = (matchID) => dispatch => {
     let userID = firebase.auth().currentUser.uid;
     console.log("NEGATIVE_MATCH", userID, matchID);
-    let matchRef = firebase.firestore().collection('users2').doc(matchID);
-    let userRef = firebase.firestore().collection('users2').doc(userID);
+    let matchRef = firebase.firestore().collection('users').doc(matchID);
+    let userRef = firebase.firestore().collection('users').doc(userID);
     dispatch(updateMatch(userRef, NEGATIVE_MATCH, userID));
     dispatch(updateMatch(matchRef, NEGATIVE_MATCH, matchID));
 }
@@ -53,8 +53,8 @@ export const negativeMatch = (matchID) => dispatch => {
 //Given a match that the user matched positively with, update the coorepsonding collections and documents
 export const positiveMatch = (matchID) => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users2').doc(matchID);
-    let userRef = firebase.firestore().collection('users2').doc(userID);
+    let matchRef = firebase.firestore().collection('users').doc(matchID);
+    let userRef = firebase.firestore().collection('users').doc(userID);
     console.log('positiveMatch', matchID);
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
@@ -74,7 +74,7 @@ export const positiveMatch = (matchID) => dispatch => {
 //Return the highest candidate in the potential list.
 export const getCandidate = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users2').doc(userID).collection('matches');
+    let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
     let nextMatch = matchRef.where("category", "==", POTENTIAL_MATCH).orderBy('score').limit(1).onSnapshot(querySnapshot => {
         querySnapshot.docs.forEach(doc => {
             if (doc.exists) {
@@ -92,8 +92,8 @@ export const getCandidate = () => dispatch => {
 //Get all ids of users currently in the mutual match category
 export const getCurrentMatches = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users2').doc(userID).collection('matches');
-    matchRef.where("category", "==", MUTUAL_MATCH).get()
+    let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
+    matchRef.where("category", "==", MUTUAL_MATCH).orderBy("dateAdded", "desc").get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             console.log('curMatch',doc.data());
@@ -110,8 +110,8 @@ export const getCurrentMatches = () => dispatch => {
 //Set users to be reccomended matches
 export const reccomendedMatch = (otherID, matchID) => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users2').doc(matchID);
-    let otherRef = firebase.firestore().collection('users2').doc(otherID);
+    let matchRef = firebase.firestore().collection('users').doc(matchID);
+    let otherRef = firebase.firestore().collection('users').doc(otherID);
     console.log('reccomendedMatch', matchID, otherID);
     getMatchCategory(matchRef, otherID)
     .then(matchCategory => {
@@ -129,8 +129,8 @@ export const reccomendedMatch = (otherID, matchID) => dispatch => {
 //Use this function when a user approves a match with a reccomended
 export const positiveReccomended = (matchID) => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users2').doc(matchID);
-    let userRef = firebase.firestore().collection('users2').doc(userID);
+    let matchRef = firebase.firestore().collection('users').doc(matchID);
+    let userRef = firebase.firestore().collection('users').doc(userID);
     console.log('positiveReccomended', matchID);
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
@@ -149,7 +149,7 @@ export const positiveReccomended = (matchID) => {
 }
 export const negativeReccomended = (matchID) => {
     let userID = firebase.auth().currentUser.uid;
-    let userRef = firebase.firestore().collection('users2').doc(userID);
+    let userRef = firebase.firestore().collection('users').doc(userID);
     console.log('negativeReccomended', matchID);
     dispatch(updateMatch(userRef, NEGATIVE_MATCH, matchID));
 }

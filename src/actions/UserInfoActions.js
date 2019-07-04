@@ -71,7 +71,7 @@ export const updateUserInfo = (category='', subcategory='', response) => dispatc
     //QUESTION: these arent async?...
     let user = firebase.auth().currentUser;
 	let userID = user.uid;
-    let userFirestore = firebase.firestore().collection('users2').doc(userID);
+    let userFirestore = firebase.firestore().collection('users').doc(userID);
     let userInfo = {};
     if(subcategory){
         userInfo[category] = {}
@@ -96,7 +96,7 @@ export const getUser = (props) => dispatch =>  {
     let user = firebase.auth().currentUser;
     if(user){
         let userID = user.uid;
-        let userFirestore = firebase.firestore().collection('users2').doc(userID);
+        let userFirestore = firebase.firestore().collection('users').doc(userID);
         userFirestore.get().then(function(doc) {
             if (doc.exists) {
                 let data = doc.data();
@@ -143,7 +143,7 @@ export const getAnotherUserSuccess = (user, category) => ({
 });
 
 export const getAnotherUser = (userID, category) => dispatch  => {
-    let userFirestore = firebase.firestore().collection('users2').doc(userID);
+    let userFirestore = firebase.firestore().collection('users').doc(userID);
     userFirestore.get().then(function(doc) {
         if (doc.exists) {
             console.log('GETTING ANOTHER USR', doc.data().info);
