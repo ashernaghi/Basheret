@@ -6,7 +6,6 @@ import {
   LOGIN_PHONE_NUMBER_SUCCESS
 } from './types';
 import { updateUserInfo } from './UserInfoActions';
-import { initializeMatches } from './matchActions';
 
 export const loginFacebookRequest = () => ({
   type: LOGIN_FACEBOOK_REQUEST,

@@ -1,7 +1,7 @@
 import firebase from './firebase';
 import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
-import { initializeMatches } from './matchActions'
+import { updateMatches } from './matchActions'
 
 export const userInfoUpdateSuccess = (category, subcategory, response) => ({
     type: USER_INFO_UPDATE_SUCCESS,
@@ -104,7 +104,7 @@ export const getUser = (props) => dispatch =>  {
                     console.log('1.ASKING LOCATION')
                     this._getLocationAsync(dispatch);
                     dispatch(fetchUserSuccess(data));
-                    dispatch(initializeMatches());
+                    dispatch(updateMatches());
                     dispatch(updateUserInfo('lastSignIn', null, new Date()))
                     setTimeout( ()=> props.navigation.navigate('App'), 2000 );
                 }
