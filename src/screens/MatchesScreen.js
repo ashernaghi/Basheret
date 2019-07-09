@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import {getCurrentMatches} from '../actions/matchActions';
 
 export class MatchesScreen extends React.Component {
@@ -15,10 +16,10 @@ export class MatchesScreen extends React.Component {
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
         return (
-          <View key={index} style={styles.matchqCardStyle}>
+          <View key={index} style={styles.matchCardStyle}>
 
-            <View>
-            <Image style={styles.imageStyle} source={{ uri: matchCard.profilePhoto }}/>
+            <View style={styles.thumbnailContainerStyle}>
+              <Image style={styles.imageStyle} source={{ uri: matchCard.profilePhoto }}/>
             </View>
 
             <View style={styles.textStyle}>
@@ -26,8 +27,18 @@ export class MatchesScreen extends React.Component {
               //show Profile Modal and change profile to 'candidate'
               onPress={()=>this.props.navigate(matchCard)}
               >
-              <Text key={index} >{matchCard.name}</Text>
+              <Text key={index} style={styles.titleStyle} >{matchCard.name}</Text>
               </TouchableOpacity>
+            </View>
+            <View style={ styles.buttonStyle }>
+            <TouchableOpacity  onPress={() => navigation.navigate('Home')}>
+              <Ionicons
+                name="ios-arrow-forward"
+                size={30}
+                color="grey"
+                style={styles.headerIcons}
+              />
+            </TouchableOpacity>
             </View>
           </View>
         )
@@ -62,7 +73,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 0.75,
     borderColor: 'grey',
-    height: 75,
+    height: 90,
+    width: 345,
+    alignSelf: 'flex-end',
   },
 
   imageStyle: {
@@ -71,12 +84,24 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: 'grey',
     alignSelf: 'center',
-    margin: 10,
     justifyContent: 'center',
   },
-
-  textStyle: {
-    alignSelf: 'center',
-    marginLeft: 5,
+  thumbnailContainerStyle: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  textStyle: {
+    // alignSelf: 'center',
+    marginLeft: 7,
+    marginTop: 19,
+  },
+  titleStyle: {
+    fontSize: 15,
+    fontWeight: 700,
+  },
+  buttonStyle: {
+    justifyContent: 'center',
+    marginLeft: 'auto',
+    width: 30
+  }
 })
