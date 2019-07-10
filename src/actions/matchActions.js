@@ -8,10 +8,8 @@ const POTENTIAL_MATCH = 'POTENTIAL_MATCH';
 const RECCOMENDED_MATCH = 'RECCOMENDED_MATCH';
 const RECCOMENDED_POSITIVE_MATCH = 'RECCOMENDED_POSITIVE_MATCH';
 
-//Initialzie the potential matches
-//Later will also initialize the getMatches Function
-export const initializeMatches = () => dispatch => {
-    console.log("initializing matches")
+export const updateMatches = () => dispatch => {
+    console.log("updating matches")
     let userID = firebase.auth().currentUser.uid;
     let userRef = firebase.firestore().collection('users').doc(userID);
     let userInfo = {};
@@ -20,18 +18,29 @@ export const initializeMatches = () => dispatch => {
         if (!doc.exists) {
           console.log('No such document!');
         } else {
+            let preferences =  doc.data().preferences;
             let genderPreference =  doc.data().preferences.genderPreference;
             let lastSignIn = doc.data().lastSignIn;
-            firebase.firestore().collection('users').where('info.gender', '==', genderPreference).where('lastSignIn', ">=", lastSignIn).get()
+            firebase.firestore().collection('users').where('info.gender', '==', genderPreference).get()
             .then(snapshot => {
                 if (snapshot.empty) {
                     userRef.update(userInfo); 
                     return;
                 }
                 else {
-                    snapshot.forEach(doc => {
-                        console.log('dispatch', doc.id, doc.data());
-                        dispatch(updateMatch(userRef, POTENTIAL_MATCH, doc.id));
+                    snapshot.forEach(match => {
+                        console.log('dispatch', match.id, match.data());
+                        if (validPotential(doc.data(), match.data())) {
+                            getMatchCategory(userRef, match.id)
+                            .then(matchCategory => {
+                                if (matchCategory == POTENTIAL_MATCH) {
+                                    dispatch(updateMatch(userRef, POTENTIAL_MATCH, match.id));
+                                }
+                            })
+                            .catch(err => {
+                                console.log('error getting match', err);
+                            })
+                        }
                     });
                     userRef.update(userInfo);  
                 }
@@ -45,6 +54,35 @@ export const initializeMatches = () => dispatch => {
         console.log('initializing outer failed', error);
     })
 }
+
+const validPotential = (user, match) => {
+    if (!validPreferences(user, match)) {
+        return false;
+    }
+    if (!validPreferences(match, user)) {
+        return false;
+    }
+    if (!match.preferences.discoverable) {
+        return false;
+    }
+    return true;   
+}
+
+const preferenceList = ['age', 'denomination', 'kashrut', 'shabbat'];
+
+const validPreferences = (userA, userB) => {
+    const info = userA.info;
+    const preferences = userB.preferences;
+    for (const pref of preferenceList) {
+        const curPref = pref.concat('Preference')
+        if (info[pref] < preferences[curPref][0] || info[pref] > preferences[curPref][1]) 
+            return false;
+    }
+    if (info.gender != preferences.genderPreference) {
+        return false;
+    }
+    return true;
+} 
 
 //Use this function when a user rejects a match with another user. Takes the other user's match ID
 export const negativeMatch = (matchID) => dispatch => {

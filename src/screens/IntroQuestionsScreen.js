@@ -57,7 +57,7 @@ export class IntroQuestionsScreen extends React.Component {
       this.props.dispatch(updateUserInfo('preferences', 'distancePreference', 1000));
       this.props.dispatch(updateUserInfo('preferences', 'discoverable', true));
       this.props.dispatch(updateUserInfo('initialSetupComplete', null, true));
-      this.props.dispatch(initializeMatches());
+      this.props.dispatch(updateMatches());
 
       setTimeout( ()=> this.props.navigation.navigate('LoadingApp'), 500 )
       ;
