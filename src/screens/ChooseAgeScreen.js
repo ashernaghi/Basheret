@@ -111,7 +111,7 @@ export class ChooseAgeScreen extends React.Component {
           onPress={() => this.props.navigation.navigate('Questions')}
           content={this.props.birthday}
           >
-            <Text>Save</Text>
+            <Text>Next</Text>
           </NextButton>
         </View>
 

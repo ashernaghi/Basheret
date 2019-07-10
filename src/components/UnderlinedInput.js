@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEntry, defaultValue, textContentType, returnKeyType, onSubmitEditing, autoFocus }) => {
+const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEntry, defaultValue, textContentType, returnKeyType, onSubmitEditing, autoFocus, multiline, numberOfLines, autoCorrect }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -9,7 +9,7 @@ const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEn
       <TextInput
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
-        autoCorrect={false}
+        autoCorrect={autoCorrect || false}
         style={inputStyle}
         value={value}
         onChangeText={onChangeText}
@@ -20,6 +20,9 @@ const UnderlinedInput = ({ label, value, onChangeText, placeholder, secureTextEn
         returnKeyType={returnKeyType}
         onSubmitEditing={onSubmitEditing}
         autoFocus = {autoFocus}
+        multiline={multiline}
+        scrollEnabled
+        numberOfLines={numberOfLines}
       />
     </View>
   );

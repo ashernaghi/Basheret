@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
 import { NextButton } from '../components/NextButton';
 import { Header } from 'react-navigation'
 
 
-export class EditAboutMeScreen extends React.Component {
+export class EditProfessionScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
-      transitionConfig: () => fromRight(1000),
+      transitionConfig: () => fromLeft(1000),
     }
 
   };
@@ -27,21 +28,21 @@ export class EditAboutMeScreen extends React.Component {
         </View>
 
         <View style={styles.questionContainerStyle}>
-          <Text style={styles.questionTextStyle}>Tell us about yourself:</Text>
+          <Text style={styles.questionTextStyle}>Edit your profession:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'aboutMe', text))}
-            defaultValue={this.props.aboutMe}
-            placeholder='Tell us more...'
+            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'profession', text))}
+            defaultValue={this.props.profession}
+            placeholder='Profession'
+            returnKeyType='done'
             autoFocus = {true}
-            multiline={true}
-            autoCorrect={true}
+            onSubmitEditing={() => this.props.navigation.navigate('Profile')}
           />
         </View>
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
           onPress={() => this.props.navigation.navigate('Profile')}
-          content={'not required'}
+          content={this.props.profession}
           >
             <Text>Save</Text>
           </NextButton>
@@ -55,14 +56,13 @@ export class EditAboutMeScreen extends React.Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
-    aboutMe: state.userInfo.user.info.aboutMe,
+    profession: state.userInfo.user.info.profession,
   };
 };
 
-export default connect(mapStateToProps)(EditAboutMeScreen);
+export default connect(mapStateToProps)(EditProfessionScreen);
 
 const styles = StyleSheet.create({
   containerStyle: {

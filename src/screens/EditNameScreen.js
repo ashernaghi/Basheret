@@ -12,8 +12,12 @@ export class EditNameScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
+      transitionConfig: () => fromRight(1000),
     }
+
   };
+
+
 
   render() {
     return (

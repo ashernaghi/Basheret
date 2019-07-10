@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { Slider } from 'react-native-elements';
-import SaveButton from '../components/SaveButton';
 import OptionButton from '../components/OptionButton';
 import { NextButton } from '../components/NextButton';
 import { DisabledNextButton } from '../components/DisabledNextButton';
@@ -23,9 +22,9 @@ export class IntroQuestionsScreen extends React.Component {
     state= {
       preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
       preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
-      responseValue: 100,
-      minObservance: 0,
-      maxObservance: 100,
+      responseValue: 101,
+      minObservance: 1,
+      maxObservance: 101,
       thumb: 24,
       borderRadius: 12,
       selected: '',
@@ -37,7 +36,7 @@ export class IntroQuestionsScreen extends React.Component {
 
   onPress(str=""){
     //send response to db:
-    this.props.dispatch(updateUserInfo('info', category[this.count], str ? str : this.state.responseValue));
+    this.props.dispatch(updateUserInfo('info', category[this.count], str ? str : (this.state.responseValue-1)));
     //set default for the preference:
     this.props.dispatch(updateUserInfo('preferences', this.state.preference[this.count], str==='Male' ? 'Female' : str==='Female' ?
   'Male' : this.state.preferenceDefault[this.count]));
@@ -67,7 +66,7 @@ export class IntroQuestionsScreen extends React.Component {
 
   generateLabels(){
     return options[this.count].map((label, index)=> {
-      return <Text key={index} >{label}</Text>
+      return <Text key={index}>{label}</Text>
     })
   }
 

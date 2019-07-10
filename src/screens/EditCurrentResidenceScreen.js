@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
@@ -11,46 +11,47 @@ import  { NextButton } from '../components/NextButton';
 export class EditCurrentResidenceScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Basheret',
-      headerStyle: {
-        backgroundColor: '#f4f4f4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTintColor: '#00387e',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'fitamint-script',
-        fontSize: 30
-      },
-      headerRight: null,
-      headerLeft: null,
+      header: null,
+      transitionConfig: () => fromRight(1000),
     }
+
   };
+
+
 
   render() {
     return (
-            <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
+      <View style={styles.containerStyle}>
 
-              <View style={{ flex: 1, fontSize: 25, fontWeight: 'bold', }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', }}>Edit your Current Residence:</Text>
-              </View>
+        <View style={styles.logoContainerStyle}>
+          <Text style={styles.logoFontStyle}>Basheret</Text>
+        </View>
 
-              <View style={{ flex: 1,}}>
-                <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'currentresidence', text))}
-                  defaultValue={this.props.hometown}
-                />
-              </View>
+        <View style={styles.questionContainerStyle}>
+          <Text style={styles.questionTextStyle}>Edit your Current City:</Text>
+          <UnderlinedInput
+            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'currentresidence', text))}
+            defaultValue={this.props.currentresidence}
+            placeholder='Current City'
+            returnKeyType='done'
+            autoFocus = {true}
+            onSubmitEditing={() => this.props.navigation.navigate('Profile')}
+          />
+        </View>
 
-              <View style={{ flex: 1 }}>
-                <NextButton onPress={() => this.props.navigation.navigate('Profile')}>
-                <Text>Done</Text>
-                </NextButton>
-              </View>
+        <View style={styles.buttonContainerStyle}>
+          <NextButton
+          onPress={() => this.props.navigation.navigate('Profile')}
+          content={this.props.currentresidence}
+          >
+            <Text>Done</Text>
+          </NextButton>
+        </View>
 
-            </View>
+        <View style={styles.emptySpaceContainerStyle}>
+        </View>
+
+      </View>
     );
   }
 }
@@ -62,3 +63,44 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(EditCurrentResidenceScreen);
+
+const styles = StyleSheet.create({
+  containerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#F4F4F4',
+  },
+
+  logoContainerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  logoFontStyle: {
+    fontSize: 50,
+    fontFamily: 'fitamint-script',
+    color: '#00387e',
+  },
+
+  questionContainerStyle: {
+    flex: 1,
+  },
+
+  questionTextStyle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    paddingLeft: 40,
+    paddingTop: 20,
+    color: 'grey'
+  },
+
+  buttonContainerStyle: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+
+  emptySpaceContainerStyle: {
+    flex: 2,
+  },
+});

@@ -46,7 +46,7 @@ export class ChooseNameScreen extends React.Component {
               </View>
 
               <View style={styles.emptyContainerStyle}>
-                //this is empty space for the keyboard
+
               </View>
 
             </View>

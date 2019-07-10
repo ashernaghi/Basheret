@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView,  } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
-import Svg, { Line, Circle, G, Text, } from 'react-native-svg';
+import Svg, { Line, Circle, G, Text as TextSVG, TSpan } from 'react-native-svg';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
 import CandidateProfileCard from '../components/CandidateProfileCard';
@@ -24,8 +24,8 @@ export class ProfileScreen extends React.Component {
       cameraRollPermissions: null,
       cameraPermissions: null,
       choosemethod: '',
-      gradientLineHeight: '100',
-      gradientLineWidth: '250',
+      gradientLineHeight: 100,
+      gradientLineWidth: 300,
       count: 1,
     };
   }
@@ -139,39 +139,86 @@ export class ProfileScreen extends React.Component {
 
 
 
-  renderLabels(){
+  renderLabels2(){
     return options[1].map((label, index)=> {
-      console.log(index)
-      return <Text x={this.state.gradientLineWidth*((index)/4)} y='70'  textAnchor="middle" key={index}>{label}</Text>
+      console.log(label)
+      return
+        <View style={{ flexDirection: 'row', }}>
+        <Text
+         key={index}
+         style={{ flex: 1, backgroundColor: 'red'}}
+         >
+          {label}
+        </Text>
+        </View>
     })
-
   }
 
 
 
 //gradient type can be used to index --> if gradientType = this.props.denom..
-  renderGradient(gradientType){
+  renderGradient2(gradientNumericValue){
     return(
+      <View style={{ margin: 5}}>
       <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
         <Line
           x1='5'
           y1={this.state.gradientLineHeight/2}
-          x2={this.state.gradientLineWidth-5}
+          x2={this.state.gradientLineWidth+5}
           y2={this.state.gradientLineHeight/2}
           stroke='black'
           strokeWidth='1.5'
           strokeLinecap='round'
         />
         <Circle
-          cx={0.96*(gradientType*(this.state.gradientLineWidth/100))+5}
+          cx={0.96*(gradientNumericValue*(this.state.gradientLineWidth/100))+5}
           cy={this.state.gradientLineHeight/2}
           r='3'
           fill='#00387e'
         />
-        {this.renderLabels()}
       </Svg>
+      {this.renderLabels()}
+      </View>
     )
   }
+
+
+renderGradient (gradientValue, type){
+  const position = gradientValue*(this.state.gradientLineWidth/100)
+  var value;
+  if(type === 'denomination'){
+     value = 1
+  } else if( type === 'kashrutObservance'){
+     value = 2
+  } else if(type === 'shabbatObservance'){
+     value = 3
+  }
+
+  return(
+    <View style={{ flex: 1}}>
+      <View style={{ width: this.state.gradientLineWidth, height: 90,  margin: 5,}}>
+
+        <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
+
+        <View style={{borderRadius: 2, width: 4, height: 15, backgroundColor: '#00387e', position: 'absolute', top: 27.5, left: position, }}></View>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+          {this.renderLabels(value, gradientValue)}
+        </View>
+
+      </View>
+    </View>
+
+    )
+}
+
+renderLabels(value, gradientValue){
+  return options[value].map((label, index)=> {
+    if(gradientValue >= 0 ){
+      return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
+    }
+  })
+}
 
   render() {
     //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
@@ -212,6 +259,7 @@ export class ProfileScreen extends React.Component {
               <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
               <CandidateProfileCard title= 'Current Residence' content = {this.props.currentresidence} />
               <CandidateProfileCard title= 'Location' content = '' />
+              <CandidateProfileCard title= 'Profession' content = {this.props.profession} />
               <CandidateProfileCard title= 'High School' content = {this.props.highschool} />
               <CandidateProfileCard title= 'Yeshiva/Midrasha' content = {this.props.yeshivamidrasha} />
               <CandidateProfileCard title= 'University' content = {this.props.university} />
@@ -279,11 +327,12 @@ export class ProfileScreen extends React.Component {
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
-                <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination)} />
-                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance)} />
-                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance)} />
+                <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
+                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} />
+                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} />
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
+                <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
                 <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
                 <ProfileCard title= 'Yeshiva/Midrasha' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
                 <ProfileCard title= 'University' content= {this.props.university} onPress={() => this.props.navigation.navigate('EditUniversity')} />
@@ -320,6 +369,7 @@ const mapStateToProps = state => {
       highschool: state.userInfo.user.info.highschool,
       university: state.userInfo.user.info.university,
       yeshivamidrasha: state.userInfo.user.info.yeshivamidrasha,
+      profession: state.userInfo.user.info.profession,
 
     };
   }
@@ -343,6 +393,7 @@ const mapStateToProps = state => {
       highschool: state.userInfo.user[type].highschool,
       university: state.userInfo.user[type].university,
       yeshivamidrasha: state.userInfo.user[type].yeshivamidrasha,
+      profession: state.userInfo.user[type].profession,
     }
   }
 };

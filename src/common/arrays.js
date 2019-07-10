@@ -1,8 +1,8 @@
 export const options = [
   ['Male', 'Female'],
-  ['R', 'C', 'T', 'Modern Orthodox', 'Y'],
-  ['Don\'t Keep It', 'Kosher Style', 'Eat Milchig Out', 'Glatt Kosher', 'Chalav Yisrael'],
-  ['Don\'t Keep It', 'Friday Night Dinner', 'Drive To Shul', 'Use My Phone', 'Keep All Chumrahs']
+  ['Reform', 'Conservative', 'Traditional', 'Modern\nOrthodox', 'Yeshivish'],
+  ['Don\'t\nKeep It', 'Kosher\nStyle', 'Eat\nDairy Out', 'Glatt\nKosher', 'Chalav\nYisrael'],
+  ['Don\'t\nKeep It', 'Friday\nNight Dinner', 'Use My\nPhone', 'Keep Shabbat\nFully', 'Machmir']
 ];
 
 export const questions = [
@@ -12,6 +12,3 @@ export const questions = [
   'What is your Shabbat observance?'];
 
 export const category = ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'];
-
-
-//['Reform', 'Conservative', 'Traditional', 'Modern Orthodox', 'Yeshivish'],

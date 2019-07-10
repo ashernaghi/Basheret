@@ -15,6 +15,8 @@ import EditCurrentResidenceScreen from '../screens/EditCurrentResidenceScreen';
 import EditHighSchoolScreen from '../screens/EditHighSchoolScreen';
 import EditUniversityScreen from '../screens/EditUniversityScreen';
 import EditYeshivaMidrashaScreen from '../screens/EditYeshivaMidrashaScreen';
+import EditProfessionScreen from '../screens/EditProfessionScreen';
+import EditDenominationScreen from '../screens/EditDenominationScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -47,6 +49,8 @@ const MainStack = createStackNavigator({
   EditHighSchool: { screen: EditHighSchoolScreen },
   EditUniversity: { screen: EditUniversityScreen },
   EditYeshivaMidrasha: { screen: EditYeshivaMidrashaScreen },
+  EditProfession: { screen: EditProfessionScreen },
+  EditDenomination: { screen: EditDenominationScreen },
 
 },
 {

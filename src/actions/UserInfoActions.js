@@ -97,9 +97,12 @@ export const getUser = (props) => dispatch =>  {
     if(user){
         let userID = user.uid;
         let userFirestore = firebase.firestore().collection('users').doc(userID);
+        console.log('getting', userID);
         userFirestore.get().then(function(doc) {
+          console.log(doc.data());
             if (doc.exists) {
                 let data = doc.data();
+                console.log('test2')
                 if(data.initialSetupComplete){
                     console.log('1.ASKING LOCATION')
                     this._getLocationAsync(dispatch);
@@ -109,7 +112,7 @@ export const getUser = (props) => dispatch =>  {
                     setTimeout( ()=> props.navigation.navigate('App'), 2000 );
                 }
                 else{
-                    props.navigation.navigate('IntroQuestions');
+                  props.navigation.navigate('IntroQuestions');
                 }
             } else {
                 // doc.data() will be undefined in this case
