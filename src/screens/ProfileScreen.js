@@ -139,50 +139,6 @@ export class ProfileScreen extends React.Component {
 
 
 
-  renderLabels2(){
-    return options[1].map((label, index)=> {
-      console.log(label)
-      return
-        <View style={{ flexDirection: 'row', }}>
-        <Text
-         key={index}
-         style={{ flex: 1, backgroundColor: 'red'}}
-         >
-          {label}
-        </Text>
-        </View>
-    })
-  }
-
-
-
-//gradient type can be used to index --> if gradientType = this.props.denom..
-  renderGradient2(gradientNumericValue){
-    return(
-      <View style={{ margin: 5}}>
-      <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
-        <Line
-          x1='5'
-          y1={this.state.gradientLineHeight/2}
-          x2={this.state.gradientLineWidth+5}
-          y2={this.state.gradientLineHeight/2}
-          stroke='black'
-          strokeWidth='1.5'
-          strokeLinecap='round'
-        />
-        <Circle
-          cx={0.96*(gradientNumericValue*(this.state.gradientLineWidth/100))+5}
-          cy={this.state.gradientLineHeight/2}
-          r='3'
-          fill='#00387e'
-        />
-      </Svg>
-      {this.renderLabels()}
-      </View>
-    )
-  }
-
-
 renderGradient (gradientValue, type){
   const position = gradientValue*(this.state.gradientLineWidth/100)
   var value;
@@ -300,22 +256,6 @@ renderLabels(value, gradientValue){
                   handleCamera={this.useCameraHandler}
                   handleLibrary={this.useLibraryHandler}
                   style={styles.profilePhoto}
-                  overlay={
-                    <View style={{ flex: 1, }}>
-
-                      <View>
-                      </View>
-
-                      <View>
-                        <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >
-                          {this.props.name}
-                        </Text>
-
-                      </View>
-
-                    </View>
-
-                }
                   >
                 </EditProfilePhotoActionSheet>
 
