@@ -55,9 +55,11 @@ export class EditDenominationScreen extends React.Component {
     this.question = this.props.navigation.getParam('question', questions[1]);
     this.labels = this.props.navigation.getParam('labels', options[1])
 
-
     return (
-      <View style={styles.questionView}>
+      <View style={styles.questionView}>        
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+        </View>
         <Text style={styles.question}>{this.question}</Text>
         <View style={{flexDirection: 'row', padding: 40}}>
           <Slider
@@ -112,9 +114,10 @@ const styles = StyleSheet.create({
   },
 
   question: {
-    fontSize: 20,
+    fontSize: 25,
     paddingLeft: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    maxWidth: 225
   },
 
   sliderLabels: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView, Switch, Button } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, Switch, Button } from 'react-native';
 import SwitchSelector from "react-native-switch-selector";
 import { Ionicons, FontAwesome, Foundation } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
@@ -8,38 +8,15 @@ import { updateUserInfo } from '../actions/UserInfoActions';
 import styles from '../styles/styles';
 import {options, questions, category} from '../common/arrays'
 import firebase from '../actions/firebase'
+import Header from '../components/Header';
 
 export class SettingsScreen extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTintColor: '#F4F4F4',
-      headerStyle: {
-        backgroundColor: '#F4F4F4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTitle: (
-        <Text style={ styles.headerText} >
-            Settings
-        </Text>
-      ),
-      headerRight: (
-        <TouchableOpacity style= { styles.touchableOpacityHeader } onPress={() => navigation.navigate('Profile')}>
-          <Text style={ styles.headerText } >
-            Profile
-          </Text>
-          <Ionicons
-            name="ios-arrow-forward"
-            size={32}
-            color="black"
-            style={styles.headerIcons}
-          />
-        </TouchableOpacity>
-      ),
-      headerLeft: null,
-    }
-  };
+
+    static navigationOptions = ({ navigation }) => {
+      return {
+        header: null,
+      }
+    };
 
   calculateIndex(value){
     return  value >= 0 && value <25 ? 0
@@ -135,7 +112,11 @@ export class SettingsScreen extends React.Component {
     let gp = this.props.genderPreference;
 
     return (
+
+      <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
       <ScrollView style={styles.settingsContainer}>
+        <Header navigation={this.props.navigation} text='Settings' rightIconName="ios-arrow-forward" rightDestination="Profile"/>
+
         <View style={styles.dividerContainer}>
           <Text style={{ fontWeight: 'bold', }}>
             Discoverable
@@ -200,6 +181,7 @@ export class SettingsScreen extends React.Component {
           />
         </View>
       </ScrollView>
+      </SafeAreaView>
     )
   }
 }
