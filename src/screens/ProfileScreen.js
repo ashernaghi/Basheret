@@ -15,7 +15,7 @@ import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 import {options, questions, category} from '../common/arrays'
 
- 
+
 export class ProfileScreen extends React.Component {
   constructor(props){
     super(props);
@@ -206,7 +206,7 @@ renderGradient (gradientValue, type){
 
   return(
     <View style={{ flex: 1}}>
-      
+
       <View style={{ width: this.state.gradientLineWidth, height: 90,  margin: 5,}}>
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
@@ -237,10 +237,8 @@ renderLabels(value, gradientValue){
         <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
-          
-        
-        <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
-        
+
+
           {this.props.type==='candidate' &&
           <View>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
@@ -248,7 +246,8 @@ renderLabels(value, gradientValue){
                 name='close'
                 onPress={()=>{this.props.navigation.goBack();}}
                 size={25}
-                style={{ marginTop: 10, marginRight: 10,}}
+                style={{ margin: 15,}}
+                color="grey"
               />
             </View>
 
@@ -306,6 +305,7 @@ renderLabels(value, gradientValue){
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
+              <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
               <View style={{}}>
 
@@ -358,7 +358,7 @@ renderLabels(value, gradientValue){
               </View>
             </View>}
 
-          
+
 
         </ScrollView>
         </SafeAreaView>
@@ -438,6 +438,7 @@ const styles = StyleSheet.create({
     height: 350,
     width: 350,
     borderRadius: 15,
+    marginBottom: 10,
     overflow: 'hidden',
     alignSelf: 'center',
     justifyContent: 'flex-end',

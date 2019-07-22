@@ -27,15 +27,15 @@ export class CandidatesScreen extends React.Component {
     else if(this.props.candidate){
       return (
         <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor: '#f4f4f4'}}>
-          <TouchableOpacity style={{ flex: 1, borderRadius: 20, margin: 20, justifyContent: 'flex-end',  }}
+          <TouchableOpacity style={{ flex: 1, borderRadius: 20, margin: 20,  }}
             //show Profile Modal and change profile to 'candidate'
             onPress={this.props.navigate}>
-            <ImageBackground style={{ flex: 1, justifyContent: 'flex-end', }} imageStyle={{borderRadius: 20, }} source={{ uri: this.props.candidate.profilePhoto }}>
+            <ImageBackground style={{ flex: 1, }} imageStyle={{borderRadius: 20, }} source={{ uri: this.props.candidate.profilePhoto }}>
 
-              <View style={{}}>
+              <View style={{flex: 1,}}>
 
-                <View style={{}}>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5, }}>{this.props.candidate.name}</Text>
+                <View style={{flex: 1, justifyContent: 'flex-end', }}>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.name}</Text>
                 </View>
 
               </View>

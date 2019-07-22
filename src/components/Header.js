@@ -83,11 +83,10 @@ const styles = StyleSheet.create({
     shadowColor: 'transparent',
     borderBottomColor:'transparent',
     borderBottomWidth: 0,
-    height: 90,
+    height: 85,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   }
 
 });
-
