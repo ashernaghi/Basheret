@@ -44,6 +44,7 @@ export class SocialScreen extends React.Component {
           this.props.dispatch(showProfileScreen('match', card));
           this.props.navigation.navigate('CandidateModal')}
         }
+        navigation={this.props.navigation}
       />
     }
     else{

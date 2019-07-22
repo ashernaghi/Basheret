@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {getCurrentMatches} from '../actions/matchActions';
 
 export class MatchesScreen extends React.Component {
+
   componentDidMount(){
     // getCurrentMatches();
     if (!this.props.matchesCards) {
@@ -13,6 +14,7 @@ export class MatchesScreen extends React.Component {
   }
 
   generateMatchCards(){
+    const { navigate } = this.props.navigation;
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
         return (
@@ -31,7 +33,7 @@ export class MatchesScreen extends React.Component {
               </TouchableOpacity>
             </View>
             <View style={ styles.buttonStyle }>
-            <TouchableOpacity  onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity  onPress={() => navigate('Chat', {m: matchCard})}>
               <Ionicons
                 name="ios-arrow-forward"
                 size={30}
