@@ -13,7 +13,8 @@ import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontA
 import { showProfileScreen, updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions';
 import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
-import {options, questions, category} from '../common/arrays'
+import {options, questions, category} from '../common/arrays';
+
 
 
 export class ProfileScreen extends React.Component {

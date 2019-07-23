@@ -12,44 +12,47 @@ export class ChooseNameScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
+      transitionConfig: () => fromRight(1000),
     }
+
   };
+
+
 
   render() {
     return (
-            <View style={styles.containerStyle}>
+      <View style={styles.containerStyle}>
 
-              <View style={styles.logoContainerStyle}>
-                <Text style={styles.logoFontStyle}>Basheret</Text>
-              </View>
+        <View style={styles.logoContainerStyle}>
+          <Text style={styles.logoFontStyle}>Basheret</Text>
+        </View>
 
-              <View style={styles.questionContainerStyle}>
-                <Text style={styles.questionTextStyle}>Enter your name:</Text>
-                <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-                  defaultValue={this.props.name}
-                  placeholder='Full Name'
-                  textContentType='name'
-                  returnKeyType='next'
-                  autoFocus = {true}
-                  onSubmitEditing={() => this.props.navigation.navigate('ChooseEmail')}
-                />
-              </View>
+        <View style={styles.questionContainerStyle}>
+          <Text style={styles.questionTextStyle}>Choose your name:</Text>
+          <UnderlinedInput
+            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
+            defaultValue={this.props.name}
+            placeholder='Full Name'
+            textContentType='name'
+            returnKeyType='next'
+            autoFocus = {true}
+            onSubmitEditing={() => this.props.navigation.navigate('ChooseEmail')}
+          />
+        </View>
 
-              <View style={styles.buttonContainerStyle}>
-                <NextButton
-                onPress={() => this.props.navigation.navigate('ChooseEmail')}
-                content={this.props.name}
-                >
-                  <Text>Next</Text>
-                </NextButton>
-              </View>
+        <View style={styles.buttonContainerStyle}>
+          <NextButton
+          onPress={() => this.props.navigation.navigate('ChooseEmail')}
+          content={this.props.name}
+          >
+            <Text>Next</Text>
+          </NextButton>
+        </View>
 
-              <View style={styles.emptyContainerStyle}>
+        <View style={styles.emptySpaceContainerStyle}>
+        </View>
 
-              </View>
-
-            </View>
+      </View>
     );
   }
 }
