@@ -34,7 +34,7 @@ export const getUser = () => {
 }
 
 export const getMessages = (recipientID) => {
-	console.log('testing')
+	console.log('gettingMessages')
 	return new Promise((resolve, reject) => {
 		let messageRef = chatRef(recipientID).collection('messages');
 		messageList = []
@@ -52,15 +52,20 @@ export const getMessages = (recipientID) => {
 	});
 }
 
-export const sendMessage = (messages, recipientID) => {
+export const sendMessage = (messages, recipientID,) => {
 	let messageRef = chatRef(recipientID).collection('messages');
+	let userID = firebase.auth().currentUser.uid
   	for (let i = 0; i < messages.length; i++) {
 	    const { text } = messages[i];
 	    const timestamp = getTimestamp();
-		console.log('sending', recipientID, timestamp)
+			const _id = userID;
+			const name = 'NEED TO FIGURE OUT NAME'
+			const user = { _id, name }
+		console.log('sending', recipientID, timestamp, user,)
 	    const message = {
 	      text,
-	      timestamp
+	      timestamp,
+				user,
 	    };
     messageRef.add(message);
     }
@@ -70,9 +75,9 @@ export const sendMessage = (messages, recipientID) => {
 const chatRef = (recipientID) => {
 	let location = ""
 	let userID = firebase.auth().currentUser.uid
-	if (userID < recipientID) 
-		location = userID + recipientID
-	else 
+	if (userID < recipientID)
+		location = userID + "--"+ recipientID
+	else
 		location = recipientID + "--"+ userID
 	let messageRef = firebase.firestore().collection('chats').doc(location)
 	return messageRef
@@ -82,8 +87,9 @@ const chatRef = (recipientID) => {
 const parse = (snapshot) => {
 	console.log('parsing', snapshot)
 	const { numberStamp, text, user } = snapshot;
-  	const { key: _id } = snapshot;
-  	const timestamp = new Date(numberStamp);
+  	//const { key: _id } = snapshot;
+		const _id = snapshot.user._id;
+  	const timestamp = snapshot.timestamp.toDate();
   	const message = {
 	    _id,
 	    timestamp,
@@ -97,4 +103,3 @@ const getTimestamp = ()=> {
 	console.log('timestamp', firebase.firestore.FieldValue.serverTimestamp());
   return firebase.firestore.FieldValue.serverTimestamp()
 }
-

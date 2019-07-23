@@ -20,7 +20,7 @@ export class ChatScreen extends React.Component {
 			getMessages(this.matchObject.id)
 			.then(messages => {
 				this.setState({user, messages})
-				console.log('setState',this.state)
+				console.log('setState',this.state,)
 			})
 		})
 	  }
@@ -49,7 +49,7 @@ export class ChatScreen extends React.Component {
 	    this.setState(previousState => ({
 	      messages: GiftedChat.append(previousState.messages, messages),
 	    }))
-	    sendMessage(messages, this.matchObject.id)
+	    sendMessage(messages, this.matchObject.id,)
 	  }
 
   render() {
@@ -80,7 +80,7 @@ export class ChatScreen extends React.Component {
 const mapStateToProps = state => {
 	console.log(state)
   return {
-    chats: state.chats
+    chats: state.chats,
   };
 };
 
