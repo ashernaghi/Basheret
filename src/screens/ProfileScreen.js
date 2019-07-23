@@ -15,7 +15,7 @@ import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 import {options, questions, category} from '../common/arrays'
 
-
+ 
 export class ProfileScreen extends React.Component {
   constructor(props){
     super(props);
@@ -206,7 +206,7 @@ renderGradient (gradientValue, type){
 
   return(
     <View style={{ flex: 1}}>
-
+      
       <View style={{ width: this.state.gradientLineWidth, height: 90,  margin: 5,}}>
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
@@ -237,8 +237,10 @@ renderLabels(value, gradientValue){
         <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
-
-
+          
+        
+        <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
+        
           {this.props.type==='candidate' &&
           <View>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
@@ -246,8 +248,7 @@ renderLabels(value, gradientValue){
                 name='close'
                 onPress={()=>{this.props.navigation.goBack();}}
                 size={25}
-                style={{ margin: 15,}}
-                color="grey"
+                style={{ marginTop: 10, marginRight: 10,}}
               />
             </View>
 
@@ -305,7 +306,6 @@ renderLabels(value, gradientValue){
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
-              <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
               <View style={{}}>
 
@@ -345,8 +345,8 @@ renderLabels(value, gradientValue){
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
-                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} />
-                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} />
+                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} onPress={() => this.props.navigation.navigate('EditKashrutLevel')} />
+                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} onPress={() => this.props.navigation.navigate('EditShabbatObservance')} />
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
@@ -358,7 +358,7 @@ renderLabels(value, gradientValue){
               </View>
             </View>}
 
-
+          
 
         </ScrollView>
         </SafeAreaView>
@@ -438,7 +438,6 @@ const styles = StyleSheet.create({
     height: 350,
     width: 350,
     borderRadius: 15,
-    marginBottom: 10,
     overflow: 'hidden',
     alignSelf: 'center',
     justifyContent: 'flex-end',
