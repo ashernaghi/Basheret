@@ -8,7 +8,7 @@ import { updateUserInfo } from '../actions/UserInfoActions';
 import { initializeMatches } from '../actions/matchActions';
 import { options, questions, category } from '../common/arrays'
 
-export class EditDenominationScreen extends React.Component {
+export class EditKashrutLevelScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
@@ -41,20 +41,20 @@ export class EditDenominationScreen extends React.Component {
 
   onPress(str=""){
     //send response to db:
-    this.props.dispatch(updateUserInfo('info', category[1], str ? str : (this.state.responseValue-1)));
+    this.props.dispatch(updateUserInfo('info', category[2], str ? str : (this.state.responseValue-1)));
     this.props.navigation.navigate('Profile')
   }
 
   generateLabels(){
-    return options[1].map((label, index)=> {
+    return options[2].map((label, index)=> {
       return <Text key={index}>{label}</Text>
     })
   }
 
   render() {
 
-    this.question = this.props.navigation.getParam('question', questions[1]);
-    this.labels = this.props.navigation.getParam('labels', options[1])
+    this.question = this.props.navigation.getParam('question', questions[2]);
+    this.labels = this.props.navigation.getParam('labels', options[2])
 
     return (
       <View style={styles.questionView}>
@@ -96,11 +96,11 @@ export class EditDenominationScreen extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(EditDenominationScreen);
+export default connect(mapStateToProps)(EditKashrutLevelScreen);
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
+    kashrutObservance: state.userInfo.user.info.kashrutObservance,
   };
 };
 
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     paddingLeft: 30,
     fontWeight: 'bold',
-    maxWidth: 260,
+    maxWidth: 225,
     color: 'grey',
   },
 
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
 
   verticalSlider: {
-    height: '70%',
+      height: '70%',
   },
 
   button: {
