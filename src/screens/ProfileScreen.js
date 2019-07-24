@@ -13,8 +13,7 @@ import { Ionicons, MaterialCommunityIcons, SimpleLineIcons, MaterialIcons, FontA
 import { showProfileScreen, updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions';
 import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
-import {options, questions, category} from '../common/arrays';
-
+import {options, questions, category} from '../common/arrays'
 
  
 export class ProfileScreen extends React.Component {
@@ -212,10 +211,11 @@ renderGradient (gradientValue, type){
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
 
-        <View style={{borderRadius: 2, width: 4, height: 15, backgroundColor: '#00387e', position: 'absolute', top: 27.5, left: position, }}></View>
+        <View style={{borderRadius: 3, width: 6, height: 25, backgroundColor: '#00387e', position: 'absolute', top: 25, alignSelf: 'center', zIndex: 2 }}></View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
           {this.renderLabels(value, gradientValue)}
+          {this.renderLines(value, gradientValue)}
         </View>
 
       </View>
@@ -227,7 +227,22 @@ renderGradient (gradientValue, type){
 renderLabels(value, gradientValue){
   return options[value].map((label, index)=> {
     if(gradientValue >= 0 ){
-      return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
+      if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
+        return (
+          <Text style={{fontSize: 12, textAlign: 'center', position: 'absolute', left: (((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5))-20)}} key={index}>{label}</Text>
+        )
+      }
+    }
+  })
+}
+renderLines(value, gradientValue){
+  return options[value].map((label, index)=> {
+    if(gradientValue >= 0 ){
+      if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
+        return (
+          <View style={{borderRadius: 1, width: 2, height: 10, zIndex: 1, backgroundColor: 'black', position: 'absolute', bottom: 30, left: ((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5)) }}></View>
+        )
+      }
     }
   })
 }
