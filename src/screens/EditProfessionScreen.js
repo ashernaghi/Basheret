@@ -14,10 +14,19 @@ export class EditProfessionScreen extends React.Component {
       header: null,
       transitionConfig: () => fromLeft(1000),
     }
-
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: this.props.profession || '',
+    }
+  };
 
+  handleSave(){
+    this.props.dispatch(updateUserInfo('info', 'profession', this.state.response))
+    this.props.navigation.navigate('Profile');
+  }
 
   render() {
     return (
@@ -28,23 +37,23 @@ export class EditProfessionScreen extends React.Component {
         </View>
 
         <View style={styles.questionContainerStyle}>
-          <Text style={styles.questionTextStyle}>Edit your profession:</Text>
+          <Text style={styles.questionTextStyle}>Edit your Profession:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'profession', text))}
-            defaultValue={this.props.profession}
+            onChangeText={(text) => this.setState({response: text})}
+            value={this.state.response}
             placeholder='Profession'
             returnKeyType='done'
             autoFocus = {true}
-            onSubmitEditing={() => this.props.navigation.navigate('Profile')}
+            onSubmitEditing={() => this.handleSave()}
           />
         </View>
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('Profile')}
-          content={this.props.profession}
+          onPress={() => this.handleSave()}
+          content='enabled'
           >
-            <Text>Save</Text>
+            <Text>Done</Text>
           </NextButton>
         </View>
 
@@ -55,6 +64,8 @@ export class EditProfessionScreen extends React.Component {
     );
   }
 }
+
+
 
 const mapStateToProps = state => {
   return {

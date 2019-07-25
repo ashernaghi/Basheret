@@ -17,6 +17,17 @@ export class EditNameScreen extends React.Component {
 
   };
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        response: this.props.name || '',
+      }
+    };
+
+    handleSave(){
+      this.props.dispatch(updateUserInfo('info', 'name', this.state.response))
+      this.props.navigation.navigate('Profile');
+    }
 
 
   render() {
@@ -30,20 +41,20 @@ export class EditNameScreen extends React.Component {
         <View style={styles.questionContainerStyle}>
           <Text style={styles.questionTextStyle}>Edit your name:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-            defaultValue={this.props.name}
+            onChangeText={(text) => this.setState({response: text})}
+            value={this.state.response}
             placeholder='Full Name'
             textContentType='name'
             returnKeyType='next'
             autoFocus = {true}
-            onSubmitEditing={() => this.props.navigation.navigate('Profile')}
+            onSubmitEditing={() => this.handleSave()}
           />
         </View>
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('Profile')}
-          content={this.props.name}
+          onPress={() => this.handleSave()}
+          content='enabled'
           >
             <Text>Save</Text>
           </NextButton>
