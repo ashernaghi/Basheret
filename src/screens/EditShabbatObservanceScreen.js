@@ -21,7 +21,7 @@ export class EditShabbatObservanceScreen extends React.Component {
       this.state= {
         preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
         preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
-        responseValue: 101,
+        responseValue: this.props.shabbatObservance+1,
         minObservance: 1,
         maxObservance: 101,
         thumb: 40,
@@ -71,7 +71,7 @@ export class EditShabbatObservanceScreen extends React.Component {
               minimumValue={this.state.minObservance}
               maximumValue={this.state.maxObservance}
               orientation="vertical"
-              value={50}
+              value={this.props.shabbatObservance+1}
               onValueChange={val => this.setState({ responseValue: val })}
               onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
               onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
@@ -96,14 +96,13 @@ export class EditShabbatObservanceScreen extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(EditShabbatObservanceScreen);
-
 const mapStateToProps = state => {
   return {
     shabbatObservance: state.userInfo.user.info.shabbatObservance,
   };
 };
 
+export default connect(mapStateToProps)(EditShabbatObservanceScreen);
 
 const styles = StyleSheet.create({
   safeAreaViewSyle:{

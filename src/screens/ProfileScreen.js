@@ -207,7 +207,7 @@ renderGradient (gradientValue, type){
   return(
     <View style={{ flex: 1}}>
       
-      <View style={{ width: this.state.gradientLineWidth, height: 90,  margin: 5,}}>
+      <View style={{ width: this.state.gradientLineWidth, height: 110,  margin: 5,}}>
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
 
@@ -229,7 +229,9 @@ renderLabels(value, gradientValue){
     if(gradientValue >= 0 ){
       if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
         return (
-          <Text style={{fontSize: 12, textAlign: 'center', position: 'absolute', left: (((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5))-20)}} key={index}>{label}</Text>
+          <View style={{width: 100, position: 'absolute', left: (((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5))-48)}} >
+            <Text style={{fontSize: 12, textAlign: 'center',}} key={index}>{label}</Text>
+          </View>
         )
       }
     }
