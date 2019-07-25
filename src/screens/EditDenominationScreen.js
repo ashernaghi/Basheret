@@ -71,7 +71,7 @@ export class EditDenominationScreen extends React.Component {
               minimumValue={this.state.minObservance}
               maximumValue={this.state.maxObservance}
               orientation="vertical"
-              value={50}
+              value={this.props.denomination}
               onValueChange={val => this.setState({ responseValue: val })}
               onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
               onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
@@ -96,14 +96,13 @@ export class EditDenominationScreen extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(EditDenominationScreen);
-
 const mapStateToProps = state => {
   return {
     denomination: state.userInfo.user.info.denomination,
   };
 };
 
+export default connect(mapStateToProps)(EditDenominationScreen);
 
 const styles = StyleSheet.create({
   safeAreaViewSyle:{

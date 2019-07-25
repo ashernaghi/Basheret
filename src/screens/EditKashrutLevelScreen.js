@@ -55,7 +55,8 @@ export class EditKashrutLevelScreen extends React.Component {
 
     this.question = this.props.navigation.getParam('question', questions[2]);
     this.labels = this.props.navigation.getParam('labels', options[2])
-
+    console.log(this.props);
+    console.log(this.props.kashrutObservance);
     return (
       <View style={styles.questionView}>
         <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
@@ -71,7 +72,7 @@ export class EditKashrutLevelScreen extends React.Component {
               minimumValue={this.state.minObservance}
               maximumValue={this.state.maxObservance}
               orientation="vertical"
-              value={50}
+              value={this.props.kashrutObservance}
               onValueChange={val => this.setState({ responseValue: val })}
               onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
               onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
@@ -96,14 +97,13 @@ export class EditKashrutLevelScreen extends React.Component {
   }
 }
 
-export default connect(mapStateToProps)(EditKashrutLevelScreen);
-
 const mapStateToProps = state => {
   return {
     kashrutObservance: state.userInfo.user.info.kashrutObservance,
   };
 };
 
+export default connect(mapStateToProps)(EditKashrutLevelScreen);
 
 const styles = StyleSheet.create({
   safeAreaViewSyle:{
