@@ -16,7 +16,17 @@ export class EditAboutMeScreen extends React.Component {
 
   };
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        response: this.props.aboutMe || '',
+      }
+    };
 
+    handleSave(){
+      this.props.dispatch(updateUserInfo('info', 'aboutMe', this.state.response))
+      this.props.navigation.navigate('Profile');
+    }
 
   render() {
     return (
@@ -29,8 +39,8 @@ export class EditAboutMeScreen extends React.Component {
         <View style={styles.questionContainerStyle}>
           <Text style={styles.questionTextStyle}>Tell us about yourself:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'aboutMe', text))}
-            defaultValue={this.props.aboutMe}
+            onChangeText={(text) => this.setState({response: text})}
+            value={this.state.response}
             placeholder='Tell us more...'
             autoFocus = {true}
             multiline={true}
@@ -40,10 +50,10 @@ export class EditAboutMeScreen extends React.Component {
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('Profile')}
-          content={'not required'}
+          onPress={() => this.handleSave()}
+          content='enabled'
           >
-            <Text>Save</Text>
+            <Text>Done</Text>
           </NextButton>
         </View>
 

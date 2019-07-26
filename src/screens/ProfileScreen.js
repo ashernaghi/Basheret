@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackg
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
 import Svg, { Line, Circle, G, Text as TextSVG, TSpan } from 'react-native-svg';
+import Header from '../components/Header';
 import ProfileCard from '../components/ProfileCard';
 import MultilineProfileCard from '../components/MultilineProfileCard';
 import CandidateProfileCard from '../components/CandidateProfileCard';
@@ -14,7 +15,7 @@ import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 import {options, questions, category} from '../common/arrays'
 
-
+ 
 export class ProfileScreen extends React.Component {
   constructor(props){
     super(props);
@@ -32,15 +33,23 @@ export class ProfileScreen extends React.Component {
 
 
 
-  static navigationOptions = ({ navigation }) => {
+   static navigationOptions = ({ navigation }) => {
+    return {
+      header: null,
+    }
+  };
+    /*
       return {
         headerTintColor: '#F4F4F4',
         headerStyle: {
           backgroundColor: '#F4F4F4',
           shadowColor: 'transparent',
           borderBottomColor:'transparent',
-          borderBottomWidth: 0
+          borderBottomWidth: 0,
+          height: 120
+
         },
+
         headerRight: (
           <TouchableOpacity style={ styles.touchableOpacityHeader } onPress={() => navigation.navigate('Home')}>
             <Ionicons
@@ -52,8 +61,8 @@ export class ProfileScreen extends React.Component {
           </TouchableOpacity>
         ),
         headerTitle: (
-          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: '#00387e', }} >
-              Basheret
+          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 50, color: '#00387e', }} >
+              Profile
           </Text>
         ),
         headerLeft: (
@@ -63,11 +72,12 @@ export class ProfileScreen extends React.Component {
             size={32}
             color="grey"
             style={styles.headerIcons}
+            marginLeft={20}
           />
         ),
       }
     };
-
+*/
   componentWillUnmount(){
     this.props.dispatch(showProfileScreen('self'))
   }
@@ -139,6 +149,50 @@ export class ProfileScreen extends React.Component {
 
 
 
+  renderLabels2(){
+    return options[1].map((label, index)=> {
+      console.log(label)
+      return
+        <View style={{ flexDirection: 'row', }}>
+        <Text
+         key={index}
+         style={{ flex: 1, backgroundColor: 'red'}}
+         >
+          {label}
+        </Text>
+        </View>
+    })
+  }
+
+
+
+//gradient type can be used to index --> if gradientType = this.props.denom..
+  renderGradient2(gradientNumericValue){
+    return(
+      <View style={{ margin: 5}}>
+      <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
+        <Line
+          x1='5'
+          y1={this.state.gradientLineHeight/2}
+          x2={this.state.gradientLineWidth+5}
+          y2={this.state.gradientLineHeight/2}
+          stroke='black'
+          strokeWidth='1.5'
+          strokeLinecap='round'
+        />
+        <Circle
+          cx={0.96*(gradientNumericValue*(this.state.gradientLineWidth/100))+5}
+          cy={this.state.gradientLineHeight/2}
+          r='3'
+          fill='#00387e'
+        />
+      </Svg>
+      {this.renderLabels()}
+      </View>
+    )
+  }
+
+
 renderGradient (gradientValue, type){
   const position = gradientValue*(this.state.gradientLineWidth/100)
   var value;
@@ -152,14 +206,16 @@ renderGradient (gradientValue, type){
 
   return(
     <View style={{ flex: 1}}>
-      <View style={{ width: this.state.gradientLineWidth, height: 90,  margin: 5,}}>
+      
+      <View style={{ width: this.state.gradientLineWidth, height: 110,  margin: 5,}}>
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
 
-        <View style={{borderRadius: 2, width: 4, height: 15, backgroundColor: '#00387e', position: 'absolute', top: 27.5, left: position, }}></View>
+        <View style={{borderRadius: 3, width: 6, height: 25, backgroundColor: '#00387e', position: 'absolute', top: 25, alignSelf: 'center', zIndex: 2 }}></View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
           {this.renderLabels(value, gradientValue)}
+          {this.renderLines(value, gradientValue)}
         </View>
 
       </View>
@@ -171,7 +227,24 @@ renderGradient (gradientValue, type){
 renderLabels(value, gradientValue){
   return options[value].map((label, index)=> {
     if(gradientValue >= 0 ){
-      return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
+      if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
+        return (
+          <View style={{width: 100, position: 'absolute', left: (((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5))-48)}} >
+            <Text style={{fontSize: 12, textAlign: 'center',}} key={index}>{label}</Text>
+          </View>
+        )
+      }
+    }
+  })
+}
+renderLines(value, gradientValue){
+  return options[value].map((label, index)=> {
+    if(gradientValue >= 0 ){
+      if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
+        return (
+          <View style={{borderRadius: 1, width: 2, height: 10, zIndex: 1, backgroundColor: 'black', position: 'absolute', bottom: 30, left: ((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5)) }}></View>
+        )
+      }
     }
   })
 }
@@ -179,10 +252,13 @@ renderLabels(value, gradientValue){
   render() {
     //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
+        <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
-          <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
-
+          
+        
+        <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
+        
           {this.props.type==='candidate' &&
           <View>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
@@ -256,6 +332,25 @@ renderLabels(value, gradientValue){
                   handleCamera={this.useCameraHandler}
                   handleLibrary={this.useLibraryHandler}
                   style={styles.profilePhoto}
+                  overlay={
+                    <View style={{ flex: 1, }}>
+
+                      <View>
+                      </View>
+
+                      <View>
+                        <Text style={{ marginLeft: 25, marginTop: 290, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                          {this.props.name}, {this.props.age}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={{ marginLeft: 25, marginTop: 0, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                          {this.props.currentresidence}
+                        </Text>
+                      </View>
+                    </View>
+
+                }
                   >
                 </EditProfilePhotoActionSheet>
 
@@ -268,8 +363,8 @@ renderLabels(value, gradientValue){
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
-                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} />
-                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} />
+                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} onPress={() => this.props.navigation.navigate('EditKashrutLevel')} />
+                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} onPress={() => this.props.navigation.navigate('EditShabbatObservance')} />
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
@@ -281,9 +376,10 @@ renderLabels(value, gradientValue){
               </View>
             </View>}
 
-          </SafeAreaView>
+          
 
         </ScrollView>
+        </SafeAreaView>
 
     );
   };
@@ -357,13 +453,33 @@ const styles = StyleSheet.create({
   },
 
   profilePhoto: {
-    height: 360,
-    width: 375,
+    height: 350,
+    width: 350,
     borderRadius: 15,
     overflow: 'hidden',
     alignSelf: 'center',
     justifyContent: 'flex-end',
-
   },
+
+  settingsIcon: {
+    paddingLeft: 35,
+    paddingRight: 35,
+  },
+
+  arrowIcon: {
+    paddingLeft: 35,
+    paddingRight: 35,
+  },
+
+  headerStyle: {
+    backgroundColor: '#F4F4F4',
+    shadowColor: 'transparent',
+    borderBottomColor:'transparent',
+    borderBottomWidth: 0,
+    height: 90,
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
 
 });

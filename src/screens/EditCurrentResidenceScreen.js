@@ -17,7 +17,17 @@ export class EditCurrentResidenceScreen extends React.Component {
 
   };
 
+    constructor(props) {
+      super(props);
+      this.state = {
+        response: this.props.currentresidence || '',
+      }
+    };
 
+    handleSave(){
+      this.props.dispatch(updateUserInfo('info', 'currentresidence', this.state.response))
+      this.props.navigation.navigate('Profile');
+    }
 
   render() {
     return (
@@ -30,19 +40,19 @@ export class EditCurrentResidenceScreen extends React.Component {
         <View style={styles.questionContainerStyle}>
           <Text style={styles.questionTextStyle}>Edit your Current City:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'currentresidence', text))}
-            defaultValue={this.props.currentresidence}
+            onChangeText={(text) => this.setState({response: text})}
+            value={this.state.response}
             placeholder='Current City'
             returnKeyType='done'
             autoFocus = {true}
-            onSubmitEditing={() => this.props.navigation.navigate('Profile')}
+            onSubmitEditing={() => this.handleSave()}
           />
         </View>
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('Profile')}
-          content={this.props.currentresidence}
+          onPress={() => this.handleSave()}
+          content='enabled'
           >
             <Text>Done</Text>
           </NextButton>

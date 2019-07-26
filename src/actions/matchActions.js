@@ -24,7 +24,7 @@ export const updateMatches = () => dispatch => {
             firebase.firestore().collection('users').where('info.gender', '==', genderPreference).get()
             .then(snapshot => {
                 if (snapshot.empty) {
-                    userRef.update(userInfo); 
+                    userRef.update(userInfo);
                     return;
                 }
                 else {
@@ -42,7 +42,7 @@ export const updateMatches = () => dispatch => {
                             })
                         }
                     });
-                    userRef.update(userInfo);  
+                    userRef.update(userInfo);
                 }
             })
             .catch(error => {
@@ -65,7 +65,7 @@ const validPotential = (user, match) => {
     if (!match.preferences.discoverable) {
         return false;
     }
-    return true;   
+    return true;
 }
 
 const preferenceList = ['age', 'denomination', 'kashrut', 'shabbat'];
@@ -75,14 +75,14 @@ const validPreferences = (userA, userB) => {
     const preferences = userB.preferences;
     for (const pref of preferenceList) {
         const curPref = pref.concat('Preference')
-        if (info[pref] < preferences[curPref][0] || info[pref] > preferences[curPref][1]) 
+        if (info[pref] < preferences[curPref][0] || info[pref] > preferences[curPref][1])
             return false;
     }
     if (info.gender != preferences.genderPreference) {
         return false;
     }
     return true;
-} 
+}
 
 //Use this function when a user rejects a match with another user. Takes the other user's match ID
 export const negativeMatch = (matchID) => dispatch => {
@@ -192,7 +192,7 @@ export const positiveReccomended = (matchID) => {
         }
         else if (matchCategory == RECCOMENDED_POSITIVE_MATCH) {
             dispatch(updateMatch(userRef, MUTUAL_MATCH, matchID));
-            dispatch(updateMatch(matchRef, MUTUAL_MATCH, userID));        
+            dispatch(updateMatch(matchRef, MUTUAL_MATCH, userID));
         }
         else {
             dispatch(updateMatch(userRef, NEGATIVE_MATCH, matchID));
@@ -222,6 +222,7 @@ const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
     }
     matchInfo['dateAdded'] = new Date();
     matchInfo['category'] = category;
+    console.error(matchInfo)
     ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
     .then(function() {
         console.log("Match successfully Added!");
@@ -254,14 +255,14 @@ const getMatchCategory = (ref, matchID) => {
                 console.log('matchCategory', data, matchID);
                 resolve(data.category);
             }
-            resolve(POTENTIAL_MATCH);  
+            resolve(POTENTIAL_MATCH);
         })
         .catch(error => {
             console.log('error getting match category'. error);
         })
     });
 }
-//Will later change to return a promise to the score. 
+//Will later change to return a promise to the score.
 const calculateScore = (matchID) => {
     return 10;
 }
@@ -288,6 +289,3 @@ export const mutualMatch = (bool) => ({
     type: MUTUAL_MATCH_SCREEN,
     bool
 });
-
-
-

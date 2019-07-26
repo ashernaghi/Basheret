@@ -21,13 +21,15 @@ export class IntroQuestionsScreen extends React.Component {
     //We import questions/answers. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate
     state= {
       preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
-      preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
-      responseValue: 101,
-      minObservance: 1,
-      maxObservance: 101,
-      thumb: 24,
-      borderRadius: 12,
-      selected: '',
+        preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
+        responseValue: 101,
+        minObservance: 1,
+        maxObservance: 101,
+        thumb: 40,
+        track: 40,
+        borderRadius: 20,
+        selected: '',
+        value: 0,
     }
 
     count;
@@ -137,33 +139,39 @@ export class IntroQuestionsScreen extends React.Component {
 
     return (
       <View style={styles.questionView}>
+        <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
+          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+        </View>
         <Text style={styles.question}>{this.question}</Text>
         <View style={{flexDirection: 'row', padding: 40}}>
           <Slider
             style={styles.verticalSlider}
             step={5}
             thumbStyle={{width: this.state.thumb, height: this.state.thumb, borderRadius: this.state.borderRadius}}
+            trackStyle={{ width: this.state.track, borderRadius: this.state.borderRadius }}
             minimumValue={this.state.minObservance}
             maximumValue={this.state.maxObservance}
             orientation="vertical"
-            value={this.state.responseValue}
+            value={50}
             onValueChange={val => this.setState({ responseValue: val })}
             onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
             onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
-            thumbTintColor='pink'
+            thumbTintColor='#00387e'
             maximumTrackTintColor='#d3d3d3'
-            minimumTrackTintColor='pink'
+            minimumTrackTintColor='#d3d3d3'
           />
           <View style={styles.sliderLabels}>
             {this.generateLabels()}
           </View>
         </View>
-        <NextButton
-        onPress={()=>this.onPress()}
-        content={this.state.responseValue}
-        >
-          {"Next"}
-        </NextButton>
+        <View style={styles.button}>
+          <NextButton
+          onPress={()=>this.onPress()}
+          content={this.state.responseValue}
+          >
+            {"Done"}
+          </NextButton>
+        </View>
       </View>
     );
   }
@@ -180,15 +188,17 @@ const styles = StyleSheet.create({
   },
 
   questionView: {
+    paddingTop: 65,
     flex: 1,
     backgroundColor: '#F4F4F4',
-    justifyContent: 'center',
   },
 
   question: {
-    fontSize: 20,
+    fontSize: 25,
     paddingLeft: 30,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    maxWidth: 260,
+    color: 'grey',
   },
 
   optionButtonStyleUnselected:{
@@ -214,12 +224,17 @@ const styles = StyleSheet.create({
 
   sliderLabels: {
     justifyContent: 'space-between',
-    height: 300,
+    height: '68%',
+    paddingLeft: 20,
+    paddingTop: '3%'
   },
 
   verticalSlider: {
-      height: 300,
+      height: '70%',
   },
 
+  button: {
+    bottom: 105
+  }
 
 })

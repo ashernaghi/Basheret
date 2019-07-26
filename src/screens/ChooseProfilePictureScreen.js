@@ -7,6 +7,8 @@ import { updateUserInfo, uploadProfilePicture } from '../actions/UserInfoActions
 import SaveButton from '../components/SaveButton';
 import { NextButton } from '../components/NextButton';
 import ImageActionSheet from '../components/ImageActionSheet';
+import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
+import StaticProfileCard from '../components/StaticProfileCard';
 
 export class ChooseProfilePictureScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -86,8 +88,38 @@ export class ChooseProfilePictureScreen extends Component {
   showImage(){
     if(this.props.profilePhoto){
       return (
-        <Image source={{ uri: this.props.profilePhoto }} style={styles.profilePhoto}
-        />
+        <View style={{ flex: 1, }}>
+          <EditProfilePhotoActionSheet
+            onClick={clickedState => this.setState({choosemethod: clickedState})}
+            handleCamera={this.useCameraHandler}
+            handleLibrary={this.useLibraryHandler}
+            style={styles.profilePhoto}
+            overlay={
+              <View style={{ paddingRight: 20, paddingBottom: 20, alignItems: 'center', justifyContent: 'center', }}>
+                <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'white', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
+                  <View styles={{ zIndex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                    <MaterialIcons
+                      name="edit"
+                      size={18}
+                      color="black"
+                      style={styles.editPenStyle}
+                    />
+                  </View>
+                </View>
+              </View>
+          }
+          >
+          </EditProfilePhotoActionSheet>
+
+          <View style={{ paddingTop: 15 }}>
+          </View>
+
+          <StaticProfileCard title= 'Name' content= {this.props.name} opacity='1'/>
+          <StaticProfileCard title= 'Age' content = '...' opacity='0.55'/>
+          <StaticProfileCard title= 'Gender' content= '...' opacity='0.25'/>
+          <StaticProfileCard title= 'Denomination' content='...' opacity='0.1'/>
+
+        </View>
       )
     }
     else {
@@ -130,26 +162,9 @@ export class ChooseProfilePictureScreen extends Component {
   }
 
 
-    showEdit(){
+    showBottomText(){
       if(this.props.profilePhoto){
-        return(
-          <View style={{ paddingTop: 20}}>
-          <ImageActionSheet
-          onClick={clickedState => this.setState({choosemethod: clickedState})}
-          handleCamera={this.useCameraHandler}
-          handleLibrary={this.useLibraryHandler}
-          text='Edit'
-          style={styles.buttonEditStyle}
-          textstyle={styles.buttonEditTextStyle}
-          icon={<MaterialIcons
-                    name="edit"
-                    size={18}
-                    color="black"
-                    style={styles.editPenStyle}
-                  />}
-          />
-          </View>
-        )
+        
       } else {
         return(
           <View>
@@ -168,7 +183,9 @@ export class ChooseProfilePictureScreen extends Component {
     return (
       <SafeAreaView style={styles.safeAreaViewSyle}>
       <View style={styles.containerStyle}>
-        <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, alignSelf: 'center', color: '#00387e'}}>Basheret</Text>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+        </View>
         <View style={styles.photoContainerStyle}>
           {this.showImage()}
           {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
@@ -176,7 +193,7 @@ export class ChooseProfilePictureScreen extends Component {
 
         <View style={styles.textContainerStyle}>
 
-          {this.showEdit()}
+          {this.showBottomText()}
         </View>
 
           <View style={styles.buttonContainerStyle}>
@@ -209,10 +226,12 @@ const styles = StyleSheet.create ({
   },
 
   profilePhoto: {
-    height: 240,
-    width: 240,
-    borderRadius: 120,
-    paddingBottom: 20
+    height: 350,
+    width: 350,
+    borderRadius: 15,
+    overflow: 'hidden',
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
   },
 
   textContainerStyle: {
@@ -279,9 +298,8 @@ const styles = StyleSheet.create ({
   },
 
   editPenStyle: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     justifyContent: 'center',
-    paddingLeft: 10,
   }
 })
 

@@ -8,7 +8,7 @@ import { updateUserInfo } from '../actions/UserInfoActions';
 import { initializeMatches } from '../actions/matchActions';
 import { options, questions, category } from '../common/arrays'
 
-export class EditDenominationScreen extends React.Component {
+export class EditShabbatObservanceScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
@@ -21,7 +21,7 @@ export class EditDenominationScreen extends React.Component {
       this.state= {
         preference: ['genderPreference', 'denominationPreference', 'kashrutPreference', 'shabbatPreference'],
         preferenceDefault: [ [], [0, 100], [0, 100], [0, 100] ],
-        responseValue: this.props.denomination+1,
+        responseValue: this.props.shabbatObservance+1,
         minObservance: 1,
         maxObservance: 101,
         thumb: 40,
@@ -37,27 +37,24 @@ export class EditDenominationScreen extends React.Component {
     }
     //We import questions/answers. The first time this gets called, it grabs it from there and starts asking. When the user needs to navigate to the next question, the next question/answer pair from this data gets passed in as params to the navigate
 
+
+
   onPress(str=""){
     //send response to db:
-    this.props.dispatch(updateUserInfo('info', category[1], str ? str : (this.state.responseValue-1)));
+    this.props.dispatch(updateUserInfo('info', category[3], str ? str : (this.state.responseValue-1)));
     this.props.navigation.navigate('Profile')
   }
 
   generateLabels(){
-    return options[1].map((label, index)=> {
-      return (
-        <View style={{justifyContent: 'center'}}>
-          <Text key={index}>{label}</Text>
-        </View>
-      )
+    return options[3].map((label, index)=> {
+      return <Text key={index}>{label}</Text>
     })
   }
 
   render() {
-    console.log('denomination: ' + this.state.responseValue);
 
-    this.question = this.props.navigation.getParam('question', questions[1]);
-    this.labels = this.props.navigation.getParam('labels', options[1])
+    this.question = this.props.navigation.getParam('question', questions[3]);
+    this.labels = this.props.navigation.getParam('labels', options[3])
 
     return (
       <View style={styles.questionView}>
@@ -74,7 +71,7 @@ export class EditDenominationScreen extends React.Component {
               minimumValue={this.state.minObservance}
               maximumValue={this.state.maxObservance}
               orientation="vertical"
-              value={this.props.denomination+1}
+              value={this.props.shabbatObservance+1}
               onValueChange={val => this.setState({ responseValue: val })}
               onSlidingStart={()=>this.setState({thumb: this.state.thumb*1.2, borderRadius: this.state.borderRadius*1.2})}
               onSlidingComplete={()=>this.setState({thumb: this.state.thumb/1.2, borderRadius: this.state.borderRadius/1.2})}
@@ -101,11 +98,11 @@ export class EditDenominationScreen extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    denomination: state.userInfo.user.info.denomination,
+    shabbatObservance: state.userInfo.user.info.shabbatObservance,
   };
 };
 
-export default connect(mapStateToProps)(EditDenominationScreen);
+export default connect(mapStateToProps)(EditShabbatObservanceScreen);
 
 const styles = StyleSheet.create({
   safeAreaViewSyle:{
@@ -129,13 +126,13 @@ const styles = StyleSheet.create({
 
   sliderLabels: {
     justifyContent: 'space-between',
-    height: '69%',
+    height: '68%',
     paddingLeft: 20,
-    paddingTop: '1%'
+    paddingTop: '3%'
   },
 
   verticalSlider: {
-    height: '70%',
+      height: '70%',
   },
 
   button: {

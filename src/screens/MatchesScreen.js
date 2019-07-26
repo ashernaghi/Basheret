@@ -15,7 +15,7 @@ export class MatchesScreen extends React.Component {
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
         return (
-          <View key={index} style={styles.matchqCardStyle}>
+          <View key={index} style={styles.matchCardStyle}>
 
             <View>
             <Image style={styles.imageStyle} source={{ uri: matchCard.profilePhoto }}/>
@@ -37,7 +37,7 @@ export class MatchesScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, alignSelf: 'stretch' }}>
+      <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor: '#F4F4F4' }}>
         {this.generateMatchCards()}
       </View>
 

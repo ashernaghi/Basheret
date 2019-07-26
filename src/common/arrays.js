@@ -8,7 +8,7 @@ export const options = [
 export const questions = [
   'What is your gender?',
   'What is your denomination?',
-  'What is your Kashrut observance?',
+  'What is your Kashrut level?',
   'What is your Shabbat observance?'];
 
 export const category = ['gender', 'denomination', 'kashrutObservance', 'shabbatObservance'];

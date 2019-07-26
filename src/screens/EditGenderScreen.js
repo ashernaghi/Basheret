@@ -11,51 +11,53 @@ import { updateUserInfo } from '../actions/UserInfoActions';
 export class EditGenderScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Basheret',
-      headerStyle: {
-        backgroundColor: '#f4f4f4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTintColor: '#00387e',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'fitamint-script',
-        fontSize: 30
-      },
-      headerRight: null,
-      headerLeft: null,
+      header: null,
+      transitionConfig: () => fromLeft(1000),
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: this.props.gender || '',
     }
   };
 
 
   buttonDisplay(){
-    if (this.props.gender==='Female'){
+    if (this.state.response==='Female'){
       return(
-      <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-        <OptionButton label='Male' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleUnselected} />
-        <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleSelected} />
+      <View style={ styles.optionContainerStyle }>
+        <OptionButton label='Male' onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleSelected} />
       </View>)
-    } else if (this.props.gender==='Male') {
+    } else if (this.state.response==='Male') {
       return(
-      <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-        <OptionButton label='Male'  onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleSelected} />
-        <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleUnselected} />
+      <View style={ styles.optionContainerStyle }>
+        <OptionButton label='Male'  onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleUnselected} />
       </View>)
     } else {
       return(
-    <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
-      <OptionButton label='Male' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Male'))} style={styles.optionButtonStyleUnselected} />
-      <OptionButton label='Female' onPress={()=>this.props.dispatch(updateUserInfo('info', 'gender', 'Female'))} style={styles.optionButtonStyleUnselected} />
+    <View style={ styles.optionContainerStyle }>
+      <OptionButton label='Male' onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleUnselected} />
     </View>)
     }
   }
 
+  handleSave(){
+    this.props.dispatch(updateUserInfo('info', 'gender', this.state.response))
+    this.props.navigation.navigate('Profile');
+  }
 
   render(){
     return(
     <View style={styles.viewStyle}>
+
+      <View style={styles.logoContainerStyle}>
+        <Text style={styles.logoFontStyle}>Basheret</Text>
+      </View>
 
       <View>
         <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Edit your gender: </Text>
@@ -65,10 +67,10 @@ export class EditGenderScreen extends Component {
 
       <View style={{ flex: 1 }}>
         <NextButton
-        onPress={() => this.props.navigation.navigate('Profile')}
-        content={this.props.gender}
+        onPress={() => this.handleSave()}
+        content='enabled'
         >
-          <Text>Save</Text>
+          <Text>Done</Text>
         </NextButton>
       </View>
 
@@ -91,6 +93,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
   },
 
+  logoContainerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  logoFontStyle: {
+    fontSize: 50,
+    fontFamily: 'fitamint-script',
+    color: '#00387e',
+  },
+
   questionView: {
     flex: 1,
     backgroundColor: '#F4F4F4',
@@ -101,6 +115,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 30,
     fontWeight: 'bold'
+  },
+
+  optionContainerStyle:{
+    flex: 2,
+    justifyContent: 'center',
   },
 
   optionButtonStyleUnselected:{
