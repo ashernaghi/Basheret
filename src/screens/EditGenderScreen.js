@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import {Header} from 'react-navigation'
 import OptionButton from '../components/OptionButton';
@@ -53,27 +54,38 @@ export class EditGenderScreen extends Component {
 
   render(){
     return(
-    <View style={styles.viewStyle}>
+    <View style={styles.containerStyle}>
 
-      <View style={styles.logoContainerStyle}>
-        <Text style={styles.logoFontStyle}>Basheret</Text>
+      <View style={styles.headerContainerStyle}>
+        <View style={ styles.backArrowStyle }>
+          <Ionicons
+            name="ios-arrow-back"
+            size={27}
+            color="grey"
+            onPress={() => this.props.navigation.navigate('Profile')}
+          />
+        </View>
+        <View style={styles.logoContainerStyle}>
+          <Text style={styles.logoFontStyle}>Basheret</Text>
+        </View>
       </View>
 
-      <View>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Edit your gender: </Text>
+      <View style={styles.questionContainerStyle}>
+        <Text style={styles.questionTextStyle}>Edit your Gender:</Text>
       </View>
 
       {this.buttonDisplay()}
 
-      <View style={{ flex: 1 }}>
+      <View style={styles.buttonContainerStyle}>
         <NextButton
         onPress={() => this.handleSave()}
         content='enabled'
         >
-          <Text>Done</Text>
+          <Text>Save</Text>
         </NextButton>
       </View>
 
+      <View style={styles.emptySpaceContainerStyle}/>
     </View>
   )
   }
@@ -88,21 +100,11 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(EditGenderScreen);
 
 const styles = StyleSheet.create({
-  viewStyle:{
-    flex: 1,
-    backgroundColor: '#F4F4F4',
-  },
 
-  logoContainerStyle: {
+  containerStyle: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  logoFontStyle: {
-    fontSize: 50,
-    fontFamily: 'fitamint-script',
-    color: '#00387e',
+    backgroundColor: '#F4F4F4',
   },
 
   questionView: {
@@ -142,15 +144,48 @@ const styles = StyleSheet.create({
     margin: 7,
   },
 
+  logoContainerStyle:{
+    alignSelf: 'center',
+    alignItems:'center',
+    justifyContent: 'center',
+    marginRight: 90,
+    marginLeft: 90, },
 
-  sliderLabels: {
-    justifyContent: 'space-between',
-    height: 300,
+  logoFontStyle: {
+    fontSize: 50,
+    fontFamily: 'fitamint-script',
+    color: '#00387e',
   },
 
-  verticalSlider: {
-      height: 300,
+  headerContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
 
+  backArrowStyle:{
+    alignSelf: 'center',
+    justifySelf:'flex-start',
+  },
 
+  questionContainerStyle: {
+    flex: 0.5,
+  },
+
+  questionTextStyle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    paddingLeft: 40,
+    paddingTop: 20,
+    color: 'grey'
+  },
+
+  buttonContainerStyle: {
+    flex: 0.5,
+    justifyContent: 'center',
+  },
+
+  emptySpaceContainerStyle: {
+    flex: 1,
+  },
 })

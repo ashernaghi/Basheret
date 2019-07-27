@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { Slider } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 import OptionButton from '../components/OptionButton';
 import { NextButton } from '../components/NextButton';
 import { connect } from 'react-redux';
@@ -61,8 +62,18 @@ export class EditDenominationScreen extends React.Component {
 
     return (
       <View style={styles.questionView}>
-        <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
-          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+        <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:'center', paddingBottom: 20 }}>
+          <View>
+            <Ionicons
+              name="ios-arrow-back"
+              size={27}
+              color="grey"
+              onPress={() => this.props.navigation.navigate('Profile')}
+            />
+          </View>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginRight: 90, marginLeft: 90, }}>
+            <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+          </View>
         </View>
         <Text style={styles.question}>{this.question}</Text>
           <View style={{flexDirection: 'row', paddingLeft: 40, paddingTop: 40}}>

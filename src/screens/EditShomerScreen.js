@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import {Header} from 'react-navigation'
 import OptionButton from '../components/OptionButton';
 import { NextButton } from '../components/NextButton';
 import { updateUserInfo } from '../actions/UserInfoActions';
-
 
 export class EditShomerScreen extends Component {
   constructor(props) {
@@ -100,8 +100,18 @@ export class EditShomerScreen extends Component {
     return(
       <View style={styles.containerStyle}>
 
-        <View style={styles.logoContainerStyle}>
-          <Text style={styles.logoFontStyle}>Basheret</Text>
+        <View style={styles.headerContainerStyle}>
+          <View style={ styles.backArrowStyle }>
+            <Ionicons
+              name="ios-arrow-back"
+              size={27}
+              color="grey"
+              onPress={() => this.props.navigation.navigate('Profile')}
+            />
+          </View>
+          <View style={styles.logoContainerStyle}>
+            <Text style={styles.logoFontStyle}>Basheret</Text>
+          </View>
         </View>
 
 
@@ -116,7 +126,7 @@ export class EditShomerScreen extends Component {
             onPress={() => this.handleSave()}
             content='enabled'
             >
-            <Text>Done</Text>
+            <Text>Save</Text>
           </NextButton>
         </View>
 
@@ -136,10 +146,6 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps)(EditShomerScreen);
 
 const styles = StyleSheet.create({
-  safeAreaViewSyle:{
-    flex: 1,
-    backgroundColor: '#F4F4F4',
-  },
 
   containerStyle: {
     flex: 1,
@@ -184,16 +190,28 @@ const styles = StyleSheet.create({
     margin: 7,
   },
 
-  logoContainerStyle: {
-    flex: 1,
+  logoContainerStyle:{
+    alignSelf: 'center',
+    alignItems:'center',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    marginRight: 90,
+    marginLeft: 90, },
 
   logoFontStyle: {
     fontSize: 50,
     fontFamily: 'fitamint-script',
     color: '#00387e',
+  },
+
+  headerContainerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+
+  backArrowStyle:{
+    alignSelf: 'center',
+    justifySelf:'flex-start',
   },
 
   questionContainerStyle: {
@@ -216,5 +234,4 @@ const styles = StyleSheet.create({
   emptySpaceContainerStyle: {
     flex: 1,
   },
-
 })
