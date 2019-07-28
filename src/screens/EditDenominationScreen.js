@@ -54,7 +54,6 @@ export class EditDenominationScreen extends React.Component {
   }
 
   render() {
-    console.log('denomination: ' + this.state.responseValue);
 
     this.question = this.props.navigation.getParam('question', questions[1]);
     this.labels = this.props.navigation.getParam('labels', options[1])
