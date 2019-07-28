@@ -15,7 +15,7 @@ import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 import {options, questions, category} from '../common/arrays'
 
- 
+
 export class ProfileScreen extends React.Component {
   constructor(props){
     super(props);
@@ -38,46 +38,7 @@ export class ProfileScreen extends React.Component {
       header: null,
     }
   };
-    /*
-      return {
-        headerTintColor: '#F4F4F4',
-        headerStyle: {
-          backgroundColor: '#F4F4F4',
-          shadowColor: 'transparent',
-          borderBottomColor:'transparent',
-          borderBottomWidth: 0,
-          height: 120
 
-        },
-
-        headerRight: (
-          <TouchableOpacity style={ styles.touchableOpacityHeader } onPress={() => navigation.navigate('Home')}>
-            <Ionicons
-              name="ios-arrow-forward"
-              size={30}
-              color="grey"
-              style={styles.headerIcons}
-            />
-          </TouchableOpacity>
-        ),
-        headerTitle: (
-          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 50, color: '#00387e', }} >
-              Profile
-          </Text>
-        ),
-        headerLeft: (
-          <Ionicons
-            onPress={() => navigation.navigate('Settings')}
-            name="ios-settings"
-            size={32}
-            color="grey"
-            style={styles.headerIcons}
-            marginLeft={20}
-          />
-        ),
-      }
-    };
-*/
   componentWillUnmount(){
     this.props.dispatch(showProfileScreen('self'))
   }
@@ -206,7 +167,7 @@ renderGradient (gradientValue, type){
 
   return(
     <View style={{ flex: 1}}>
-      
+
       <View style={{ width: this.state.gradientLineWidth, height: 110,  margin: 5,}}>
 
         <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
@@ -255,10 +216,10 @@ renderLines(value, gradientValue){
         <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
-          
-        
+
+
         <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
-        
+
           {this.props.type==='candidate' &&
           <View>
             <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
@@ -359,7 +320,7 @@ renderLines(value, gradientValue){
               <View style={{ backgroundColor: '#F4F4F4' }}>
               {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
-                <MultilineProfileCard title='About Me' content={this.props.aboutMe} onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
+                <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yoursef...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
@@ -371,12 +332,12 @@ renderLines(value, gradientValue){
                 <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
                 <ProfileCard title= 'Yeshiva/Midrasha' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
                 <ProfileCard title= 'University' content= {this.props.university} onPress={() => this.props.navigation.navigate('EditUniversity')} />
+                <ProfileCard title= 'Ethnicity' content= {this.props.ethnicity} onPress={() => this.props.navigation.navigate('EditEthnicity')} />
                 <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
-
+                <MultilineProfileCard title='Ideal Day' content={this.props.idealDay} placeHolder='What does your ideal day look like...' onPress={() => this.props.navigation.navigate('EditIdealDay')}/>
+                <MultilineProfileCard title='Favorite Quote' content={this.props.aboutMe} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
               </View>
             </View>}
-
-          
 
         </ScrollView>
         </SafeAreaView>
@@ -406,6 +367,9 @@ const mapStateToProps = state => {
       university: state.userInfo.user.info.university,
       yeshivamidrasha: state.userInfo.user.info.yeshivamidrasha,
       profession: state.userInfo.user.info.profession,
+      ethnicity: state.userInfo.user.info.ethnicity,
+      idealDay: state.userInfo.user.info.idealDay,
+      favoriteQuote: state.userInfo.user.info.favoriteQuote,
 
     };
   }
@@ -430,6 +394,9 @@ const mapStateToProps = state => {
       university: state.userInfo.user[type].university,
       yeshivamidrasha: state.userInfo.user[type].yeshivamidrasha,
       profession: state.userInfo.user[type].profession,
+      ethnicity: state.userInfo.user[type].ethnicity,
+      idealDay: state.userInfo.user[type].idealDay,
+      favoriteQuote: state.userInfo.user[type].favoriteQuote,
     }
   }
 };
