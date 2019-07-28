@@ -19,6 +19,7 @@ import EditProfessionScreen from '../screens/EditProfessionScreen';
 import EditDenominationScreen from '../screens/EditDenominationScreen';
 import EditKashrutLevelScreen from '../screens/EditKashrutLevelScreen';
 import EditShabbatObservanceScreen from '../screens/EditShabbatObservanceScreen';
+import MatchSuccessScreen from '../screens/MatchSuccessScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -55,6 +56,7 @@ const MainStack = createStackNavigator({
   EditDenomination: { screen: EditDenominationScreen },
   EditKashrutLevel: { screen: EditKashrutLevelScreen },
   EditShabbatObservance: { screen: EditShabbatObservanceScreen },
+  MatchSuccess: { screen: MatchSuccessScreen },
 
 },
 {

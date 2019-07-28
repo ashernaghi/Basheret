@@ -56,8 +56,7 @@ export class EditKashrutLevelScreen extends React.Component {
 
     this.question = this.props.navigation.getParam('question', questions[2]);
     this.labels = this.props.navigation.getParam('labels', options[2])
-    console.log(this.props);
-    console.log(this.props.kashrutObservance);
+    
     return (
       <View style={styles.questionView}>
         <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:'center', paddingBottom: 20 }}>
