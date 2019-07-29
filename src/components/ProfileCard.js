@@ -18,17 +18,19 @@ class ProfileCard extends React.Component {
 
           <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between', alignItems: 'center',  }}>
 
-            <View>
+            <View style={{ maxWidth: '40%'}}>
               <Text style={styles.titleStyle}>{this.props.title}</Text>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
+            <View style={{ flexDirection: 'row', justifyContent: 'center', maxWidth: '55%' }} >
               <Text style={styles.textStyle}>{this.props.content}</Text>
-              <Ionicons
-                name="ios-arrow-forward"
-                size={30}
-                color="grey"
-                style={{ marginLeft: 8, }}/>
+              <View style={{justifyContent: 'center'}}>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  size={30}
+                  color="grey"
+                  style={{ marginLeft: 8, }}/>
+              </View>
             </View>
 
           </View>
@@ -107,7 +109,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Helvetica Neue',
     padding: 5,
     justifyContent: 'center',
-
   },
 
 });
