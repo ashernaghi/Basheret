@@ -30,6 +30,7 @@ export class EditAgeScreen extends React.Component {
   }
 
   setDate(newDate) {
+    console.log('new date is' + newDate);
     this.props.dispatch(updateUserInfo('info', 'birthday', newDate ))
   }
 
@@ -81,7 +82,19 @@ export class EditAgeScreen extends React.Component {
 
 
   render() {
-    console.log(this.props.birthday)
+    console.log(this.props.birthday);
+    console.log(this.props);
+    var birthday;
+    if (this.props.birthday){
+      birthday = new Date(1997, 0, 1)
+    }
+    else {
+      birthday = new Date(1995, 0, 1)
+    }
+    const birthdayProp = this.props.birthday;
+    console.log('birthday year is' + this.props.birthday.toString().substring(0,10));
+        console.log('birthday year is' + this.props.birthday);
+
     return (
       <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
 
@@ -95,7 +108,7 @@ export class EditAgeScreen extends React.Component {
 
         <View style={{ flex: 0.5, paddingLeft: 40, }}>
           <DatePicker
-                defaultDate={new Date(1995, 0, 1 )}
+                defaultDate={birthday}
                 minimumDate={new Date(1980, 1, 1)}
                 maximumDate={new Date(2018, 12, 31)}
                 locale={"en"}

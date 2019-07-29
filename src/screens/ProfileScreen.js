@@ -170,7 +170,7 @@ renderGradient (gradientValue, type){
 
       <View style={{ width: this.state.gradientLineWidth, height: 110,  margin: 5,}}>
 
-        <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 2.5, borderBottomColor: 'grey',}}></View>
+        <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 1, borderBottomColor: 'black', borderRadius: 0.5 }}></View>
 
         <View style={{borderRadius: 3, width: 6, height: 25, backgroundColor: '#00387e', position: 'absolute', top: 25, alignSelf: 'center', zIndex: 2 }}></View>
 

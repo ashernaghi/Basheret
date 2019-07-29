@@ -64,6 +64,7 @@ static navigationOptions = ({ navigation }) => {
 
   componentDidMount(){
     this.props.dispatch(getCandidate());
+    console.log('birthday is : ' + this.props.birthday);
   }
 
   render() {
@@ -134,6 +135,7 @@ static navigationOptions = ({ navigation }) => {
 const mapStateToProps = state => {
   return {
     location: state.userInfo.user.location,
+    birthday: state.userInfo.user.info.birthday,
   };
 };
 
