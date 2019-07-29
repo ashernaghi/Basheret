@@ -52,7 +52,7 @@ export class EditHometownScreen extends React.Component {
           <UnderlinedInput
             onChangeText={(text) => this.setState({response: text})}
             value={this.state.response}
-            placeholder='Where are you from?'
+            placeholder='Where did you grow up?'
             returnKeyType='done'
             autoFocus = {true}
             onSubmitEditing={() => this.handleSave()}

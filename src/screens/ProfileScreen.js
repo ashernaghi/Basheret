@@ -221,11 +221,19 @@ renderLines(value, gradientValue){
 
           {this.props.type==='candidate' &&
           <View>
-            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
+              <MaterialCommunityIcons
+                name='flag-variant'
+                onPress={()=>{this.props.navigation.goBack()}}
+                size={25}
+                color= 'grey'
+                style={{ marginTop: 10, marginRight: 10,}}
+              />
               <MaterialCommunityIcons
                 name='close'
-                onPress={()=>{this.props.navigation.goBack();}}
+                onPress={()=>{this.props.navigation.goBack()}}
                 size={25}
+                color= 'grey'
                 style={{ marginTop: 10, marginRight: 10,}}
               />
             </View>
@@ -320,7 +328,7 @@ renderLines(value, gradientValue){
               <View style={{ backgroundColor: '#F4F4F4' }}>
               {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
-                <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yoursef...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
+                <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yourself...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
@@ -329,13 +337,16 @@ renderLines(value, gradientValue){
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
-                <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
-                <ProfileCard title= 'Yeshiva/Midrasha' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
                 <ProfileCard title= 'University' content= {this.props.university} onPress={() => this.props.navigation.navigate('EditUniversity')} />
+                <ProfileCard title= 'Yeshiva/Seminary' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
+                <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
+                <ProfileCard title= 'Camp' content= {this.props.camp} onPress={() => this.props.navigation.navigate('EditCamp')}/>
                 <ProfileCard title= 'Ethnicity' content= {this.props.ethnicity} onPress={() => this.props.navigation.navigate('EditEthnicity')} />
                 <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
                 <MultilineProfileCard title='Ideal Day' content={this.props.idealDay} placeHolder='What does your ideal day look like...' onPress={() => this.props.navigation.navigate('EditIdealDay')}/>
-                <MultilineProfileCard title='Favorite Quote' content={this.props.aboutMe} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
+                <MultilineProfileCard title='Favorite Quote' content={this.props.favoriteQuote} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
+                <MultilineProfileCard title='Favorite Book' content={this.props.favoriteBook} placeHolder='As a Driven Leaf...' onPress={() => this.props.navigation.navigate('FavoriteBook')}/>
+                <MultilineProfileCard title='Hobbies' content='' placeHolder='Learning Torah'/>
               </View>
             </View>}
 
@@ -370,6 +381,7 @@ const mapStateToProps = state => {
       ethnicity: state.userInfo.user.info.ethnicity,
       idealDay: state.userInfo.user.info.idealDay,
       favoriteQuote: state.userInfo.user.info.favoriteQuote,
+      favoriteBook: state.userInfo.user.info.favoriteBook,
 
     };
   }
@@ -397,6 +409,7 @@ const mapStateToProps = state => {
       ethnicity: state.userInfo.user[type].ethnicity,
       idealDay: state.userInfo.user[type].idealDay,
       favoriteQuote: state.userInfo.user[type].favoriteQuote,
+      favoriteBook: state.userInfo.user[type].favoriteBook,
     }
   }
 };
