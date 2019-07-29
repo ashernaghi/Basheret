@@ -19,6 +19,9 @@ import EditProfessionScreen from '../screens/EditProfessionScreen';
 import EditDenominationScreen from '../screens/EditDenominationScreen';
 import EditKashrutLevelScreen from '../screens/EditKashrutLevelScreen';
 import EditShabbatObservanceScreen from '../screens/EditShabbatObservanceScreen';
+import EditEthnicityScreen from '../screens/EditEthnicityScreen';
+import EditIdealDayScreen from '../screens/EditIdealDayScreen';
+import EditFavoriteQuoteScreen from '../screens/EditFavoriteQuoteScreen';
 import MatchSuccessScreen from '../screens/MatchSuccessScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
@@ -56,8 +59,10 @@ const MainStack = createStackNavigator({
   EditDenomination: { screen: EditDenominationScreen },
   EditKashrutLevel: { screen: EditKashrutLevelScreen },
   EditShabbatObservance: { screen: EditShabbatObservanceScreen },
+  EditEthnicity: { screen: EditEthnicityScreen },
+  EditIdealDay: { screen: EditIdealDayScreen },
   MatchSuccess: { screen: MatchSuccessScreen },
-
+  FavoriteQuote: { screen: EditFavoriteQuoteScreen },
 },
 {
   initialRouteName: 'Home',

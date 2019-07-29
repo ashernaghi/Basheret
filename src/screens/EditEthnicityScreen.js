@@ -9,7 +9,7 @@ import { DisabledNextButton } from '../components/DisabledNextButton';
 import { updateUserInfo } from '../actions/UserInfoActions';
 
 
-export class EditGenderScreen extends Component {
+export class EditEthnicityScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
@@ -20,35 +20,45 @@ export class EditGenderScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      response: this.props.gender || '',
+      response: this.props.ethnicity || '',
     }
   };
 
 
   buttonDisplay(){
-    if (this.state.response==='Female'){
+    if (this.state.response==='Sephardi'){
       return(
       <View style={ styles.optionContainerStyle }>
-        <OptionButton label='Male' onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleUnselected} />
-        <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Sephardi' onPress={()=>this.setState({ response: 'Sephardi'})} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Ashkenazi' onPress={()=>this.setState({ response: 'Ashkenazi'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Other' onPress={()=>this.setState({ response: 'Other'})} style={styles.optionButtonStyleUnselected} />
       </View>)
-    } else if (this.state.response==='Male') {
+    } else if (this.state.response==='Ashkenazi') {
       return(
       <View style={ styles.optionContainerStyle }>
-        <OptionButton label='Male'  onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleSelected} />
-        <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Sephardi' onPress={()=>this.setState({ response: 'Sephardi'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Ashkenazi'  onPress={()=>this.setState({ response: 'Ashkenazi'})} style={styles.optionButtonStyleSelected} />
+        <OptionButton label='Other' onPress={()=>this.setState({ response: 'Other'})} style={styles.optionButtonStyleUnselected} />
+      </View>)
+    } else if (this.state.response==='Other') {
+      return(
+      <View style={ styles.optionContainerStyle }>
+        <OptionButton label='Sephardi' onPress={()=>this.setState({ response: 'Sephardi'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Ashkenazi' onPress={()=>this.setState({ response: 'Ashkenazi'})} style={styles.optionButtonStyleUnselected} />
+        <OptionButton label='Other'  onPress={()=>this.setState({ response: 'Other'})} style={styles.optionButtonStyleSelected} />
       </View>)
     } else {
       return(
     <View style={ styles.optionContainerStyle }>
-      <OptionButton label='Male' onPress={()=>this.setState({ response: 'Male'})} style={styles.optionButtonStyleUnselected} />
-      <OptionButton label='Female' onPress={()=>this.setState({ response: 'Female'})} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Sephardi' onPress={()=>this.setState({ response: 'Sephardi'})} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Ashkenazi' onPress={()=>this.setState({ response: 'Ashkenazi'})} style={styles.optionButtonStyleUnselected} />
+      <OptionButton label='Other' onPress={()=>this.setState({ response: 'Other'})} style={styles.optionButtonStyleUnselected} />
     </View>)
     }
   }
 
   handleSave(){
-    this.props.dispatch(updateUserInfo('info', 'gender', this.state.response))
+    this.props.dispatch(updateUserInfo('info', 'ethnicity', this.state.response))
     this.props.navigation.navigate('Profile');
   }
 
@@ -71,7 +81,7 @@ export class EditGenderScreen extends Component {
       </View>
 
       <View style={styles.questionContainerStyle}>
-        <Text style={styles.questionTextStyle}>Edit your Gender:</Text>
+        <Text style={styles.questionTextStyle}>Edit your Ethnicity:</Text>
       </View>
 
       {this.buttonDisplay()}
@@ -93,11 +103,11 @@ export class EditGenderScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    gender: state.userInfo.user.info.gender
+    ethnicity: state.userInfo.user.info.ethnicity
   };
 };
 
-export default connect(mapStateToProps)(EditGenderScreen);
+export default connect(mapStateToProps)(EditEthnicityScreen);
 
 const styles = StyleSheet.create({
 

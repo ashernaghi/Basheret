@@ -1,33 +1,33 @@
 import React from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Button, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
+import { Ionicons } from '@expo/vector-icons';
 import { UnderlinedInput } from '../components/UnderlinedInput';
 import { NextButton } from '../components/NextButton';
 import { Header } from 'react-navigation'
 import styles from '../styles/editStyles';
 
-
-export class EditHometownScreen extends React.Component {
+export class EditIdealDayScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
-      transitionConfig: () => fromLeft(1000),
+      transitionConfig: () => fromRight(1000),
     }
+
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      response: this.props.hometown || '',
-    }
-  };
+    constructor(props) {
+      super(props);
+      this.state = {
+        response: this.props.idealDay || '',
+      }
+    };
 
-  handleSave(){
-    this.props.dispatch(updateUserInfo('info', 'hometown', this.state.response))
-    this.props.navigation.navigate('Profile');
-  }
+    handleSave(){
+      this.props.dispatch(updateUserInfo('info', 'idealDay', this.state.response))
+      this.props.navigation.navigate('Profile');
+    }
 
   render() {
     return (
@@ -48,14 +48,14 @@ export class EditHometownScreen extends React.Component {
         </View>
 
         <View style={styles.questionContainerStyle}>
-          <Text style={styles.questionTextStyle}>Edit your Hometown:</Text>
+          <Text style={styles.questionTextStyle}>What is your Ideal Day?:</Text>
           <UnderlinedInput
             onChangeText={(text) => this.setState({response: text})}
             value={this.state.response}
-            placeholder='Where are you from?'
-            returnKeyType='done'
+            placeholder='What does it look like...'
             autoFocus = {true}
-            onSubmitEditing={() => this.handleSave()}
+            multiline={true}
+            autoCorrect={true}
           />
         </View>
 
@@ -77,11 +77,10 @@ export class EditHometownScreen extends React.Component {
 }
 
 
-
 const mapStateToProps = state => {
   return {
-    hometown: state.userInfo.user.info.hometown,
+    idealDay: state.userInfo.user.info.idealDay,
   };
 };
 
-export default connect(mapStateToProps)(EditHometownScreen);
+export default connect(mapStateToProps)(EditIdealDayScreen);

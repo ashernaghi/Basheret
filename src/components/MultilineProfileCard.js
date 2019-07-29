@@ -72,7 +72,7 @@ class MultilineProfileCard extends Component {
 
               <View style={{flexDirection: 'column', }}>
                 <Text style={styles.titleStyle}>{this.props.title}</Text>
-                <Text style={styles.emptyTextStyle}>Tell us about yourself...</Text>
+                <Text style={styles.emptyTextStyle}>{this.props.placeHolder}</Text>
               </View>
 
               <View style={{ justifyContent: 'center'}}>
