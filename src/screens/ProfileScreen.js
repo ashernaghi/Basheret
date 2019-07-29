@@ -218,7 +218,6 @@ renderLines(value, gradientValue){
 
 
 
-        <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
           {this.props.type==='candidate' &&
           <View>
@@ -295,6 +294,7 @@ renderLines(value, gradientValue){
                   style={styles.profilePhoto}
                   overlay={
                     <View style={{ flex: 1, }}>
+                      <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
                       <View>
                       </View>

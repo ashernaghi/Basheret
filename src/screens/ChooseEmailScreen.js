@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { updateUserInfo } from '../actions/UserInfoActions';
 import { UnderlinedInput } from '../components/UnderlinedInput';
 import { NextButton } from '../components/NextButton';
-import {Header} from 'react-navigation'
+import { Header } from 'react-navigation'
 
 
 export class ChooseEmailScreen extends React.Component {
@@ -14,6 +14,18 @@ export class ChooseEmailScreen extends React.Component {
       header: null,
     }
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: this.props.email || '',
+    }
+  };
+
+  handleSave(){
+    this.props.dispatch(updateUserInfo('info', 'email', this.state.response))
+    this.props.navigation.navigate('ChooseProfilePicture');
+  }
 
   render() {
     return (
@@ -27,20 +39,21 @@ export class ChooseEmailScreen extends React.Component {
                 <Text style={{ fontSize: 25, fontWeight: 'bold', paddingLeft: 40, paddingTop: 20, color: 'grey' }}>Enter your email:</Text>
 
                 <UnderlinedInput
-                  onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'email', text))}
-                  defaultValue={this.props.email}
-                  placeholder='email address'
+                  onChangeText={(text) => this.setState({response: text})}
+                  value={this.state.response}
+                  autoCapitalize='none'
+                  placeholder='Email Address'
                   textContentType='email'
                   returnKeyType='next'
                   autoFocus = {true}
-                  onSubmitEditing={() => this.props.navigation.navigate('ChooseProfilePicture')}
+                  onSubmitEditing={() => this.handleSave()}
                 />
               </View>
 
               <View style={{ flex: 1, justifyContent: 'center'  }}>
                 <NextButton
-                onPress={() => this.props.navigation.navigate('ChooseProfilePicture')}
-                content={this.props.email}
+                onPress={() => this.handleSave()}
+                content={this.state.response}
                 >
                 <Text>Next</Text>
                 </NextButton>

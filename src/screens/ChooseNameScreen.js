@@ -17,7 +17,17 @@ export class ChooseNameScreen extends React.Component {
 
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: this.props.name || '',
+    }
+  };
 
+  handleSave(){
+    this.props.dispatch(updateUserInfo('info', 'name', this.state.response))
+    this.props.navigation.navigate('ChooseEmail');
+  }
 
   render() {
     return (
@@ -30,20 +40,20 @@ export class ChooseNameScreen extends React.Component {
         <View style={styles.questionContainerStyle}>
           <Text style={styles.questionTextStyle}>Choose your name:</Text>
           <UnderlinedInput
-            onChangeText={(text) => this.props.dispatch(updateUserInfo('info', 'name', text))}
-            defaultValue={this.props.name}
-            placeholder='Full Name'
+            onChangeText={(text) => this.setState({response: text})}
+            value={this.state.response}
+            placeholder='First Name'
             textContentType='name'
             returnKeyType='next'
             autoFocus = {true}
-            onSubmitEditing={() => this.props.navigation.navigate('ChooseEmail')}
+            onSubmitEditing={() => this.handleSave()}
           />
         </View>
 
         <View style={styles.buttonContainerStyle}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('ChooseEmail')}
-          content={this.props.name}
+          onPress={() => this.handleSave()}
+          content={this.state.response}
           >
             <Text>Next</Text>
           </NextButton>
