@@ -108,7 +108,7 @@ export class ChooseAgeScreen extends React.Component {
         </View>
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <NextButton
-          onPress={() => this.props.navigation.navigate('Questions')}
+          onPress={() => this.props.navigation.navigate('ChooseAboutMe')}
           content={this.props.birthday}
           >
             <Text>Next</Text>

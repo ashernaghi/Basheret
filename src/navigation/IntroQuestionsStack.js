@@ -6,14 +6,16 @@ import ChooseProfilePictureScreen from '../screens/ChooseProfilePictureScreen';
 import ChooseNameScreen from '../screens/ChooseNameScreen';
 import ChooseEmailScreen from '../screens/ChooseEmailScreen';
 import ChooseAgeScreen from '../screens/ChooseAgeScreen';
+import ChooseAboutMeScreen from '../screens/ChooseAboutMeScreen';
 
 export default IntroQuestionsStack = createStackNavigator({
   Questions: { screen: IntroQuestionsScreen },
   ChooseProfilePicture: { screen: ChooseProfilePictureScreen },
   ChooseName: { screen: ChooseNameScreen },
-  ChooseEmail: {screen: ChooseEmailScreen },
+  ChooseEmail: { screen: ChooseEmailScreen },
   LoadingApp: { screen: LoadingAppScreen },
-  ChooseAge: {screen: ChooseAgeScreen },
+  ChooseAge: { screen: ChooseAgeScreen },
+  ChooseAboutMe: { screen: ChooseAboutMeScreen },
 
   },
   {

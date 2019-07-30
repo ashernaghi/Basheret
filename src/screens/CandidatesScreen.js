@@ -35,7 +35,8 @@ export class CandidatesScreen extends React.Component {
               <View style={{flex: 1,}}>
 
                 <View style={{flex: 1, justifyContent: 'flex-end', }}>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.name}</Text>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold',  textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.name}, {this.props.candidate.age}</Text>
+                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.currentresidence}</Text>
                 </View>
 
               </View>

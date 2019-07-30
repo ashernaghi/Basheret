@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Button, Text, TouchableOpacity, ScrollView, TextInput, SafeAreaView } from 'react-native';
 import {loginWithFacebook, loginPhoneNumberSuccess} from '../actions/AuthActions';
 import { Font, Linking, WebBrowser } from 'expo'
 import firebase from '../actions/firebase'
 import { loginWithPhoneNumber } from '../actions/AuthActions'
 import PhoneInput from 'react-native-phone-input'
+import { NextButton } from '../components/NextButton';
 
 const captchaUrl = `https://fblogintest-18329.firebaseapp.com/?appurl=${Linking.makeUrl('')}`
 
@@ -42,7 +43,9 @@ export class OnboardingScreen extends React.Component {
     validNumber = () => {
         console.log('validating')
         let {phone} = this.state
-        phone = phone.replace("-",'')
+        phone = phone.replace(/-/g ,'')
+        phone = phone.replace(/ /g, '')
+        console.log('REPLACE',phone)
         if (phone=='') {
             const error = "Please enter a phone number"
             this.setState({error});
@@ -129,8 +132,8 @@ export class OnboardingScreen extends React.Component {
     render() {
         if (!this.state.confirmationResult)
             return (
-                <View style={styles.container}>
-                    <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
+                <SafeAreaView style={styles.container}>
+                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', }}>
                       <Text
                       style={styles.loginLogoText}
                       >
@@ -138,28 +141,28 @@ export class OnboardingScreen extends React.Component {
                       </Text>
                     {this.props.loggingIn && <ActivityIndicator />}
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 400 }}>
+                    <View style={{ flex: 1, justifyContent: 'center', margin: 20,  }}>
                         <PhoneInput
                             ref='phone'
                             value={this.state.phone}
                             onChangePhoneNumber={this.onPhoneChange}
-                            placeholder="Your phone"
-
+                            placeholder="Your Number"
+                            autoFormat={true}
                         />
-                        <Button
-                            onPress={this.onPhoneComplete}
-                            title="Sign In"
-                        />
-                        <Text>
+                        <Text style={{ padding: 5 }}>
                             {this.state.error}
                         </Text>
-                    </View>
-                  </View>
+                      </View>
+                      <View style={{ flex: 1, justifyContent: 'flex-start', }}>
+                        <NextButton onPress={this.onPhoneComplete} content={this.state.phone}><Text>Sign In</Text></NextButton>
+                      </View>
+                      <View style={{flex: 2}} />
+                  </SafeAreaView>
             )
         else
             return (
-                <View style={styles.container}>
-                    <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
+                <SafeAreaView style={styles.container}>
+                    <View style={{ flex: 2, alignItems: 'center', justifyContent: 'center', }}>
                       <Text
                       style={styles.loginLogoText}
                       >
@@ -167,22 +170,22 @@ export class OnboardingScreen extends React.Component {
                       </Text>
                     {this.props.loggingIn && <ActivityIndicator />}
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 400 }}>
-                        <TextInput
+                    <View style={{ flex: 1, justifyContent: 'center', margin: 20, }}>
+                      <TextInput
                         value={this.state.code}
                         onChangeText={this.onCodeChange}
                         keyboardType="numeric"
                         placeholder="Code from SMS"
-                    />
-                    <Button
-                        onPress={this.onSignIn}
-                        title="Sign in"
-                    />
-                    <Text>
-                        {this.state.error}
-                    </Text>
+                      />
+                      <Text style={{ padding: 5 }}>
+                          {this.state.error}
+                      </Text>
                     </View>
-                  </View>
+                    <View style={{ flex: 1, justifyContent: 'flex-start', }}>
+                      <NextButton onPress={this.onSignIn} content={this.state.code}><Text>Sign In</Text></NextButton>
+                    </View>
+                    <View style={{flex: 2}} />
+                  </SafeAreaView>
             )
     }
 }
@@ -225,7 +228,7 @@ facebookLoginButton: {
 loginLogoText: {
   color: '#00387e',
   fontFamily: 'fitamint-script',
-  fontSize: 90
+  fontSize: 70
 }
 });
 

@@ -28,6 +28,7 @@ export class ProfileScreen extends React.Component {
       gradientLineHeight: 100,
       gradientLineWidth: 300,
       count: 1,
+      rerender: null,
     };
   }
 
@@ -210,6 +211,32 @@ renderLines(value, gradientValue){
   })
 }
 
+renderCheckandEx(){
+  setTimeout(() => {
+    this.setState({rerender: 'rerender'})
+    console.log('RERENDER', this.state.rerender)
+    return(<View style={{ flexDirection: 'row', alignSelf: 'center', }}>
+              <MaterialCommunityIcons
+                name='close-circle'
+                onPress={()=>{
+                  this.props.dispatch(negativeMatch(this.props.id));
+                  this.props.navigation.goBack();
+                }}
+                size={50}
+                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+              />
+              <MaterialCommunityIcons
+                name='checkbox-marked-circle'
+                onPress={()=>{
+                  this.props.dispatch(positiveMatch(this.props.id))
+                  this.props.navigation.goBack()
+                }}
+                size={50}
+                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+              />
+            </View>)
+          }, 5)}
+
   render() {
     //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
@@ -249,7 +276,6 @@ renderLines(value, gradientValue){
             </View>
 
             <View>
-              <CandidateProfileCard title= 'Name' content= {this.props.name} />
               <CandidateMultilineProfileCard title='About Me' content={this.props.aboutMe} />
               <CandidateProfileCard title= 'Age' content = {this.props.age} />
               <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
@@ -265,36 +291,15 @@ renderLines(value, gradientValue){
               <CandidateProfileCard title= 'University' content = {this.props.university} />
               <CandidateProfileCard title= 'Shomer' content= {this.props.shomer} />
             </View>
-
-            <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
-              <MaterialCommunityIcons
-                name='close-circle'
-                onPress={()=>{
-                  this.props.dispatch(negativeMatch(this.props.id));
-                  this.props.navigation.goBack();
-                }}
-                size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-              />
-              <MaterialCommunityIcons
-                name='checkbox-marked-circle'
-                onPress={()=>{
-                  this.props.dispatch(positiveMatch(this.props.id))
-                  this.props.navigation.goBack()
-                }}
-                size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-              />
-            </View>
-
           </View>
-          }
+        }
+
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
 
               <View style={{}}>
-
+                <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
                 <EditProfilePhotoActionSheet
                   onClick={clickedState => this.setState({choosemethod: clickedState})}
                   handleCamera={this.useCameraHandler}
@@ -302,7 +307,6 @@ renderLines(value, gradientValue){
                   style={styles.profilePhoto}
                   overlay={
                     <View style={{ flex: 1, }}>
-                      <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
                       <View>
                       </View>
@@ -327,6 +331,7 @@ renderLines(value, gradientValue){
 
               <View style={{ backgroundColor: '#F4F4F4' }}>
               {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
+                {this.state.matchProfile}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yourself...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
@@ -382,6 +387,7 @@ const mapStateToProps = state => {
       idealDay: state.userInfo.user.info.idealDay,
       favoriteQuote: state.userInfo.user.info.favoriteQuote,
       favoriteBook: state.userInfo.user.info.favoriteBook,
+      camp: state.userInfo.user.info.camp,
 
     };
   }
@@ -410,6 +416,7 @@ const mapStateToProps = state => {
       idealDay: state.userInfo.user[type].idealDay,
       favoriteQuote: state.userInfo.user[type].favoriteQuote,
       favoriteBook: state.userInfo.user[type].favoriteBook,
+      camp: state.userInfo.user[type].camp,
     }
   }
 };
