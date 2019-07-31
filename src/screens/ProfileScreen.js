@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView,  } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView, Animated } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
@@ -28,7 +28,8 @@ export class ProfileScreen extends React.Component {
       gradientLineHeight: 100,
       gradientLineWidth: 300,
       count: 1,
-      rerender: null,
+      timer: 10,
+      fadeAnimation: new Animated.Value(0)
     };
   }
 
@@ -40,8 +41,22 @@ export class ProfileScreen extends React.Component {
     }
   };
 
+  componentDidMount(){
+    this.interval = setInterval(
+      () => this.setState((prevState)=> ({ timer: prevState.timer - 1 })),
+      1000
+    );
+  }
+
+  componentDidUpdate(){
+    if(this.state.timer === 0){
+      clearInterval(this.interval);
+    }
+  }
+
   componentWillUnmount(){
     this.props.dispatch(showProfileScreen('self'))
+    clearInterval(this.interval)
   }
 
   askCameraPermissionsAsync = async () => {
@@ -109,52 +124,6 @@ export class ProfileScreen extends React.Component {
     this.setState({choosemethod: clickedState})
   }
 
-
-
-  renderLabels2(){
-    return options[1].map((label, index)=> {
-      console.log(label)
-      return
-        <View style={{ flexDirection: 'row', }}>
-        <Text
-         key={index}
-         style={{ flex: 1, backgroundColor: 'red'}}
-         >
-          {label}
-        </Text>
-        </View>
-    })
-  }
-
-
-
-//gradient type can be used to index --> if gradientType = this.props.denom..
-  renderGradient2(gradientNumericValue){
-    return(
-      <View style={{ margin: 5}}>
-      <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
-        <Line
-          x1='5'
-          y1={this.state.gradientLineHeight/2}
-          x2={this.state.gradientLineWidth+5}
-          y2={this.state.gradientLineHeight/2}
-          stroke='black'
-          strokeWidth='1.5'
-          strokeLinecap='round'
-        />
-        <Circle
-          cx={0.96*(gradientNumericValue*(this.state.gradientLineWidth/100))+5}
-          cy={this.state.gradientLineHeight/2}
-          r='3'
-          fill='#00387e'
-        />
-      </Svg>
-      {this.renderLabels()}
-      </View>
-    )
-  }
-
-
 renderGradient (gradientValue, type){
   const position = gradientValue*(this.state.gradientLineWidth/100)
   var value;
@@ -211,11 +180,15 @@ renderLines(value, gradientValue){
   })
 }
 
-renderCheckandEx(){
-  setTimeout(() => {
-    this.setState({rerender: 'rerender'})
-    console.log('RERENDER', this.state.rerender)
-    return(<View style={{ flexDirection: 'row', alignSelf: 'center', }}>
+renderChoice(){
+  if(this.state.timer > 0 ){
+    return (<View style={{ justifyContent: 'center', alignItems: 'center', margin: 20 }}>
+    <Text style ={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Even David didn't judge Batsheva that quickly.</Text>
+    <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Decide in: {this.state.timer}</Text>
+    </View>)
+  } else {
+    Animated.timing(this.state.fadeAnimation, {toValue: 100, duration: 5000 }).start()
+    return (<Animated.View style={{ flexDirection: 'row', alignSelf: 'center', opacity: this.state.fadeAnimation, }}>
               <MaterialCommunityIcons
                 name='close-circle'
                 onPress={()=>{
@@ -223,7 +196,7 @@ renderCheckandEx(){
                   this.props.navigation.goBack();
                 }}
                 size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+                style={{ marginTop: 25, marginBottom: 25, marginLeft: 50, marginRight: 50,}}
               />
               <MaterialCommunityIcons
                 name='checkbox-marked-circle'
@@ -232,13 +205,13 @@ renderCheckandEx(){
                   this.props.navigation.goBack()
                 }}
                 size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
+                style={{ marginTop: 25, marginBottom: 25, marginLeft: 50, marginRight: 50,}}
               />
-            </View>)
-          }, 5)}
+            </Animated.View>)
+  }
+}
 
   render() {
-    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
         <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
@@ -284,12 +257,14 @@ renderCheckandEx(){
               <CandidateProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
               <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
               <CandidateProfileCard title= 'Current Residence' content = {this.props.currentresidence} />
-              <CandidateProfileCard title= 'Location' content = '' />
               <CandidateProfileCard title= 'Profession' content = {this.props.profession} />
               <CandidateProfileCard title= 'High School' content = {this.props.highschool} />
-              <CandidateProfileCard title= 'Yeshiva/Midrasha' content = {this.props.yeshivamidrasha} />
+              <CandidateProfileCard title= 'Yeshiva/Seminary' content = {this.props.yeshivamidrasha} />
               <CandidateProfileCard title= 'University' content = {this.props.university} />
               <CandidateProfileCard title= 'Shomer' content= {this.props.shomer} />
+            </View>
+            <View>
+            {this.renderChoice()}
             </View>
           </View>
         }
