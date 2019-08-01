@@ -183,9 +183,9 @@ renderLines(value, gradientValue){
 renderChoice(){
   if(this.state.timer > 0 ){
     return (<View style={{ justifyContent: 'center', alignItems: 'center', margin: 20 }}>
-    <Text style ={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Even David didn't judge Batsheva that quickly.</Text>
-    <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Decide in: {this.state.timer}</Text>
-    </View>)
+              <Text style ={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Even David didn't judge Batsheva that quickly.</Text>
+              <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Decide in: {this.state.timer}</Text>
+            </View>)
   } else {
     Animated.timing(this.state.fadeAnimation, {toValue: 100, duration: 5000 }).start()
     return (<Animated.View style={{ flexDirection: 'row', alignSelf: 'center', opacity: this.state.fadeAnimation, }}>
@@ -243,7 +243,22 @@ renderChoice(){
               <ImageBackground
               source={{ uri: this.props.profilePhoto }}
               style={styles.profilePhoto}>
-                <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
+                <View style={{ flex: 1, }}>
+
+                  <View>
+                  </View>
+
+                  <View>
+                    <Text style={{ marginLeft: 25, marginTop: 290, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                      {this.props.name}, {this.props.age}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={{ marginLeft: 25, marginTop: 0, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                      {this.props.currentresidence}
+                    </Text>
+                  </View>
+                </View>
               </ImageBackground>
 
             </View>
@@ -281,27 +296,34 @@ renderChoice(){
                   handleLibrary={this.useLibraryHandler}
                   style={styles.profilePhoto}
                   overlay={
-                    <View style={{ flex: 1, }}>
-
-                      <View>
-                      </View>
-
-                      <View>
-                        <Text style={{ marginLeft: 25, marginTop: 290, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
-                          {this.props.name}, {this.props.age}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ marginLeft: 25, marginTop: 0, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
-                          {this.props.currentresidence}
-                        </Text>
+                    <View style={{ paddingRight: 20, paddingBottom: 20, alignItems: 'center', justifyContent: 'center', }}>
+                      <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'white', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
+                        <View styles={{ zIndex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                          <MaterialIcons
+                            name="edit"
+                            size={18}
+                            color="black"
+                            style={styles.editPenStyle}
+                          />
+                        </View>
                       </View>
                     </View>
-
                 }
                   >
                 </EditProfilePhotoActionSheet>
 
+              </View>
+
+              <View style={{ alignItems: 'center', }}>
+                <TouchableOpacity  style={{ backgroundColor: '#00387e', borderRadius: 20, marginTop: 13, marginBottom: 6, alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+                  <SimpleLineIcons
+                  name='rocket'
+                  size={18}
+                  color= 'white'
+                  style={{ paddingLeft: 22, paddingTop: 11, paddingBottom: 11, paddingRight: 10}}
+                  />
+                  <Text style={{ color: 'white', fontSize: 15, paddingRight: 22, }}>Premium</Text>
+                </TouchableOpacity>
               </View>
 
               <View style={{ backgroundColor: '#F4F4F4' }}>

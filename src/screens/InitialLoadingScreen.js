@@ -8,7 +8,7 @@ import firebase from '../actions/firebase'
 import { loginWithPhoneNumber } from '../actions/AuthActions'
 
 
-export class LandingScreen extends React.Component {
+export class InitialLoadingScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
@@ -22,31 +22,22 @@ export class LandingScreen extends React.Component {
   }
   // if they login successfully, the props will change, the component will update, and we can navigate to loadingapp
 
+
 componentDidUpdate(){
   if(this.state.user){
       this.props.dispatch(loginWithPhoneNumber(this.state.user));
-      this.props.navigation.navigate('LoadingApp');
-    }
+      this.props.navigation.navigate('LandingScreen');
+      console.log(this.state.user)
+    } else{
+      this.props.navigation.navigate('OnboardingStack');
   }
-
-  onPress(){
-    this.props.navigation.navigate('OnboardingScreen');
-  }
+}
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={{ flex: 4, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={styles.loginLogoText} >
-            Basheret
-          </Text>
-        </View>
-        <View style={{ flex: 1, justifyContent: 'flex-end', paddingBottom: 20 }}>
-
-          <PhoneLoginButton onPress={() => this.onPress()}/>
-        </View>
-
-      </View>
+    return(
+      <ActivityIndicator
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+       />
     );
   }
 }
@@ -61,7 +52,7 @@ const mapStateToProps = state => {
 
 //if logging in is false and error is false, then show it's logging in
 
-export default connect(mapStateToProps)(LandingScreen);
+export default connect(mapStateToProps)(InitialLoadingScreen);
 
 
 const styles = StyleSheet.create({

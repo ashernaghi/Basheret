@@ -32,14 +32,22 @@ export class CandidatesScreen extends React.Component {
             onPress={this.props.navigate}>
             <ImageBackground style={{ flex: 1, }} imageStyle={{borderRadius: 20, }} source={{ uri: this.props.candidate.profilePhoto }}>
 
-              <View style={{flex: 1,}}>
+            <View style={{ flex: 1, justifyContent: 'flex-end',}}>
 
-                <View style={{flex: 1, justifyContent: 'flex-end', }}>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold',  textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.name}, {this.props.candidate.age}</Text>
-                  <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 }, textShadowRadius: 0.5, }}>{this.props.candidate.currentresidence}</Text>
-                </View>
-
+              <View>
               </View>
+
+              <View>
+                <Text style={{ marginLeft: 25, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                  {this.props.candidate.name}, {this.props.candidate.age}
+                </Text>
+              </View>
+              <View>
+                <Text style={{ marginLeft: 25, marginTop: 0, marginBottom: 40, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                  {this.props.candidate.currentresidence}
+                </Text>
+              </View>
+            </View>
 
             </ImageBackground>
           </TouchableOpacity>

@@ -12,9 +12,9 @@ export class LoadingAppScreen extends React.Component {
 
     //this screen will be the loading screen that is shown when we're trying to authorize the user -- if they've logged in before (not sure how we check this? token?) AND filled out the intro questions, navigate them to 'App'. If they've never logged in OR didn't finish filling out user info, navigate them to login screen
 
-    componentDidMount(){
-      this.props.dispatch(getUser(this.props));
-    }
+  componentDidMount(){
+    this.props.dispatch(getUser(this.props));
+  }
 
   render() {
     return (
