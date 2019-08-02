@@ -33,23 +33,18 @@ export const getUser = () => {
 	})
 }
 
-export const getMessages = (recipientID) => {
-	console.log('gettingMessages')
-	return new Promise((resolve, reject) => {
-		let messageRef = chatRef(recipientID).collection('messages');
-		messageList = []
-		messageRef.limit(10).get()
-	      .then(function(querySnapshot) {
-	        querySnapshot.forEach(function(doc) {
-	            messageList.push(parse(doc.data()))
-	        });
-	        resolve(messageList)
-	    })
-	    .catch(e => {
-	      	console.warn('ERROR',e)
-	    	resolve([])
-	    })
-	});
+
+export const getMessages = (recipientID, callback) => {
+	console.log('testing')
+	let messageRef = chatRef(recipientID).collection('messages');
+	messageList = []
+	messageRef.limit(10)
+	  .onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            messageList.push(parse(doc.data()))
+        });
+        callback(messageList)
+    })
 }
 
 export const sendMessage = (messages, recipientID,) => {
@@ -57,14 +52,15 @@ export const sendMessage = (messages, recipientID,) => {
 	let userID = firebase.auth().currentUser.uid
   	for (let i = 0; i < messages.length; i++) {
 	    const { text } = messages[i];
-	    const timestamp = getTimestamp();
-			const _id = userID;
+	    const createdAt = getTimestamp();
+			const _id = userID + '-' + Math.random().toString(36).substr(2, 9);
 			const name = 'NEED TO FIGURE OUT NAME'
-			const user = { _id, name }
-		console.log('sending', recipientID, timestamp, user,)
+			const user = { userID, name }
+		console.log('sending', recipientID, createdAt, user,)
 	    const message = {
+	    	_id,
 	      text,
-	      timestamp,
+	      createdAt,
 				user,
 	    };
     messageRef.add(message);
@@ -83,23 +79,40 @@ const chatRef = (recipientID) => {
 	return messageRef
 }
 
-//Parse message
-const parse = (snapshot) => {
-	console.log('parsing', snapshot)
-	const { numberStamp, text, user } = snapshot;
-  	//const { key: _id } = snapshot;
-		const _id = snapshot.user._id;
-  	const timestamp = snapshot.timestamp.toDate();
-  	const message = {
-	    _id,
-	    timestamp,
-	    text,
-	    user,
-	};
-	return message;
-}
+// //Parse message
+// const parse = (snapshot) => {
+// 	// console.log('parsing', snapshot)
+// 	const { numberStamp, text, user } = snapshot;
+//   	//const { key: _id } = snapshot;
+// 		const _id = snapshot.user._id;
+//   	const createdAt = snapshot.timestamp;
+//   	const message = {
+// 	    _id,
+// 	    createdAt,
+// 	    text,
+// 	    user,
+// 	};
+// 	return message;
+// }
 
-const getTimestamp = ()=> {
-	console.log('timestamp', firebase.firestore.FieldValue.serverTimestamp());
+const parse = (snapshot) => {
+	// console.log('parsing', snapshot)
+    const { timestamp: numberStamp, text, user } = snapshot;
+    const { key: id } = snapshot;
+    const { key: _id } = snapshot; //needed for giftedchat
+    const timestamp = new Date(numberStamp);
+
+    const message = {
+      id,
+      _id,
+      timestamp,
+      text,
+      user,
+    };
+    return message;
+  };
+
+
+export const getTimestamp = ()=> {
   return firebase.firestore.FieldValue.serverTimestamp()
 }

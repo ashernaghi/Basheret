@@ -7,20 +7,24 @@ import { getMessages, sendMessage, getUser } from '../actions/chatActions'
 import {getCurrentMatches} from '../actions/matchActions';
 
 export class ChatScreen extends React.Component {
+	state = {
+	    messages: [],
+	  }
 
 	constructor(props) {
 		super(props)
-		this.state = {messages: []}
 		this.matchObject = this.props.navigation.state.params.m;
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 	    getUser()
 		.then((user) => {
-			getMessages(this.matchObject.id)
-			.then(messages => {
-				this.setState({user, messages})
-				console.log('setState',this.state,)
+			this.setState({user})
+			getMessages(this.matchObject.id, message => {
+				// console.log('got message', mes)
+				this.setState(previousState => ({
+			        messages: GiftedChat.append(previousState.messages, message),
+		        }))
 			})
 		})
 	  }
@@ -45,15 +49,14 @@ export class ChatScreen extends React.Component {
 	// 	// })
 	// }
 
-	  onSend(messages = []) {
-	    this.setState(previousState => ({
-	      messages: GiftedChat.append(previousState.messages, messages),
-	    }))
-	    sendMessage(messages, this.matchObject.id,)
+	  onSend(newMessage = []) {
+	    sendMessage(newMessage, this.matchObject.id)
 	  }
 
+
+
   render() {
-  	console.log('currentState', this.state)
+  	// console.log('currentState', this.state)
     return (
       <View style={{ flex: 1, alignSelf: 'stretch' }}>
 			<Image
@@ -71,6 +74,7 @@ export class ChatScreen extends React.Component {
 	        messages={this.state.messages}
 	        onSend = {messages => this.onSend(messages)}
 	        user={this.state.user}
+	        inverted={true}
 	      />
       </View>
     );
