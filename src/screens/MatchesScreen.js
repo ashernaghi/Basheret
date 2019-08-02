@@ -26,7 +26,8 @@ export class MatchesScreen extends React.Component {
               //show Profile Modal and change profile to 'candidate'
               onPress={()=>this.props.navigate(matchCard)}
               >
-              <Text key={index} >{matchCard.name}</Text>
+              <Text key={index} >{matchCard.name}, {matchCard.age}</Text>
+              <Text>{matchCard.currentresidence}</Text>
               </TouchableOpacity>
             </View>
           </View>

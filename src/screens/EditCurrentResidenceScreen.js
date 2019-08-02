@@ -52,7 +52,7 @@ export class EditCurrentResidenceScreen extends React.Component {
           <UnderlinedInput
             onChangeText={(text) => this.setState({response: text})}
             value={this.state.response}
-            placeholder='Current City'
+            placeholder='What city do you live in?'
             returnKeyType='done'
             autoFocus = {true}
             onSubmitEditing={() => this.handleSave()}

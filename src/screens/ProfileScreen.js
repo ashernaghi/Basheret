@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView,  } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, StyleSheet, ImageBackground, SafeAreaView, Animated } from 'react-native';
 //import styles from '../styles/styles';
 import { connect } from 'react-redux';
 import { ImagePicker, Permissions } from 'expo';
@@ -28,6 +28,8 @@ export class ProfileScreen extends React.Component {
       gradientLineHeight: 100,
       gradientLineWidth: 300,
       count: 1,
+      timer: 10,
+      fadeAnimation: new Animated.Value(0)
     };
   }
 
@@ -36,11 +38,25 @@ export class ProfileScreen extends React.Component {
    static navigationOptions = ({ navigation }) => {
     return {
       header: null,
+      }
+    };
+
+  componentDidMount(){
+    this.interval = setInterval(
+      () => this.setState((prevState)=> ({ timer: prevState.timer - 1 })),
+      1000
+    );
+  }
+
+  componentDidUpdate(){
+    if(this.state.timer === 0){
+      clearInterval(this.interval);
     }
-  };
+  }
 
   componentWillUnmount(){
     this.props.dispatch(showProfileScreen('self'))
+    clearInterval(this.interval)
   }
 
   askCameraPermissionsAsync = async () => {
@@ -108,52 +124,6 @@ export class ProfileScreen extends React.Component {
     this.setState({choosemethod: clickedState})
   }
 
-
-
-  renderLabels2(){
-    return options[1].map((label, index)=> {
-      console.log(label)
-      return
-        <View style={{ flexDirection: 'row', }}>
-        <Text
-         key={index}
-         style={{ flex: 1, backgroundColor: 'red'}}
-         >
-          {label}
-        </Text>
-        </View>
-    })
-  }
-
-
-
-//gradient type can be used to index --> if gradientType = this.props.denom..
-  renderGradient2(gradientNumericValue){
-    return(
-      <View style={{ margin: 5}}>
-      <Svg style={{ backgroundColor: 'cyan', flex: 1, justifyContent: 'center', alignSelf: 'center', }} height={this.state.gradientLineHeight} width={this.state.gradientLineWidth}>
-        <Line
-          x1='5'
-          y1={this.state.gradientLineHeight/2}
-          x2={this.state.gradientLineWidth+5}
-          y2={this.state.gradientLineHeight/2}
-          stroke='black'
-          strokeWidth='1.5'
-          strokeLinecap='round'
-        />
-        <Circle
-          cx={0.96*(gradientNumericValue*(this.state.gradientLineWidth/100))+5}
-          cy={this.state.gradientLineHeight/2}
-          r='3'
-          fill='#00387e'
-        />
-      </Svg>
-      {this.renderLabels()}
-      </View>
-    )
-  }
-
-
 renderGradient (gradientValue, type){
   const position = gradientValue*(this.state.gradientLineWidth/100)
   var value;
@@ -210,23 +180,60 @@ renderLines(value, gradientValue){
   })
 }
 
+renderChoice(){
+  if(this.state.timer > 0 ){
+    return (<View style={{ justifyContent: 'center', alignItems: 'center', margin: 20 }}>
+              <Text style ={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Even David didn't judge Batsheva that quickly.</Text>
+              <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Decide in: {this.state.timer}</Text>
+            </View>)
+  } else {
+    Animated.timing(this.state.fadeAnimation, {toValue: 100, duration: 5000 }).start()
+    return (<Animated.View style={{ flexDirection: 'row', alignSelf: 'center', opacity: this.state.fadeAnimation, }}>
+              <MaterialCommunityIcons
+                name='close-circle'
+                onPress={()=>{
+                  this.props.dispatch(negativeMatch(this.props.id));
+                  this.props.navigation.goBack();
+                }}
+                size={50}
+                style={{ marginTop: 25, marginBottom: 25, marginLeft: 50, marginRight: 50,}}
+              />
+              <MaterialCommunityIcons
+                name='checkbox-marked-circle'
+                onPress={()=>{
+                  this.props.dispatch(positiveMatch(this.props.id))
+                  this.props.navigation.goBack()
+                }}
+                size={50}
+                style={{ marginTop: 25, marginBottom: 25, marginLeft: 50, marginRight: 50,}}
+              />
+            </Animated.View>)
+  }
+}
+
   render() {
-    //later age: console.log('AGE IS', moment().diff('1989-03-28', 'years')),
     return (
         <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
         <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
 
 
-        <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
 
           {this.props.type==='candidate' &&
           <View>
-            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
+              <MaterialCommunityIcons
+                name='flag-variant'
+                onPress={()=>{this.props.navigation.navigate('ReportUser')}}
+                size={25}
+                color= 'grey'
+                style={{ marginTop: 10, marginRight: 10,}}
+              />
               <MaterialCommunityIcons
                 name='close'
-                onPress={()=>{this.props.navigation.goBack();}}
+                onPress={()=>{this.props.navigation.goBack()}}
                 size={25}
+                color= 'grey'
                 style={{ marginTop: 10, marginRight: 10,}}
               />
             </View>
@@ -236,13 +243,27 @@ renderLines(value, gradientValue){
               <ImageBackground
               source={{ uri: this.props.profilePhoto }}
               style={styles.profilePhoto}>
-                <Text style={{ marginLeft: 30, fontSize: 20, color: 'white', fontWeight: 'bold', paddingBottom: 40, textShadowColor: 'grey', textShadowOffset: { width: -1, height: 0 },textShadowRadius: 0.5,}} >{this.props.name}</Text>
+                <View style={{ flex: 1, }}>
+
+                  <View>
+                  </View>
+
+                  <View>
+                    <Text style={{ marginLeft: 25, marginTop: 290, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                      {this.props.name}, {this.props.age}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={{ marginLeft: 25, marginTop: 0, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
+                      {this.props.currentresidence}
+                    </Text>
+                  </View>
+                </View>
               </ImageBackground>
 
             </View>
 
             <View>
-              <CandidateProfileCard title= 'Name' content= {this.props.name} />
               <CandidateMultilineProfileCard title='About Me' content={this.props.aboutMe} />
               <CandidateProfileCard title= 'Age' content = {this.props.age} />
               <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
@@ -251,76 +272,65 @@ renderLines(value, gradientValue){
               <CandidateProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
               <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
               <CandidateProfileCard title= 'Current Residence' content = {this.props.currentresidence} />
-              <CandidateProfileCard title= 'Location' content = '' />
               <CandidateProfileCard title= 'Profession' content = {this.props.profession} />
               <CandidateProfileCard title= 'High School' content = {this.props.highschool} />
-              <CandidateProfileCard title= 'Yeshiva/Midrasha' content = {this.props.yeshivamidrasha} />
+              <CandidateProfileCard title= 'Yeshiva/Seminary' content = {this.props.yeshivamidrasha} />
               <CandidateProfileCard title= 'University' content = {this.props.university} />
               <CandidateProfileCard title= 'Shomer' content= {this.props.shomer} />
             </View>
-
-            <View style={{ flexDirection: 'row', alignSelf: 'center', }}>
-              <MaterialCommunityIcons
-                name='close-circle'
-                onPress={()=>{
-                  this.props.dispatch(negativeMatch(this.props.id));
-                  this.props.navigation.goBack();
-                }}
-                size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-              />
-              <MaterialCommunityIcons
-                name='checkbox-marked-circle'
-                onPress={()=>{
-                  this.props.dispatch(positiveMatch(this.props.id))
-                  this.props.navigation.goBack()
-                }}
-                size={50}
-                style={{ marginTop: 10, marginBottom: 10, marginLeft: 50, marginRight: 50,}}
-              />
+            <View>
+            {this.renderChoice()}
             </View>
-
           </View>
-          }
+        }
+
 
               {this.props.type==='self' &&
             <View style={{ flex: 1, }}>
 
               <View style={{}}>
-
+                <Header navigation={this.props.navigation} text='Profile' leftIconName="ios-settings" rightIconName="ios-arrow-forward" leftDestination="Settings" rightDestination="Home"/>
                 <EditProfilePhotoActionSheet
                   onClick={clickedState => this.setState({choosemethod: clickedState})}
                   handleCamera={this.useCameraHandler}
                   handleLibrary={this.useLibraryHandler}
                   style={styles.profilePhoto}
                   overlay={
-                    <View style={{ flex: 1, }}>
-
-                      <View>
-                      </View>
-
-                      <View>
-                        <Text style={{ marginLeft: 25, marginTop: 290, fontSize: 23, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
-                          {this.props.name}, {this.props.age}
-                        </Text>
-                      </View>
-                      <View>
-                        <Text style={{ marginLeft: 25, marginTop: 0, fontSize: 17, color: 'white', fontWeight: 'bold', textShadowColor: '#242424', textShadowOffset: { width: 2, height: 2 }, textShadowRadius: 6,}} >
-                          {this.props.currentresidence}
-                        </Text>
+                    <View style={{ paddingRight: 20, paddingBottom: 20, alignItems: 'center', justifyContent: 'center', }}>
+                      <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'white', alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', opacity: 0.6 }}>
+                        <View styles={{ zIndex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                          <MaterialIcons
+                            name="edit"
+                            size={18}
+                            color="black"
+                            style={styles.editPenStyle}
+                          />
+                        </View>
                       </View>
                     </View>
-
                 }
                   >
                 </EditProfilePhotoActionSheet>
 
               </View>
 
+              <View style={{ alignItems: 'center', }}>
+                <TouchableOpacity  style={{ backgroundColor: '#00387e', borderRadius: 20, marginTop: 13, marginBottom: 6, alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+                  <SimpleLineIcons
+                  name='rocket'
+                  size={18}
+                  color= 'white'
+                  style={{ paddingLeft: 22, paddingTop: 11, paddingBottom: 11, paddingRight: 10}}
+                  />
+                  <Text style={{ color: 'white', fontSize: 15, paddingRight: 22, }}>Premium</Text>
+                </TouchableOpacity>
+              </View>
+
               <View style={{ backgroundColor: '#F4F4F4' }}>
               {this.state.permissionsError && <Text>{this.state.permissionsError}</Text>}
+                {this.state.matchProfile}
                 <ProfileCard title= 'Name' content= {this.props.name} onPress={() => this.props.navigation.navigate('EditName')}/>
-                <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yoursef...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
+                <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yourself...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
                 <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
@@ -329,13 +339,16 @@ renderLines(value, gradientValue){
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
-                <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
-                <ProfileCard title= 'Yeshiva/Midrasha' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
                 <ProfileCard title= 'University' content= {this.props.university} onPress={() => this.props.navigation.navigate('EditUniversity')} />
+                <ProfileCard title= 'Yeshiva/Seminary' content= {this.props.yeshivamidrasha} onPress={() => this.props.navigation.navigate('EditYeshivaMidrasha')}/>
+                <ProfileCard title= 'High School' content= {this.props.highschool} onPress={() => this.props.navigation.navigate('EditHighSchool')} />
+                <ProfileCard title= 'Camp' content= {this.props.camp} onPress={() => this.props.navigation.navigate('EditCamp')}/>
                 <ProfileCard title= 'Ethnicity' content= {this.props.ethnicity} onPress={() => this.props.navigation.navigate('EditEthnicity')} />
                 <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
                 <MultilineProfileCard title='Ideal Day' content={this.props.idealDay} placeHolder='What does your ideal day look like...' onPress={() => this.props.navigation.navigate('EditIdealDay')}/>
-                <MultilineProfileCard title='Favorite Quote' content={this.props.aboutMe} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
+                <MultilineProfileCard title='Favorite Quote' content={this.props.favoriteQuote} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
+                <MultilineProfileCard title='Favorite Book' content={this.props.favoriteBook} placeHolder='Tanakh... Obviously' onPress={() => this.props.navigation.navigate('FavoriteBook')}/>
+                <MultilineProfileCard title='Hobbies' hobbycontent={this.props.hobbies} placeHolder='Learning Torah' onPress={() => this.props.navigation.navigate('HobbiesScreen')}/>
               </View>
             </View>}
 
@@ -370,6 +383,9 @@ const mapStateToProps = state => {
       ethnicity: state.userInfo.user.info.ethnicity,
       idealDay: state.userInfo.user.info.idealDay,
       favoriteQuote: state.userInfo.user.info.favoriteQuote,
+      favoriteBook: state.userInfo.user.info.favoriteBook,
+      camp: state.userInfo.user.info.camp,
+      hobbies: state.userInfo.user.info.hobbies,
 
     };
   }
@@ -397,6 +413,9 @@ const mapStateToProps = state => {
       ethnicity: state.userInfo.user[type].ethnicity,
       idealDay: state.userInfo.user[type].idealDay,
       favoriteQuote: state.userInfo.user[type].favoriteQuote,
+      favoriteBook: state.userInfo.user[type].favoriteBook,
+      camp: state.userInfo.user[type].camp,
+      hobbies: state.userInfo.user[type].hobbies,
     }
   }
 };

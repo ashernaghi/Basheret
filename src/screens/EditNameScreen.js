@@ -54,7 +54,7 @@ export class EditNameScreen extends React.Component {
           <UnderlinedInput
             onChangeText={(text) => this.setState({response: text})}
             value={this.state.response}
-            placeholder='Full Name'
+            placeholder='First Name'
             textContentType='name'
             returnKeyType='next'
             autoFocus = {true}

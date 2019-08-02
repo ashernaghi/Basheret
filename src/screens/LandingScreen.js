@@ -22,7 +22,6 @@ export class LandingScreen extends React.Component {
   }
   // if they login successfully, the props will change, the component will update, and we can navigate to loadingapp
 
-
 componentDidUpdate(){
   if(this.state.user){
       this.props.dispatch(loginWithPhoneNumber(this.state.user));

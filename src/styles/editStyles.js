@@ -15,7 +15,7 @@ export default styles = StyleSheet.create({
 
   backArrowStyle:{
     alignSelf: 'center',
-    justifySelf:'flex-start',
+    justifyContent:'flex-start',
   },
 
   logoContainerStyle:{

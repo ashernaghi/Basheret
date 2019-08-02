@@ -62,6 +62,34 @@ class MultilineProfileCard extends Component {
             </View>
           </TouchableOpacity>
         )
+    } else if(this.props.hobbycontent) {
+      return(
+        <TouchableOpacity
+          onPress={this.props.onPress}
+          style={styles.newCardStyle}
+          >
+            <View style={{flexDirection: 'row', flex: 1, }}>
+
+              <View style ={{flexDirection: 'column', marginRight: 5, flex: 14 }}>
+                <View style={{flexDirection: 'column', marginBottom: 8, }}>
+                  <Text style={styles.titleStyle}>{this.props.title}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+                  {this.props.hobbycontent.map((item, index) => (<View style={styles.hobbyStyle}><Text style={styles.hobbyTextStyle}>{item}</Text></View>))}
+                </View>
+              </View>
+
+              <View style={{ justifyContent: 'center', margin: 5, flex: 1}}>
+                <Ionicons
+                  name="ios-arrow-forward"
+                  size={30}
+                  color="grey"
+                  style={{}}/>
+              </View>
+
+          </View>
+        </TouchableOpacity>
+      )
     } else {
       return(
         <TouchableOpacity
@@ -168,4 +196,21 @@ const styles = StyleSheet.create({
 
   },
 
+  hobbyStyle:{
+    margin: 3,
+    borderRadius: 20,
+    backgroundColor: "#00387e",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+  },
+  hobbyTextStyle:{
+    fontSize: 15,
+    color: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
 });

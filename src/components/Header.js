@@ -39,8 +39,6 @@ class Header extends React.Component {
 	}
 
   	render() {
-  			console.log('left icon name is: ' + this.props.leftIconName);
-
 		return (
 			<View style={styles.headerStyle}>
 			 	{this.renderLeftButton()}
@@ -69,13 +67,13 @@ export default Header;
 const styles = StyleSheet.create({
 
   rightIcon: {
-    paddingLeft: 35,
-    paddingRight: 35,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
 
   leftIcon: {
-    paddingLeft: 35,
-    paddingRight: 35,
+    paddingLeft: 30,
+    paddingRight: 30,
   },
 
   headerStyle: {
