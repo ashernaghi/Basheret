@@ -24,7 +24,9 @@ import EditIdealDayScreen from '../screens/EditIdealDayScreen';
 import EditFavoriteQuoteScreen from '../screens/EditFavoriteQuoteScreen';
 import MatchSuccessScreen from '../screens/MatchSuccessScreen';
 import EditCampScreen from '../screens/EditCampScreen';
+import ReportUserScreen from '../screens/ReportUserScreen';
 import EditFavoriteBookScreen from '../screens/EditFavoriteBookScreen';
+import EditHobbiesScreen from '../screens/EditHobbiesScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -67,6 +69,7 @@ const MainStack = createStackNavigator({
   MatchSuccess: { screen: MatchSuccessScreen },
   FavoriteQuote: { screen: EditFavoriteQuoteScreen },
   FavoriteBook: { screen: EditFavoriteBookScreen },
+  HobbiesScreen: { screen: EditHobbiesScreen },
 },
 {
   initialRouteName: 'Home',
@@ -79,6 +82,7 @@ export default RootStack = createStackNavigator(
     EditProfileModal: { screen: EditModalScreen},
     ContactsModal: { screen: ContactsModal},
     CandidateModal: { screen: ProfileScreen},
+    ReportUser: { screen: ReportUserScreen },
   },
   {
     mode: 'modal',

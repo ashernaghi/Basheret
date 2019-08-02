@@ -4,7 +4,7 @@ import {
   Alert,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
 

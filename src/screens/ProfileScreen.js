@@ -38,8 +38,8 @@ export class ProfileScreen extends React.Component {
    static navigationOptions = ({ navigation }) => {
     return {
       header: null,
-    }
-  };
+      }
+    };
 
   componentDidMount(){
     this.interval = setInterval(
@@ -224,7 +224,7 @@ renderChoice(){
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 20 }}>
               <MaterialCommunityIcons
                 name='flag-variant'
-                onPress={()=>{this.props.navigation.goBack()}}
+                onPress={()=>{this.props.navigation.navigate('ReportUser')}}
                 size={25}
                 color= 'grey'
                 style={{ marginTop: 10, marginRight: 10,}}
@@ -347,8 +347,8 @@ renderChoice(){
                 <ProfileCard title= 'Shomer' content= {this.props.shomer} onPress={() => this.props.navigation.navigate('EditShomer')}/>
                 <MultilineProfileCard title='Ideal Day' content={this.props.idealDay} placeHolder='What does your ideal day look like...' onPress={() => this.props.navigation.navigate('EditIdealDay')}/>
                 <MultilineProfileCard title='Favorite Quote' content={this.props.favoriteQuote} placeHolder='The nature of the dilemma can be stated in a three-word sentence. I am lonely.' onPress={() => this.props.navigation.navigate('FavoriteQuote')}/>
-                <MultilineProfileCard title='Favorite Book' content={this.props.favoriteBook} placeHolder='As a Driven Leaf...' onPress={() => this.props.navigation.navigate('FavoriteBook')}/>
-                <MultilineProfileCard title='Hobbies' content='' placeHolder='Learning Torah'/>
+                <MultilineProfileCard title='Favorite Book' content={this.props.favoriteBook} placeHolder='Tanakh... Obviously' onPress={() => this.props.navigation.navigate('FavoriteBook')}/>
+                <MultilineProfileCard title='Hobbies' hobbycontent={this.props.selectedhobbies} placeHolder='Learning Torah' onPress={() => this.props.navigation.navigate('HobbiesScreen')}/>
               </View>
             </View>}
 
@@ -385,6 +385,7 @@ const mapStateToProps = state => {
       favoriteQuote: state.userInfo.user.info.favoriteQuote,
       favoriteBook: state.userInfo.user.info.favoriteBook,
       camp: state.userInfo.user.info.camp,
+      selectedhobbies: state.userInfo.user.info.selectedhobbies,
 
     };
   }
@@ -414,6 +415,7 @@ const mapStateToProps = state => {
       favoriteQuote: state.userInfo.user[type].favoriteQuote,
       favoriteBook: state.userInfo.user[type].favoriteBook,
       camp: state.userInfo.user[type].camp,
+      selectedhobbies: state.userInfo.user[type].selectedhobbies,
     }
   }
 };
