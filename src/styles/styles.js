@@ -35,19 +35,28 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 25,
+    margin: 10,
+    height: 55,
   },
   filterContainer: {
-    paddingBottom: 20,
-    paddingLeft: 20,
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 10,
   },
   settingsContainer: {
     backgroundColor: '#F4F4F4'
   },
   settingsTitle: {
-    paddingHorizontal: 15,
+    padding: 15,
     fontWeight: 'bold',
-    fontSize: 17
+    fontSize: 17,
+    color: 'grey',
   },
   profilePhoto: {
     height: 360,

@@ -19,6 +19,7 @@ import EditProfessionScreen from '../screens/EditProfessionScreen';
 import EditDenominationScreen from '../screens/EditDenominationScreen';
 import EditKashrutLevelScreen from '../screens/EditKashrutLevelScreen';
 import EditShabbatObservanceScreen from '../screens/EditShabbatObservanceScreen';
+import EditDenominationPreferenceScreen from '../screens/EditDenominationPreferenceScreen';
 import EditEthnicityScreen from '../screens/EditEthnicityScreen';
 import EditIdealDayScreen from '../screens/EditIdealDayScreen';
 import EditFavoriteQuoteScreen from '../screens/EditFavoriteQuoteScreen';
@@ -59,6 +60,7 @@ const MainStack = createStackNavigator({
   EditDenomination: { screen: EditDenominationScreen },
   EditKashrutLevel: { screen: EditKashrutLevelScreen },
   EditShabbatObservance: { screen: EditShabbatObservanceScreen },
+  EditDenominationPreference: { screen: EditDenominationPreferenceScreen },
   EditEthnicity: { screen: EditEthnicityScreen },
   EditIdealDay: { screen: EditIdealDayScreen },
   MatchSuccess: { screen: MatchSuccessScreen },

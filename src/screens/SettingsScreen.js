@@ -51,7 +51,57 @@ export class SettingsScreen extends React.Component {
     this.props.dispatch(updateUserInfo('preferences',finalCategory, finalValue))
   }
 
-  generateFilters(){
+  generateFilters1(){
+    let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
+
+    return preferences.map((preference, index)=>{
+      let key = Object.keys(preference)[0];
+      let values = Object.values(preference)[0];
+
+      var number = 1;
+      if(key === 'Denomination'){
+         number = 1
+      } else if( key === 'Kashrut Observance'){
+         number = 2
+      } else if(key === 'Shabbat Observance'){
+         number = 3
+      }
+
+      return(
+        <View key={index} style={styles.filterContainer}>
+          <Text style={{ fontWeight: 'bold', paddingBottom: 10, paddingTop: 2.5, paddingLeft: 2.5, }}> {key} </Text>
+
+          <View style={{ alignItems: 'center' }}>
+            <MultiSlider
+              markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+              selectedStyle={{backgroundColor: '#00387E'}}
+              values={values}
+              onValuesChange={values=>this.changeValue(values, key)}
+              min={key==="Age" ? 18 : 0}
+              max={key==="Age" ? 39 : 100}
+              step={key==="Age" ? 1: 5}
+            />
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 10, }}>
+            {this.renderLabels(number)}
+          </View>
+
+        </View>
+      )
+    })
+  }
+
+  renderLabels(number){
+
+  return options[number].map((label, index)=> {
+
+      return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
+
+  })
+}
+
+  generateFilters2(){
     let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
 
     return preferences.map((preference, index)=>{
@@ -60,19 +110,76 @@ export class SettingsScreen extends React.Component {
 
       return(
         <View key={index} style={styles.filterContainer}>
-          <Text>
-            {key}: {this.calculateText(key, values[0], values[1])}
+          <Text style={{ fontWeight: 'bold', paddingBottom: 10, paddingTop: 2.5, paddingLeft: 2.5, }}> {key} </Text>
+
+          <View style={{ alignItems: 'center' }}>
+            <MultiSlider
+              markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+              selectedStyle={{backgroundColor: '#00387E'}}
+              values={values}
+              onValuesChange={values=>this.changeValue(values, key)}
+              min={key==="Age" ? 18 : 0}
+              max={key==="Age" ? 39 : 100}
+              step={key==="Age" ? 1: 5}
+            />
+          </View>
+          <Text style={{alignSelf: 'center'}}>
+            {this.calculateText(key, values[0], values[1])}
+
           </Text>
 
-          <MultiSlider
-            markerStyle={{width:10, height: 25}}
-            values={values}
-            onValuesChange={values=>this.changeValue(values, key)}
-            min={key==="Age" ? 18 : 0}
-            max={key==="Age" ? 39 : 100}
-            step={key==="Age" ? 1: 5}
-          />
         </View>
+      )
+    })
+  }
+
+  generateFilters3(){
+    let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
+
+    return preferences.map((preference, index)=>{
+      let key = Object.keys(preference)[0];
+      let values = Object.values(preference)[0];
+
+      var number = 1;
+      if(key === 'Denomination'){
+         number = 1
+      } else if( key === 'Kashrut Observance'){
+         number = 2
+      } else if(key === 'Shabbat Observance'){
+         number = 3
+      }
+
+      return(
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('EditDenominationPreference')} key={index} style={styles.filterContainer}>
+          <Text style={{ fontWeight: 'bold', paddingBottom: 10, paddingTop: 2.5, paddingLeft: 2.5, }}> {key} </Text>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+            <View style={{ alignItems: 'center' }}>
+              <MultiSlider
+                markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+                selectedStyle={{backgroundColor: '#00387E'}}
+                values={values}
+                onValuesChange={values=>this.changeValue(values, key)}
+                min={key==="Age" ? 18 : 0}
+                max={key==="Age" ? 39 : 100}
+                step={key==="Age" ? 1: 5}
+              />
+            </View>
+
+            <View style={{justifyContent: 'center'}}>
+              <Ionicons
+                name="ios-arrow-forward"
+                size={30}
+                color="grey"
+                style={{ marginLeft: 8, }}/>
+            </View>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
+            {this.renderLabels(number)}
+          </View>
+
+        </TouchableOpacity>
       )
     })
   }
@@ -118,55 +225,59 @@ export class SettingsScreen extends React.Component {
         <Header navigation={this.props.navigation} text='Settings' rightIconName="ios-arrow-forward" rightDestination="Profile"/>
 
         <View style={styles.dividerContainer}>
-          <Text style={{ fontWeight: 'bold', }}>
+          <Text style={{ fontWeight: 'bold', paddingLeft: 3}}>
             Discoverable
           </Text>
 
           <Switch
-            trackColor={{true: "pink"}}
+            trackColor={{true: "#9DB7E8"}}
+            thumbColor='#00387E'
             onValueChange={() => this.changeValue(!this.props.discoverable, 'discoverable')}
             value={this.props.discoverable} />
         </View>
 
         <Text style={styles.settingsTitle}>
-            Preferences For Potential Basheret
+            Filters
         </Text>
 
-        {this.generateFilters()}
+        {this.generateFilters1()}
+        {this.generateFilters2()}
+        {this.generateFilters3()}
 
         <View style={styles.filterContainer}>
-          <Text>
-            Distance:
-          </Text>
-
-          <Text>
-            {this.props.distancePreference}
+          <Text style={styles.headerText}>
+            Distance
           </Text>
 
           <MultiSlider
-            markerStyle={{width:10, height: 25}}
+            markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+            selectedStyle={{backgroundColor: '#00387E'}}
             values={[this.props.distancePreference]}
             onValuesChange={values=>this.changeValue(values, 'Distance')}
             min={100}
             max={1000}
             step={100}
           />
+
+          <Text style={{alignSelf: 'center'}}>
+            {this.props.distancePreference}
+          </Text>
         </View>
 
         <View style={styles.filterContainer}>
-          <Text>
-            Gender: {gp}
+          <Text style={styles.headerText}>
+            Match Gender: {gp}
           </Text>
 
           <SwitchSelector
             initial={gp==="Female" ? 0 : gp==="Male" ? 1 : 2}
             imageStyle={{justifyContent: 'center', alignItems: 'center'}}
-            backgroundColor='rgba(232, 171, 227, .3)'
+            backgroundColor='rgba(0, 56, 126, .3)'
             onPress={value => this.changeValue(value, 'genderPreference')}
-            buttonColor='rgb(232, 171, 227)'
+            buttonColor='rgba(0, 56, 126, .8)'
             height={50}
             borderRadius='200'
-            style={{width: 200}}
+            style={{width: 200, padding: 10}}
             options={[
               { value: "Female", customIcon: femaleIcon },
               { value: "Male", customIcon: maleIcon },
@@ -174,11 +285,24 @@ export class SettingsScreen extends React.Component {
             ]}
           />
         </View>
-        <View>
-          <Button
+        <View style={{justifyContent: 'space-between', alignItems: 'center',  height: 115, marginTop: 50}}>
+
+          <TouchableOpacity
+            style={{ width: 195, height: 50, backgroundColor: 'white', borderColor: '#00387E', borderWidth: 2.5, borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}
             onPress={this.onSignOut}
-            title="Sign out"
-          />
+          >
+            <Text style={{fontSize: 18, color: '#555555', fontWeight: 'bold', }}>Sign out</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{ width: 195, height: 50, backgroundColor: 'white', borderColor: '#00387E', borderWidth: 2.5, borderRadius: 20, justifyContent: 'center', alignItems: 'center'}}
+          >
+            <Text style={{fontSize: 18, color: '#555555', fontWeight: 'bold', }}>Delete Account</Text>
+          </TouchableOpacity>
+
+        </View>
+        <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 25, paddingBottom: 50, }}>
+          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 50, color: '#00387E',  }}>B</Text>
         </View>
       </ScrollView>
       </SafeAreaView>
