@@ -38,19 +38,26 @@ class EditHobbiesScreen extends Component {
       'Writing',
     ];
     this.state = {
-      selectedItems: this.props.selectedhobbies || [],
-      unselectedItems: this.props.unselectedhobbies || data,
+      selectedItems: this.props.hobbies || [],
+      unselectedItems: data,
     };
+
+
+    this.state.selectedItems.forEach((item) => {
+    let index = data.indexOf(item)
+    let newArray = data.splice(index, 1)
+    this.setState({unselectedItems: data})
+    })
+
+//    console.log(this.state.unselectedItems)
   }
 
   handleSave(){
     if(this.state.selectedItems.length == 0){
-      this.props.dispatch(updateUserInfo('info', 'selectedhobbies', null ))
-      this.props.dispatch(updateUserInfo('info', 'unselectedhobbies', this.state.unselectedItems))
+      this.props.dispatch(updateUserInfo('info', 'hobbies', null ))
       this.props.navigation.navigate('Profile');
     } else {
-      this.props.dispatch(updateUserInfo('info', 'selectedhobbies', this.state.selectedItems ))
-      this.props.dispatch(updateUserInfo('info', 'unselectedhobbies', this.state.unselectedItems))
+      this.props.dispatch(updateUserInfo('info', 'hobbies', this.state.selectedItems ))
       this.props.navigation.navigate('Profile');
     }
   }
@@ -153,8 +160,7 @@ class EditHobbiesScreen extends Component {
 const mapStateToProps = state => {
   return {
     //reportUser: report => dispatch(reportUser(report)),
-    selectedhobbies: state.userInfo.user.info.selectedhobbies,
-    unselectedhobbies: state.userInfo.user.info.unselectedhobbies,
+    hobbies: state.userInfo.user.info.hobbies,
   };
 };
 
@@ -276,3 +282,49 @@ const styles = StyleSheet.create({
     flex: 2,
   },
 });
+
+
+
+// ALSO JUST AS A NOtE --- YOU CAN CREATE A TRANSPERENT MODAL THEN PUT A VIEW IN THE CENTER OF THE SCREEN
+//
+// const data = [
+//   'Art',
+//   'Baking',
+//   'Card/Board Games',
+//   'Comedy',
+//   'Cooking',
+//   'Food',
+//   'Hiking',
+//   'Learning Torah',
+//   'Martial Arts',
+//   'Meditation',
+//   'Movies/TV',
+//   'Music',
+//   'Photography',
+//   'Reading',
+//   'Sports',
+//   'Theatre',
+//   'Traveling',
+//   'Video Games',
+//   'Writing',
+// ];
+//
+// let selectedItems = ['Writing','Video Games','Photography','Food','Comedy',]
+// let unselectedItems = []
+//
+// function grabUnselected(selectedItems){
+// selectedItems.forEach((item) => {
+// let index = data.indexOf(item)
+// let newArray = data.splice(index, 1)
+// unselectedItems = data
+// })
+// }
+//
+//
+// grabUnselected(selectedItems)
+//
+//
+// console.log('DATA', data)
+// console.log('SelectedItems', selectedItems)
+// console.log('Unselected Items', unselectedItems)
+//
