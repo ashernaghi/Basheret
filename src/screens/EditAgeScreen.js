@@ -30,8 +30,15 @@ export class EditAgeScreen extends React.Component {
   }
 
   setDate(newDate) {
-    console.log('new date is' + newDate);
-    this.props.dispatch(updateUserInfo('info', 'birthday', newDate ))
+
+    var birthdayFull = new Date(newDate) // MUST BE A String
+    var birthdayDate = birthdayFull.getDate()
+    var birthdayMonth = birthdayFull.getMonth()
+    var birthdayFullYear = birthdayFull.getFullYear()
+    var birthdayDateMonthYear = [ birthdayDate, birthdayMonth, birthdayFullYear ]
+
+
+    this.props.dispatch(updateUserInfo('info', 'birthday', birthdayDateMonthYear ))
   }
 
   calculateAge(newDate) {
@@ -79,21 +86,26 @@ export class EditAgeScreen extends React.Component {
 
   }
 
-
+  placeholder(){
+    if (this.props.birthday){
+      return (
+        this.props.birthday[0] + '/' + this.props.birthday[1]+1 + '/' + this.props.birthday[2]
+      )
+    }
+    else {
+      return ('enter date')
+    }
+  }
 
   render() {
-    console.log(this.props.birthday);
-    console.log(this.props);
+
     var birthday;
     if (this.props.birthday){
-      birthday = new Date(1997, 0, 1)
+      birthday = new Date(this.props.birthday[2], this.props.birthday[1], this.props.birthday[0])
     }
     else {
       birthday = new Date(1995, 0, 1)
     }
-    const birthdayProp = this.props.birthday;
-    console.log('birthday year is' + this.props.birthday.toString().substring(0,10));
-        console.log('birthday year is' + this.props.birthday);
 
     return (
       <View style={{ flex: 1, backgroundColor: '#F4F4F4', justifyContent: 'center' }}>
@@ -116,9 +128,9 @@ export class EditAgeScreen extends React.Component {
                 modalTransparent={true}
                 animationType={"fade"}
                 androidMode={"default"}
-                placeHolderText={'Choose Date'}
-                textStyle={{ color: "grey" }}
-                placeHolderTextStyle={{ color: "#d3d3d3" }}
+                placeHolderText={this.placeholder()}
+                textStyle={{ color: "grey", fontSize: 20, fontWeight: 'bold' }}
+                placeHolderTextStyle={{ color: "grey", fontSize: 20, fontWeight: 'bold' }}
                 onDateChange={this.handleDate}
                 disabled={false}
                 autoFocus={true}
