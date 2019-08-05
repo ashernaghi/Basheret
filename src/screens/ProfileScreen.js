@@ -234,7 +234,7 @@ renderChoice(){
                 onPress={()=>{this.props.navigation.goBack()}}
                 size={25}
                 color= 'grey'
-                style={{ marginTop: 10, marginRight: 10,}}
+                style={{ marginTop: 10, marginRight: 3,}}
               />
             </View>
 

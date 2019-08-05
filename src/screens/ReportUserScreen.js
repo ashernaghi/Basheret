@@ -5,8 +5,12 @@ import {
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
+import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { connect } from "react-redux";
+import { NextButton } from '../components/NextButton';
 
 //import { reportUser } from "../actions/index";
 
@@ -23,7 +27,6 @@ class ReportUserScreen extends Component {
       "Violence",
       "Self-Injury",
       "Hate Speech",
-      "Terrorism"
     ];
     this.state = {
       selectedItems: [],
@@ -103,6 +106,12 @@ class ReportUserScreen extends Component {
           key={item}
           onPress={this.onUnselectedButtonPressed.bind(this, index)}
         >
+          <Feather
+            name="plus"
+            size={15}
+            color="white"
+            style={{ paddingRight: 5 }}
+          />
           <Text style={styles.whiteText}>{item}</Text>
         </TouchableOpacity>
       ));
@@ -112,24 +121,49 @@ class ReportUserScreen extends Component {
         key={item}
         onPress={this.onSelectedButtonPressed.bind(this, index)}
       >
-        <Text>{item}</Text>
+        <MaterialCommunityIcons
+          name="close"
+          size={15}
+          color="black"
+          style={{ paddingRight: 5 }}
+        />
+        <Text style={styles.blackText}>{item}</Text>
       </TouchableOpacity>
     ));
     return (
       <Fragment>
-        <View style={styles.container}>
-          <Text style={styles.title}>Report a User:</Text>
-          <View style={styles.resultsContainer}>{selectedItems}</View>
-          <View style={styles.optionsContainer}>{unSelectedItems}</View>
-          <View style={styles.submitContainer}>
-            <TouchableOpacity
-              style={styles.submitButtonWrapper}
-              onPress={this.onSubmitPressed.bind(this)}
-            >
-              <Text style={styles.whiteText}>Done</Text>
-            </TouchableOpacity>
+        <SafeAreaView style={styles.container}>
+
+          <View style={styles.minimizeContainerStyle}>
+            <MaterialCommunityIcons
+              name='close'
+              onPress={()=>{this.props.navigation.goBack()}}
+              size={25}
+              color= 'grey'
+              style={{ marginTop: 10, marginRight: 15,}}
+            />
           </View>
-        </View>
+
+          <View style={styles.questionContainerStyle}>
+            <Text style={styles.questionTextStyle}>Report a User:</Text>
+          </View>
+
+          <ScrollView>
+            <View style={styles.resultsContainer}>{selectedItems}</View>
+          </ScrollView>
+
+          <ScrollView>
+            <View style={styles.optionsContainer}>{unSelectedItems}</View>
+          </ScrollView>
+
+          <View style={styles.submitContainer}>
+            <NextButton
+              onPress={this.onSubmitPressed.bind(this)}
+              content='enabled'>
+              <Text>Done</Text>
+            </NextButton>
+          </View>
+        </SafeAreaView>
       </Fragment>
     );
   }
@@ -149,24 +183,40 @@ export default connect(
 
 const styles = StyleSheet.create({
   container: {
-    flex: .8,
+    flex: 1,
     flexDirection: "column",
     justifyContent: 'flex-start',
   },
+
+  minimizeContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+
   selectedButtonWrapper: {
     margin: 5,
-    padding: 5,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 18,
+    paddingRight: 18,
     borderRadius: 20,
     backgroundColor: 'white',
     borderStyle: 'solid',
     borderWidth: 2,
     borderColor: '#00387e',
+    flexDirection: 'row',
   },
   unselectedButtonWrapper: {
     margin: 5,
-    padding: 5,
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 18,
+    paddingRight: 18,
     borderRadius: 20,
     backgroundColor: "#00387e",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   submitButtonWrapper: {
     flex: 1,
@@ -177,55 +227,136 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#00387e"
   },
-  title: {
-    flex: 1,
-    width: 200,
-    padding: 10,
-    fontSize: 20
+
+  questionContainerStyle: {
+    flex: 0.5,
   },
+
+  questionTextStyle: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    paddingLeft: 40,
+    paddingTop: 20,
+    color: 'grey'
+  },
+
   submitContainer: {
     alignItems: 'center',
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
     justifyContent: "center",
   },
   resultsContainer: {
-    flex: 3,
+    flex: 1,
     padding: 10,
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "flex-start",
   },
   optionsContainer: {
+    flex: 1,
     display: 'flex',
     padding: 10,
     flexDirection: "row",
     flexWrap: "wrap",
-    flex: 6,
     alignItems: "flex-start",
   },
   whiteText: {
-    color: "white"
-  }
+    color: "white",
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+
+  blackText: {
+    color: "black",
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
+
+  scrollViewStyle:{
+    flex: 2,
+  },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: .8,
+//     flexDirection: "column",
+//     justifyContent: 'flex-start',
+//   },
+//   selectedButtonWrapper: {
+//     margin: 5,
+//     padding: 5,
+//     borderRadius: 20,
+//     backgroundColor: 'white',
+//     borderStyle: 'solid',
+//     borderWidth: 2,
+//     borderColor: '#00387e',
+//   },
+//   unselectedButtonWrapper: {
+//     margin: 5,
+//     padding: 5,
+//     borderRadius: 20,
+//     backgroundColor: "#00387e",
+//   },
+//   submitButtonWrapper: {
+//     flex: 1,
+//     margin: 5,
+//     padding: 5,
+//     borderRadius: 20,
+//     flex: .4,
+//     alignItems: "center",
+//     backgroundColor: "#00387e"
+//   },
+//   title: {
+//     flex: 1,
+//     width: 200,
+//     padding: 10,
+//     fontSize: 20
+//   },
+//   submitContainer: {
+//     alignItems: 'center',
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: "center",
+//   },
+//   resultsContainer: {
+//     flex: 3,
+//     padding: 10,
+//     flexDirection: "row",
+//     flexWrap: "wrap",
+//     alignItems: "flex-start",
+//   },
+//   optionsContainer: {
+//     display: 'flex',
+//     padding: 10,
+//     flexDirection: "row",
+//     flexWrap: "wrap",
+//     flex: 6,
+//     alignItems: "flex-start",
+//   },
+//   whiteText: {
+//     color: "white"
+//   }
+// });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
