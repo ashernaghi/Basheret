@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
 import ChatScreen from './ChatScreen';
 import MatchesScreen from './MatchesScreen';
+import Header from '../components/Header';
 //import styles from '../styles/styles';
 import {showProfileScreen} from '../actions/UserInfoActions';
 import {getCurrentMatches} from '../actions/matchActions';
@@ -47,7 +48,7 @@ export class SocialScreen extends React.Component {
             <View>
               <Ionicons
                 name="ios-arrow-forward"
-                size={30}
+                size={25}
                 color="grey"
                 style={styles.headerIcons}
               />
@@ -70,19 +71,8 @@ export class SocialScreen extends React.Component {
 
       return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#f4f4f4' }}>
-          <View style={styles.headerContainerStyle}>
-            <View style={ styles.backArrowStyle }>
-              <Ionicons
-                name="ios-arrow-back"
-                size={27}
-                color="grey"
-                onPress={() => this.props.navigation.navigate('Home')}
-              />
-            </View>
-            <View style={styles.logoContainerStyle}>
-              <Text style={styles.logoFontStyle}>Matches</Text>
-            </View>
-          </View>
+          <Header text='Matches' navigation={this.props.navigation} leftIconName="ios-arrow-back" leftDestination="Home"/>
+          <View style={{ borderColor: 'grey', borderBottomWidth: 0.5, }}/>
         <ScrollView style={{ alignSelf: 'stretch' }}>
           {this.generateMatchCards()}
         </ScrollView>
@@ -142,9 +132,9 @@ const styles = StyleSheet.create({
   },
 
   imageStyle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     backgroundColor: 'grey',
     alignSelf: 'center',
     justifyContent: 'center',
@@ -157,16 +147,16 @@ const styles = StyleSheet.create({
     // alignSelf: 'center',
     marginLeft: 15,
     marginTop: 10,
-    maxWidth: 230,
+    maxWidth: 220,
     maxHeight:30
   },
   titleStyle: {
-    fontSize: 16,
-    fontWeight: 700,
+    fontSize: 15,
+    fontWeight: 600,
     paddingBottom: 5,
   },
   bodyStyle:{
-    fontSize: 15,
+    fontSize: 14,
   },
   buttonStyle: {
     justifyContent: 'center',
