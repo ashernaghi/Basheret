@@ -37,22 +37,16 @@ export class SocialScreen extends React.Component {
             </TouchableOpacity>
 
             <View style={styles.textStyle}>
-              <View
-              //show Profile Modal and change profile to 'candidate'
-              >
               <Text key={index} style={styles.titleStyle} >{matchCard.name}</Text>
-              <Text style={styles.bodyStyle}>This is a test of the text df dfdf fdfdfdfd fdfdf fd fd  portion of the matchcard...</Text>
-              </View>
+              <Text style={styles.bodyStyle} numberOfLines={2}>This is a test of the text df dfdf fdfdfdfd fdfdf fd fd  portion of the matchcard dfdfdf  dffeerer  trhnh  tththt</Text>
             </View>
             <View style={ styles.buttonStyle }>
-            <View>
               <Ionicons
                 name="ios-arrow-forward"
                 size={25}
                 color="grey"
                 style={styles.headerIcons}
               />
-            </View>
             </View>
           </TouchableOpacity>
         )
@@ -148,7 +142,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 10,
     maxWidth: 220,
-    maxHeight:30
   },
   titleStyle: {
     fontSize: 15,
