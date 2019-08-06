@@ -213,9 +213,9 @@ renderChoice(){
 
   render() {
     return (
-        <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
-        <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
 
+        <ScrollView style={{ backgroundColor: '#F4F4F4' }}>
+          <SafeAreaView style={{ backgroundColor: '#F4F4F4' }}>
 
 
 
@@ -352,8 +352,9 @@ renderChoice(){
               </View>
             </View>}
 
+          </SafeAreaView>
         </ScrollView>
-        </SafeAreaView>
+
 
     );
   };
