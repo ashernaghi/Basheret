@@ -35,36 +35,22 @@ export const getUser = () => {
 
 
 export const getMessages = (recipientID, callback) => {
-	console.log('testing')
-	let messageRef = chatRef(recipientID).collection('messages');
-	messageList = []
-	messageRef.limit(10)
-	  .onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            messageList.push(parse(doc.data()))
-        });
-        callback(messageList)
-    })
-}
+	let messageRef = chatRef(recipientID).collection("messages");
+	messageList = [];
+	messageRef.limit(10).onSnapshot(function(querySnapshot) {
+		querySnapshot.forEach(function(doc) {
+	let temp = doc.data();
+	let time =new Date(parseInt(doc.data().createdAt.seconds+'000'))
+	temp.createdAt = time;
+	messageList.push(temp);
+	});
+	callback(messageList);
+	});
+};
 
-export const sendMessage = (messages, recipientID,) => {
-	let messageRef = chatRef(recipientID).collection('messages');
-	let userID = firebase.auth().currentUser.uid
-  	for (let i = 0; i < messages.length; i++) {
-	    const { text } = messages[i];
-	    const createdAt = getTimestamp();
-			const _id = userID + '-' + Math.random().toString(36).substr(2, 9);
-			const name = 'NEED TO FIGURE OUT NAME'
-			const user = { userID, name }
-		console.log('sending', recipientID, createdAt, user,)
-	    const message = {
-	    	_id,
-	      text,
-	      createdAt,
-				user,
-	    };
-    messageRef.add(message);
-    }
+export const sendMessage = (message, recipientID) => {
+	let messageRef = chatRef(recipientID).collection("messages");
+	messageRef.add(message[0]);
 };
 
 //Create the location for the chat by using the format

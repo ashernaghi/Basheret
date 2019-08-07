@@ -1,12 +1,19 @@
 import React from 'react'
 import firebase from '../actions/firebase'
 import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { getMessages, sendMessage, getUser } from '../actions/chatActions'
 import {getCurrentMatches} from '../actions/matchActions';
 
 export class ChatScreen extends React.Component {
+	static navigationOptions = ({ navigation }) => {
+    return {
+      header: null,
+    }
+  };
+
 	state = {
 	    messages: [],
 	  }
@@ -58,11 +65,21 @@ export class ChatScreen extends React.Component {
   render() {
   	// console.log('currentState', this.state)
     return (
-      <View style={{ flex: 1, alignSelf: 'stretch' }}>
-			<Image
-          style={styles.imageStyle}
-          source={{uri: this.matchObject.profilePhoto}}
-        />
+      <SafeAreaView style={{ flex: 1, alignSelf: 'stretch' }}>
+				<TouchableOpacity style={{ paddingLeft: 20 }} onPress={() => this.props.navigation.goBack()}>
+					<Ionicons
+						name="ios-arrow-back"
+						size={25}
+						color="grey"
+					/>
+				</TouchableOpacity>
+				<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+					<Image
+          	style={styles.imageStyle}
+          	source={{uri: this.matchObject.profilePhoto}}
+        	/>
+					<Text style={{ fontWeight: 'bold', paddingTop: 10 }}>{this.matchObject.name}</Text>
+				</View>
 			<View
 			  style={{
 			    borderBottomColor: 'grey',
@@ -76,7 +93,7 @@ export class ChatScreen extends React.Component {
 	        user={this.state.user}
 	        inverted={true}
 	      />
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -92,9 +109,9 @@ export default connect(mapStateToProps)(ChatScreen);
 
 const styles = StyleSheet.create({
 	imageStyle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     backgroundColor: 'grey',
     alignSelf: 'center',
     justifyContent: 'center',

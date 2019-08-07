@@ -161,5 +161,5 @@ export const getAnotherUser = (userID, category) => dispatch  => {
 export const showProfileScreen = (category, card=null) => ({
     type: SHOW_PROFILE_SCREEN,
     category,
-    card
+    card,
 });

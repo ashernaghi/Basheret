@@ -18,6 +18,10 @@ export class SocialScreen extends React.Component {
     }
   };
 
+  state= {
+    show: 'candidate',
+  }
+
   componentWillMount(){
     // getCurrentMatches();
     if (!this.props.matchesCards) {
@@ -29,10 +33,14 @@ export class SocialScreen extends React.Component {
     const { navigate } = this.props.navigation;
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
+        console.log(matchCard)
         return (
           <TouchableOpacity key={index} style={styles.matchCardStyle} onPress={() => navigate('Chat', {m: matchCard})}>
 
-            <TouchableOpacity style={styles.thumbnailContainerStyle} onPress={()=>this.props.navigate(matchCard)}>
+            <TouchableOpacity style={styles.thumbnailContainerStyle} onPress={()=> {
+              this.props.dispatch(showProfileScreen('matchesCards'));
+              navigate('CandidateModal')
+                }}>
               <Image style={styles.imageStyle} source={{ uri: matchCard.profilePhoto }}/>
             </TouchableOpacity>
 
