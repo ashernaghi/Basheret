@@ -28,6 +28,7 @@ import EditCampScreen from '../screens/EditCampScreen';
 import ReportUserScreen from '../screens/ReportUserScreen';
 import EditFavoriteBookScreen from '../screens/EditFavoriteBookScreen';
 import EditHobbiesScreen from '../screens/EditHobbiesScreen';
+import ChatScreen from '../screens/ChatScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -72,6 +73,7 @@ const MainStack = createStackNavigator({
   FavoriteQuote: { screen: EditFavoriteQuoteScreen },
   FavoriteBook: { screen: EditFavoriteBookScreen },
   HobbiesScreen: { screen: EditHobbiesScreen },
+  Chat: { screen: ChatScreen },
 },
 {
   initialRouteName: 'Home',
