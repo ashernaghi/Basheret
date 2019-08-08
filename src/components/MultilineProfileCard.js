@@ -66,7 +66,7 @@ class MultilineProfileCard extends Component {
       return(
         <TouchableOpacity
           onPress={this.props.onPress}
-          style={styles.newCardStyle}
+          style={styles.hobbyCardStyle}
           >
             <View style={{flexDirection: 'row', flex: 1, }}>
 
@@ -147,8 +147,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     margin: 8,
     padding: 6,
+  },
 
-
+  hobbyCardStyle: {
+    backgroundColor: 'white',
+    borderRadius: 15,
+    margin: 8,
+    paddingRight: 6,
+    paddingLeft: 6,
+    paddingTop: 6,
+    paddingBottom: 15,
   },
 
   cardStyle: {

@@ -6,6 +6,12 @@ import {getCandidate, mutualMatch} from '../actions/matchActions'
 import {showProfileScreen} from '../actions/UserInfoActions';
 
 export class CandidatesScreen extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+    };
+  }
+
   startTimer(){
     console.log('STARTING TIMER')
     setTimeout( ()=> {
@@ -54,7 +60,7 @@ export class CandidatesScreen extends React.Component {
         </View>
       );
     }
-    else if (this.props.candidate===null){
+    else if (!this.props.candidate){
       return( <View style={{ flex: 1, alignSelf: 'center', backgroundColor: '#F4F4F4'}}>
               <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>No Candidates To Show.</Text>
               <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 10, alignSelf: 'center' }}>Come Back Soon!</Text>
