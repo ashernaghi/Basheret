@@ -1,10 +1,10 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://kx-wci.anonymous.basheret.exp.direct",
+  "packagerNgrokUrl": "https://packager.kx-wci.anonymous.basheret.exp.direct",
+  "ngrokPid": 58054,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null,
+  "packagerPort": 19003,
+  "packagerPid": 58046,
   "webpackServerPort": null
 }
