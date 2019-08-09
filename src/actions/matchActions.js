@@ -1,6 +1,6 @@
 import firebase from './firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN, DELETE_ALL_MATCHES } from './types';
-import {getAnotherUser, getAnotherUserSuccess} from './UserInfoActions'
+import {getAnotherUser, getAnotherUserSuccess, updateUserInfo} from './UserInfoActions'
 const POSITIVE_MATCH = 'POSITIVE_MATCH';
 const NEGATIVE_MATCH = 'NEGATIVE_MATCH';
 const MUTUAL_MATCH = 'MUTUAL_MATCH';
@@ -90,6 +90,7 @@ export const negativeMatch = (matchID) => dispatch => {
     console.log("NEGATIVE_MATCH", userID, matchID);
     let matchRef = firebase.firestore().collection('users').doc(matchID);
     let userRef = firebase.firestore().collection('users').doc(userID);
+    dispatch(addMatchToLimit(userRef));
     dispatch(updateMatch(userRef, NEGATIVE_MATCH, userID));
     dispatch(updateMatch(matchRef, NEGATIVE_MATCH, matchID));
 }
@@ -104,6 +105,7 @@ export const positiveMatch = (matchID) => dispatch => {
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
         console.log('pos match', matchCategory);
+        dispatch(addMatchToLimit(userRef));
         if (matchCategory === POSITIVE_MATCH) {
             dispatch(updateMatch(userRef, MUTUAL_MATCH, matchID));
             dispatch(updateMatch(matchRef, MUTUAL_MATCH, userID));
@@ -118,22 +120,81 @@ export const positiveMatch = (matchID) => dispatch => {
     })
 }
 
+const addMatchToLimit = (userRef) => dispatch => {
+    userRef.get()
+    .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        }
+        else {
+            let matchesData = doc.data().matchesData;
+            let dailyAmount = 1
+            if (typeof matchesData !== 'undefined' && typeof matchesData.dailyAmount !== 'undefined') {
+                dailyAmount = matchesData.dailyAmount;
+            }
+            if (typeof matchesData === 'undefined' || typeof matchesData.matchesDay === 'undefined') {
+                console.log('matchesData1', matchesData, dailyAmount)
+                dispatch(updateUserInfo('matchesData', 'matchesDay', new Date()));
+                dispatch(updateUserInfo('matchesData', 'dailyAmount', 1));
+            }
+            else if (sameday(matchesData.matchesDay)) {
+                console.log('matchesData2', matchesData, dailyAmount)
+                dispatch(updateUserInfo('matchesData', 'dailyAmount', dailyAmount+1))
+            }
+            else {
+                console.log('matchesData3', matchesData, dailyAmount)
+                dispatch(updateUserInfo('matchesData', 'matchesDay', new Date()));
+                dispatch(updateUserInfo('matchesData', 'dailyAmount', 1));
+            }
+        }
+    })
+    .catch(error => {
+        console.log("error adding match to limit", error)
+    })
+}
+
+const sameday = (date1) => {
+    let d2 = new Date()
+    let d1 = new Date(date1.seconds*1000)
+    return d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate();
+}
 
 //Return the highest candidate in the potential list.
 export const getCandidate = () => dispatch => {
     let userID = firebase.auth().currentUser.uid;
-    let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
-    let nextMatch = matchRef.where("category", "==", POTENTIAL_MATCH).orderBy('score').limit(1).onSnapshot(querySnapshot => {
-        querySnapshot.docs.forEach(doc => {
-            if (doc.exists) {
-                console.log('found candiddate', doc.id, doc.data());
-                dispatch(getAnotherUser(doc.id, 'candidate'))
+    firebase.firestore().collection('users').doc(userID).get()
+    .then(doc => {
+        if (!doc.exists) {
+          console.log('No such document!');
+        }
+        else {
+            let matchesData = doc.data().matchesData;
+            console.log('matchesData', matchesData);
+            if (typeof matchesData === 'undefined' || !sameday(matchesData.matchesDay) || matchesData.dailyAmount <3) {
+                let matchRef = firebase.firestore().collection('users').doc(userID).collection('matches');
+                let nextMatch = matchRef.where("category", "==", POTENTIAL_MATCH).orderBy('score').limit(1).onSnapshot(querySnapshot => {
+                    querySnapshot.docs.forEach(doc => {
+                        if (doc.exists) {
+                            console.log('found candiddate', doc.id, doc.data());
+                            dispatch(getAnotherUser(doc.id, 'candidate'))
+                        }
+                        else {
+                            console.log('no matching candidates');
+                            dispatch(getAnotherUserSuccess(null, 'candidate'))
+                        }
+                    });
+                })
             }
             else {
-                console.log('no matching candidates');
-                dispatch(getAnotherUserSuccess(null, 'candidate'))
+                console.log('out of matches for the day')
+                dispatch(getAnotherUserSuccess(null, 'candidate'));
             }
-        });
+        }
+    })
+    .catch(error => {
+        console.error("error adding match to limit", error)
     })
 }
 
@@ -222,7 +283,7 @@ const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
     }
     matchInfo['dateAdded'] = new Date();
     matchInfo['category'] = category;
-    console.error(matchInfo)
+    // console.error(matchInfo)
     ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
     .then(function() {
         console.log("Match successfully Added!");
