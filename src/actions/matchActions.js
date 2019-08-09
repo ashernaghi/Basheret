@@ -275,22 +275,35 @@ export const negativeReccomended = (matchID) => {
 const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
     console.log('UPDATING', category, matchID);
     let matchInfo = {};
-    if (category==POTENTIAL_MATCH) {
-        matchInfo['score'] = calculateScore(matchID);
-    }
     if (reccomendedBy) {
         matchInfo['reccomendedBy'] = reccomendedBy;
     }
     matchInfo['dateAdded'] = new Date();
     matchInfo['category'] = category;
     // console.error(matchInfo)
-    ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
-    .then(function() {
-        console.log("Match successfully Added!");
-    })
-    .catch(function(error) {
-        console.error("Error adding Match: ", error);
-    });
+    if (category==POTENTIAL_MATCH) {
+        calculateScore(matchID)
+        .then(score => {
+            matchInfo['score'] = score
+            ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
+            .then(function() {
+                console.log("Match successfully Added!");
+            })
+            .catch(function(error) {
+                console.error("Error adding Match: ", error);
+            });
+        })
+    }
+    else {
+        ref.collection('matches').doc(matchID).set(matchInfo, { merge: true })
+        .then(function() {
+            console.log("Match successfully Added!");
+        })
+        .catch(function(error) {
+            console.error("Error adding Match: ", error);
+        });
+    }
+    
 }
 
 const deleteMatch = (ref, matchID) => {
@@ -325,7 +338,44 @@ const getMatchCategory = (ref, matchID) => {
 }
 //Will later change to return a promise to the score.
 const calculateScore = (matchID) => {
-    return 10;
+    let score = 0;
+    return new Promise((resolve, reject) => {
+        let userID = firebase.auth().currentUser.uid;
+        firebase.firestore().collection('users').doc(userID).get()
+        .then(userDoc => {
+            if (!userDoc.exists) {
+              console.log('No such document!');
+              resolve(0)
+            }
+            else {
+                firebase.firestore().collection('users').doc(matchID).get()
+                .then(matchDoc => {
+                    if (!matchDoc.exists) {
+                      console.log('No such document!');
+                      resolve(0)
+                    }
+                    else {
+                        let userInfo = userDoc.data().info;
+                        let matchInfo = matchDoc.data().info;
+                        let infoList = {'age': 5, 'denomination': 1, 'kashrutObservance': 1, 'shabbatObservance': 1}
+                        for (var key in infoList) {
+                            let curScore = (Math.abs(userInfo[key]-matchInfo[key])*infoList[key]);
+                            if (!isNaN(curScore)) {
+                                score += curScore
+                            }
+                        }
+                        resolve(score)
+                    }
+                })
+                .catch(error => {
+                    console.error("error getting match", error)
+                })
+            }
+        })
+        .catch(error => {
+            console.error("error getting user", error)
+        })
+    })
 }
 
 
