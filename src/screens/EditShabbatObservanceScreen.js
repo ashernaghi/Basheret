@@ -57,6 +57,11 @@ export class EditShabbatObservanceScreen extends React.Component {
     this.question = this.props.navigation.getParam('question', questions[3]);
     this.labels = this.props.navigation.getParam('labels', options[3])
 
+    if(this.props.shabbatObservance === undefined){
+      var str = "";
+      this.props.dispatch(updateUserInfo('info', category[3], str ? str : (50)));
+    }
+
     return (
       <View style={styles.questionView}>
         <View style={{ flexDirection: 'row', justifyContent:'center', alignItems:'center', paddingBottom: 20 }}>

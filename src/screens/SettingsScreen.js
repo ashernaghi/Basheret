@@ -158,16 +158,17 @@ export class SettingsScreen extends React.Component {
             Distance
           </Text>
 
-          <MultiSlider
-            markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
-            selectedStyle={{backgroundColor: '#00387E'}}
-            values={[this.props.distancePreference]}
-            onValuesChange={values=>this.changeValue(values, 'Distance')}
-            min={100}
-            max={1000}
-            step={10}
-          />
-
+          <View style={{ alignItems: 'center' }}>
+            <MultiSlider
+              markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+              selectedStyle={{backgroundColor: '#00387E'}}
+              values={[this.props.distancePreference]}
+              onValuesChange={values=>this.changeValue(values, 'Distance')}
+              min={100}
+              max={1000}
+              step={10}
+            />
+            </View>
           <Text style={{alignSelf: 'center'}}>
             {this.props.distancePreference}
           </Text>
