@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { GiftedChat } from 'react-native-gifted-chat'
-import { getMessages, sendMessage, getUser } from '../actions/chatActions'
+import { getMessages, sendMessage, getUser, getNewMessages } from '../actions/chatActions'
 import {getCurrentMatches} from '../actions/matchActions';
 
 export class ChatScreen extends React.Component {
@@ -27,14 +27,30 @@ export class ChatScreen extends React.Component {
 	    getUser()
 		.then((user) => {
 			this.setState({user})
-			getMessages(this.matchObject.id, message => {
-				// console.log('got message', mes)
-				this.setState(previousState => ({
-			        messages: GiftedChat.append(previousState.messages, message),
-		        }))
-			})
+			getMessages(this.matchObject.id)
+		.then(
+			(messageList) => {
+					this.setState({ messages: messageList })
+
+					getNewMessages(message => {
+					this.setState({ messages: message })
+				});
+
+			}
+
+		)
 		})
-	  }
+	}
+
+	// componentWillUpdate(){
+	// 	getMessages(this.matchObject.id)
+	// 		.then(
+	// 			(messageList) => {
+	// 					console.log(messageList)
+	// 					//console.log('GOT message')
+	// 					this.setState({ messages: messageList })
+	// 			})
+	// }
 
 	// async componentDidMount() {
 	// 	console.log('mounted')
@@ -57,8 +73,12 @@ export class ChatScreen extends React.Component {
 	// }
 
 	  onSend(newMessage = []) {
-	    sendMessage(newMessage, this.matchObject.id)
+			sendMessage(newMessage, this.matchObject.id)
+			this.setState(previousState => ({
+			        messages: GiftedChat.append(newMessage, previousState.messages),
+			      }))
 	  }
+
 
 
 
@@ -91,7 +111,7 @@ export class ChatScreen extends React.Component {
 	        messages={this.state.messages}
 	        onSend = {messages => this.onSend(messages)}
 	        user={this.state.user}
-	        inverted={true}
+	        inverted={false}
 	      />
       </SafeAreaView>
     );

@@ -1,9 +1,10 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://k5-hwb.anonymous.basheret.exp.direct",
-  "packagerNgrokUrl": "https://packager.k5-hwb.anonymous.basheret.exp.direct",
-  "ngrokPid": 50661,
+  "expoServerPort": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
   "devToolsPort": 19002,
-  "packagerPort": 19003,
-  "packagerPid": 50649
+  "packagerPort": null,
+  "packagerPid": null,
+  "webpackServerPort": null
 }

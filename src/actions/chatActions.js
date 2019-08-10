@@ -13,8 +13,8 @@ export const getUser = () => {
 	                console.log(data)
 	                resolve({
 	                	name: data.info.name,
-				        id: user.uid,
-				        _id: user.uid
+				        		id: user.uid,
+				        		_id: user.uid
 				    })
 	            } else {
 	                // doc.data() will be undefined in this case
@@ -34,23 +34,41 @@ export const getUser = () => {
 }
 
 
-export const getMessages = (recipientID, callback) => {
+export const getMessages = (recipientID) => {
+	return new Promise ((resolve, reject) => {
+		let messageRef = chatRef(recipientID).collection("messages");
+		messageList = [];
+		messageRef.limit(20).onSnapshot(function(querySnapshot) {
+			querySnapshot.forEach(function(doc) {
+				let temp = doc.data();
+				let time =new Date(parseInt(doc.data().createdAt.seconds+'000'))
+				temp.createdAt = time;
+				messageList.push(temp)
+			});
+			if(messageList){
+				resolve(messageList)}
+		});
+
+})};
+
+
+export const getNewMessages = callback => {
 	let messageRef = chatRef(recipientID).collection("messages");
-	messageList = [];
-	messageRef.limit(10).onSnapshot(function(querySnapshot) {
-		querySnapshot.forEach(function(doc) {
-	let temp = doc.data();
-	let time =new Date(parseInt(doc.data().createdAt.seconds+'000'))
-	temp.createdAt = time;
-	messageList.push(temp);
-	});
-	callback(messageList);
-	});
-};
+		messageRef.limit(1).onSnapshot(function(querySnapshot)  {
+			querySnapshot.forEach(function(doc) {
+				let temp = doc.data();
+				let time =new Date(parseInt(doc.data().createdAt.seconds+'000'))
+				temp.createdAt = time;
+				console.log('TEMP!!!!', temp)
+				callback(temp)
+			});
+		})
+}
+
 
 export const sendMessage = (message, recipientID) => {
 	let messageRef = chatRef(recipientID).collection("messages");
-	messageRef.add(message[0]);
+	messageRef.doc(message[0].createdAt.getTime().toString()).set(message[0]);
 };
 
 //Create the location for the chat by using the format
