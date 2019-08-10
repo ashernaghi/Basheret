@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "expoServerPort": null,
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
@@ -7,4 +8,13 @@
   "packagerPort": null,
   "packagerPid": null,
   "webpackServerPort": null
+=======
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://k5-hwb.danieltarko.basheret.exp.direct",
+  "packagerNgrokUrl": "https://packager.k5-hwb.danieltarko.basheret.exp.direct",
+  "ngrokPid": 1942,
+  "devToolsPort": 19002,
+  "packagerPort": 19001,
+  "packagerPid": 1878
+>>>>>>> 7b569024e3d538a3f0c050d573777849f80e5e5d
 }

@@ -26,32 +26,13 @@ export class SettingsScreen extends React.Component {
     : 4;
   }
 
-  calculateText(key, values0, values1){
-    let leftIndex = this.calculateIndex(values0);
-    let rightIndex = this.calculateIndex(values1);
-    let same = leftIndex===rightIndex ? true : false;
-
-    if (key==='Age'){
-      return `${values0}-${values1}`
-    }
-    else if (key==='Denomination'){
-      return same ? options[1][leftIndex] : `${options[1][leftIndex]}-${options[1][rightIndex]}`
-    }
-    else if (key==='Shabbat Observance'){
-      return same ? options[2][leftIndex] : `${options[2][leftIndex]}-${options[2][rightIndex]}`
-    }
-    else if (key==='Kashrut Observance'){
-      return same ? options[3][leftIndex] : `${options[3][leftIndex]}-${options[3][rightIndex]}`
-    }
-  }
-
   changeValue = (values, category) => {
     let finalCategory = category==="Denomination" ? 'denominationPreference' : category==="Shabbat Observance" ? 'shabbatPreference' : category==="Kashrut Observance" ?'kashrutPreference' : category==="Age" ? 'agePreference' : category==="Distance" ? 'distancePreference' : category;
     let finalValue = values.length ===1 ? values[0] : values;
     this.props.dispatch(updateUserInfo('preferences',finalCategory, finalValue))
   }
 
-  generateFilters1(){
+  generateFilters(){
     let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
 
     return preferences.map((preference, index)=>{
@@ -65,7 +46,10 @@ export class SettingsScreen extends React.Component {
          number = 2
       } else if(key === 'Shabbat Observance'){
          number = 3
+      } else if(key === 'Age'){
+         number = 4
       }
+
 
       return(
         <View key={index} style={styles.filterContainer}>
@@ -79,12 +63,12 @@ export class SettingsScreen extends React.Component {
               onValuesChange={values=>this.changeValue(values, key)}
               min={key==="Age" ? 18 : 0}
               max={key==="Age" ? 39 : 100}
-              step={key==="Age" ? 1: 5}
+              step={key==="Age" ? 1 : 5}
             />
           </View>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 10, }}>
-            {this.renderLabels(number)}
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 5, paddingRight: 5 }}>
+            {this.renderLabels(number, key, values[0], values[1])}
           </View>
 
         </View>
@@ -92,97 +76,24 @@ export class SettingsScreen extends React.Component {
     })
   }
 
-  renderLabels(number){
+  renderLabels(number, key, values0, values1){
+  if ( number < 4 ) {
+    return options[number].map((label, index)=> {
 
-  return options[number].map((label, index)=> {
+        return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
 
-      return <Text style={{fontSize: 10, textAlign: 'center' }} key={index}>{label}</Text>
-
-  })
+    })
+  }
+  else {
+    return (
+      <View style={{flex: 1}}>
+        <Text style={{alignSelf: 'center'}}>{values0}-{values1}</Text>
+      </View>
+    )
+  }
 }
 
-  generateFilters2(){
-    let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
-
-    return preferences.map((preference, index)=>{
-      let key = Object.keys(preference)[0];
-      let values = Object.values(preference)[0];
-
-      return(
-        <View key={index} style={styles.filterContainer}>
-          <Text style={{ fontWeight: 'bold', paddingBottom: 10, paddingTop: 2.5, paddingLeft: 2.5, }}> {key} </Text>
-
-          <View style={{ alignItems: 'center' }}>
-            <MultiSlider
-              markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
-              selectedStyle={{backgroundColor: '#00387E'}}
-              values={values}
-              onValuesChange={values=>this.changeValue(values, key)}
-              min={key==="Age" ? 18 : 0}
-              max={key==="Age" ? 39 : 100}
-              step={key==="Age" ? 1: 5}
-            />
-          </View>
-          <Text style={{alignSelf: 'center'}}>
-            {this.calculateText(key, values[0], values[1])}
-
-          </Text>
-
-        </View>
-      )
-    })
-  }
-
-  generateFilters3(){
-    let preferences = [{'Denomination': this.props.denominationPreference}, {'Shabbat Observance': this.props.shabbatPreference}, {'Kashrut Observance': this.props.kashrutPreference}, {'Age': this.props.agePreference}]
-
-    return preferences.map((preference, index)=>{
-      let key = Object.keys(preference)[0];
-      let values = Object.values(preference)[0];
-
-      var number = 1;
-      if(key === 'Denomination'){
-         number = 1
-      } else if( key === 'Kashrut Observance'){
-         number = 2
-      } else if(key === 'Shabbat Observance'){
-         number = 3
-      }
-
-      return(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('EditDenominationPreference')} key={index} style={styles.filterContainer}>
-          <Text style={{ fontWeight: 'bold', paddingBottom: 10, paddingTop: 2.5, paddingLeft: 2.5, }}> {key} </Text>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
-            <View style={{ alignItems: 'center' }}>
-              <MultiSlider
-                markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
-                selectedStyle={{backgroundColor: '#00387E'}}
-                values={values}
-                onValuesChange={values=>this.changeValue(values, key)}
-                min={key==="Age" ? 18 : 0}
-                max={key==="Age" ? 39 : 100}
-                step={key==="Age" ? 1: 5}
-              />
-            </View>
-
-            <View style={{justifyContent: 'center'}}>
-              <Ionicons
-                name="ios-arrow-forward"
-                size={30}
-                color="grey"
-                style={{ marginLeft: 8, }}/>
-            </View>
-          </View>
-
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20 }}>
-            {this.renderLabels(number)}
-          </View>
-
-        </TouchableOpacity>
-      )
-    })
-  }
+ 
 
   onSignOut = async () => {
     try {
@@ -240,25 +151,24 @@ export class SettingsScreen extends React.Component {
             Filters
         </Text>
 
-        {this.generateFilters1()}
-        {this.generateFilters2()}
-        {this.generateFilters3()}
+        {this.generateFilters()}
 
         <View style={styles.filterContainer}>
           <Text style={styles.headerText}>
             Distance
           </Text>
 
-          <MultiSlider
-            markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
-            selectedStyle={{backgroundColor: '#00387E'}}
-            values={[this.props.distancePreference]}
-            onValuesChange={values=>this.changeValue(values, 'Distance')}
-            min={100}
-            max={1000}
-            step={100}
-          />
-
+          <View style={{ alignItems: 'center' }}>
+            <MultiSlider
+              markerStyle={{width:20, height: 20, borderRadius: 10, backgroundColor: '#00387E'}}
+              selectedStyle={{backgroundColor: '#00387E'}}
+              values={[this.props.distancePreference]}
+              onValuesChange={values=>this.changeValue(values, 'Distance')}
+              min={100}
+              max={1000}
+              step={10}
+            />
+            </View>
           <Text style={{alignSelf: 'center'}}>
             {this.props.distancePreference}
           </Text>
