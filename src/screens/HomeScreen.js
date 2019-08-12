@@ -18,45 +18,6 @@ static navigationOptions = ({ navigation }) => {
     }
   };
 
-  /*
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'Basheret',
-      headerStyle: {
-        backgroundColor: '#f4f4f4',
-        shadowColor: 'transparent',
-        borderBottomColor:'transparent',
-        borderBottomWidth: 0
-      },
-      headerTintColor: '#00387e',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-        fontFamily: 'fitamint-script',
-        fontSize: 30
-      },
-      headerLeft: (
-        <Ionicons
-          onPress={() => {
-            navigation.navigate('Profile')}
-          }
-          name="ios-contact"
-          size={32}
-          color="grey"
-          style={ styles.headerIcons }
-        />
-      ),
-      headerRight: (
-        <Ionicons
-          onPress={() => navigation.navigate('Social')}
-          name="ios-chatbubbles"
-          size={32}
-          color="grey"
-          style={ styles.headerIcons }
-        />
-      )
-    }
-  };
-  */
 
   state={
       show: "candidates",

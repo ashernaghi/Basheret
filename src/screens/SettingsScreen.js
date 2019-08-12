@@ -170,7 +170,7 @@ export class SettingsScreen extends React.Component {
             />
             </View>
           <Text style={{alignSelf: 'center'}}>
-            {this.props.distancePreference}
+            {this.props.distancePreference} miles
           </Text>
         </View>
 

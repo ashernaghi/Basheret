@@ -1,139 +1,152 @@
-import React from 'react'
-import firebase from '../actions/firebase'
-import { connect } from 'react-redux';
-import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
-import { GiftedChat } from 'react-native-gifted-chat'
-import { getMessages, sendMessage, getUser, getNewMessages } from '../actions/chatActions'
-import {getCurrentMatches} from '../actions/matchActions';
+import React from "react";
+import firebase from "../actions/firebase";
+import { connect } from "react-redux";
+import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { GiftedChat } from "react-native-gifted-chat";
+import { getMessages, sendMessage, getUser } from "../actions/chatActions";
+import { getCurrentMatches } from "../actions/matchActions";
+
+const chatRef = (userId, recipientID) => {
+  let location = "";
+  let userID = userId;
+  if (userID < recipientID) location = userID + "--" + recipientID;
+  else location = recipientID + "--" + userID;
+  let messageRef = firebase
+    .firestore()
+    .collection("chats")
+    .doc(location);
+  return messageRef;
+};
 
 export class ChatScreen extends React.Component {
+
 	static navigationOptions = ({ navigation }) => {
-    return {
-      header: null,
-    }
-  };
+	    return {
+	      header: null,
+	    }
+	  };
 
 	state = {
-	    messages: [],
-	  }
+    messages: [],
+    user: null
+  };
 
-	constructor(props) {
-		super(props)
-		this.matchObject = this.props.navigation.state.params.m;
-	}
+  constructor(props) {
+    super(props);
+    this.matchObject = this.props.navigation.state.params.m;
+  }
 
-	componentWillMount() {
-	    getUser()
-		.then((user) => {
-			this.setState({user})
-			getMessages(this.matchObject.id)
-		.then(
-			(messageList) => {
-					this.setState({ messages: messageList })
+  // componentWillMount() {
+  //     getUser()
+  // 	.then((user) => {
+  // 		this.setState({user})
+  // 		getMessages(this.matchObject.id, message => {
+  // 			// console.log('got message', mes)
+  // 			this.setState(previousState => ({
+  // 		        messages: GiftedChat.append(previousState.messages, message),
+  // 	        }))
+  // 		})
+  // 	})
+  //   }
+  async componentWillMount() {
+    await getUser().then(user => {
+      this.setState({ user });
+      this.getMessages(user.id, this.matchObject.id);
+    });
+  }
 
-					getNewMessages(message => {
-					this.setState({ messages: message })
-				});
-
-			}
-
-		)
-		})
-	}
-
-	// componentWillUpdate(){
-	// 	getMessages(this.matchObject.id)
-	// 		.then(
-	// 			(messageList) => {
-	// 					console.log(messageList)
-	// 					//console.log('GOT message')
-	// 					this.setState({ messages: messageList })
-	// 			})
-	// }
-
-	// async componentDidMount() {
-	// 	console.log('mounted')
-	// 	this.props.dispatch(getMessages)
-	// 	getMessages()
-	// 	// console.log(this.props)
-	//  //    .then(message => {
-	//  //    	console.log('mes',message)
-	//  //    	if(message == undefined) {
-	//  //    		this.setState({messages: []})
-	//  //    		return;
-	//  //    	}
-	//  //      this.setState(previousState => ({
-	//  //        messages: GiftedChat.append(previousState.messages, message),
-	//  //      }))
-	// 	// })
-	// 	// .catch(e =>{
-	// 	// 	console.warn("NO MESSAGES")
-	// 	// })
-	// }
-
-	  onSend(newMessage = []) {
-			sendMessage(newMessage, this.matchObject.id)
-			this.setState(previousState => ({
-			        messages: GiftedChat.append(newMessage, previousState.messages),
-			      }))
-	  }
+  //   Sarah Added
+  getMessages = (userId, recipientID) => {
+    let messageRef = chatRef(userId, recipientID).collection("messages");
+    messageRef.orderBy('createdAt', 'desc').limit(20).onSnapshot(querySnapshot => {
+      messageList = [];
+      querySnapshot.forEach(doc => {
+        let temp = doc.data();
+        let time = new Date(parseInt(doc.data().createdAt.seconds + "000"));
+        temp.createdAt = time;
+        messageList.push(temp);
+      });
+      this.setState({ messages: messageList }, () => {
+        console.log(this.state.messages);
+      });
+    });
+  };
 
 
-
+  onSend(newMessage = []) {
+	let messageRef = chatRef(this.state.user.id, this.matchObject.id).collection("messages");
+	messageRef.doc(newMessage[0].createdAt.getTime().toString()).set(newMessage[0]);
+  }
 
   render() {
-  	// console.log('currentState', this.state)
+    // console.log('currentState', this.state)
     return (
-      <SafeAreaView style={{ flex: 1, alignSelf: 'stretch' }}>
-				<TouchableOpacity style={{ paddingLeft: 20 }} onPress={() => this.props.navigation.goBack()}>
-					<Ionicons
-						name="ios-arrow-back"
-						size={25}
-						color="grey"
-					/>
-				</TouchableOpacity>
-				<View style={{ justifyContent: 'center', alignItems: 'center' }}>
-					<Image
-          	style={styles.imageStyle}
-          	source={{uri: this.matchObject.profilePhoto}}
-        	/>
-					<Text style={{ fontWeight: 'bold', paddingTop: 10 }}>{this.matchObject.name}</Text>
+			<SafeAreaView style={{ flex: 1, alignSelf: 'stretch' }}>
+
+				<View style={{ flexDirection: 'row', marginTop: 10 }}>
+					<View  style={{ flex: 1, }}>
+						<TouchableOpacity style={{  flex: 1, paddingLeft: 20, paddingTop: 10, }} onPress={() => this.props.navigation.goBack()}>
+							<Ionicons
+								name="ios-arrow-back"
+								size={25}
+								color="grey"
+							/>
+						</TouchableOpacity>
+					</View>
+					<View style={{ justifyContent: 'center', alignItems: 'center', flex: 1, }}>
+						<Image
+							style={styles.imageStyle}
+							source={{uri: this.matchObject.profilePhoto}}
+						/>
+						<Text style={{ fontWeight: 600, paddingTop: 10 }}>{this.matchObject.name}</Text>
+					</View>
+					<View style={{ flex: 1, alignItems: 'flex-end', paddingRight: 20, paddingTop: 11 }}>
+						<MaterialCommunityIcons
+							name='flag-variant'
+							onPress={()=>{this.props.navigation.navigate('ReportUser')}}
+							size={25}
+							color= 'grey'
+						/>
+					</View>
 				</View>
+
 			<View
-			  style={{
-			    borderBottomColor: 'grey',
-			    borderBottomWidth: 0.5,
-					marginTop: 20,
-			  }}
+				style={{
+					borderBottomColor: 'grey',
+					borderBottomWidth: 0.5,
+					marginTop: 10,
+				}}
 				/>
-	    <GiftedChat
-	        messages={this.state.messages}
-	        onSend = {messages => this.onSend(messages)}
-	        user={this.state.user}
-	        inverted={false}
-	      />
-      </SafeAreaView>
+
+			<GiftedChat
+					messages={this.state.messages}
+					onSend = {messages => this.onSend(messages)}
+					user={this.state.user}
+					inverted={true}
+				/>
+		</SafeAreaView>
     );
   }
 }
 
-const mapStateToProps = state => {
-	console.log(state)
-  return {
-    chats: state.chats,
-  };
-};
+// const mapStateToProps = state => {
+//   console.log(state);
+//   return {
+//     chats: state.chats
+//   };
+// };
 
-export default connect(mapStateToProps)(ChatScreen);
+// export default connect(mapStateToProps)(ChatScreen);
+export default ChatScreen;
 
 const styles = StyleSheet.create({
-	imageStyle: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-    backgroundColor: 'grey',
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-})
+  imageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "grey",
+    alignSelf: "center",
+    justifyContent: "center"
+  }
+});
