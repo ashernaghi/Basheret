@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, SafeAreaView } from 'react-native';
 import CandidatesScreen from './CandidatesScreen';
 import MatchmakerScreen from './MatchmakerScreen';
+import MatchMaker from "./MatchMaker";
 import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import SwitchSelector from "react-native-switch-selector";
 import styles from '../styles/styles';
@@ -81,8 +82,7 @@ static navigationOptions = ({ navigation }) => {
       />
     }
     else{
-      renderComponent = <MatchmakerScreen
-      navigate={()=>this.props.navigation.navigate('ContactsModal')}
+      renderComponent = <MatchMaker
       />
     }
 
@@ -136,5 +136,7 @@ const mapStateToProps = state => {
     location: state.userInfo.user.location,
   };
 };
+
+
 
 export default connect(mapStateToProps)(HomeScreen);

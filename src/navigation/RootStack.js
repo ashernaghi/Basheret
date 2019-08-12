@@ -29,6 +29,12 @@ import ReportUserScreen from '../screens/ReportUserScreen';
 import EditFavoriteBookScreen from '../screens/EditFavoriteBookScreen';
 import EditHobbiesScreen from '../screens/EditHobbiesScreen';
 import ChatScreen from '../screens/ChatScreen';
+import MatchMaking from '../screens/MatchMaking';
+import MatchMaker from '../screens/MatchMaker';
+import Connect from '../screens/Connect';
+import contactList from '../screens/contactList';
+import MessageScreen from '../screens/MessageScreen';
+import SendMessageScreen from '../screens/SendMessageScreen';
 import { fromLeft, fromRight } from 'react-navigation-transitions';
 
 const handleCustomTransition = ({ scenes }) => {
@@ -74,6 +80,12 @@ const MainStack = createStackNavigator({
   FavoriteBook: { screen: EditFavoriteBookScreen },
   HobbiesScreen: { screen: EditHobbiesScreen },
   Chat: { screen: ChatScreen },
+  MatchMaking: { screen: MatchMaking },
+  MatchMaker: { screen: MatchMaker },
+  Connect: { screen: Connect },
+  contactList: { screen: contactList },
+  MessageScreen: { screen: MessageScreen },
+  SendMessageScreen: { screen: SendMessageScreen },
 },
 {
   initialRouteName: 'Home',
