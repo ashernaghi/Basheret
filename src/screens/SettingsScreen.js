@@ -93,7 +93,7 @@ export class SettingsScreen extends React.Component {
   }
 }
 
- 
+
 
   onSignOut = async () => {
     try {
@@ -164,13 +164,13 @@ export class SettingsScreen extends React.Component {
               selectedStyle={{backgroundColor: '#00387E'}}
               values={[this.props.distancePreference]}
               onValuesChange={values=>this.changeValue(values, 'Distance')}
-              min={100}
-              max={1000}
-              step={10}
+              min={5}
+              max={3000}
+              step={5}
             />
             </View>
           <Text style={{alignSelf: 'center'}}>
-            {this.props.distancePreference}
+            {this.props.distancePreference} miles
           </Text>
         </View>
 

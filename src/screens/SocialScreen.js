@@ -9,12 +9,26 @@ import Header from '../components/Header';
 //import styles from '../styles/styles';
 import {showProfileScreen} from '../actions/UserInfoActions';
 import {getCurrentMatches} from '../actions/matchActions';
+import { getMessages, getUser } from "../actions/chatActions";
+import firebase from "../actions/firebase";
 
+const chatRef = (userId, recipientID) => {
+  let location = "";
+  let userID = userId;
+  if (userID < recipientID) location = userID + "--" + recipientID;
+  else location = recipientID + "--" + userID;
+  let messageRef = firebase
+    .firestore()
+    .collection("chats")
+    .doc(location);
+  return messageRef;
+};
 
 export class SocialScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: null,
+      user: null,
     }
   };
 
@@ -22,18 +36,30 @@ export class SocialScreen extends React.Component {
     show: 'candidate',
   }
 
-  componentWillMount(){
+  async componentWillMount(){
     // getCurrentMatches();
-    if (!this.props.matchesCards) {
+      await getUser().then(user => {
+        this.setState({ user })
         this.props.dispatch(getCurrentMatches());
-    }
+      })
   }
+
+  getMessages = (userId, recipientID) => {
+    let messageRef = chatRef(userId, recipientID).collection("messages");
+    messageRef.orderBy('createdAt', 'desc').limit(1).onSnapshot(querySnapshot => {
+      lastMessage = ''
+      querySnapshot.forEach(doc => {
+        let temp = doc.data();
+        lastMessage = temp
+      });
+    });
+  };
 
   generateMatchCards(){
     const { navigate } = this.props.navigation;
     if(this.props.matchesCards) {
       return this.props.matchesCards.map((matchCard, index)=>{
-        console.log(matchCard)
+        let lastMessage = this.getMessages(this.state.user.id, matchCard.id)
         return (
           <TouchableOpacity key={index} style={styles.matchCardStyle} onPress={() => navigate('Chat', {m: matchCard})}>
 
