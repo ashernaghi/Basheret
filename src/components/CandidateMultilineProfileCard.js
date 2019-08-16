@@ -22,11 +22,24 @@ class CandidateMultilineProfileCard extends React.Component {
 
         </View>
       )
-    } else {
+    } else if(this.props.gradient){
+        return(
+          <View style={styles.newCardStyle}>
+            <View style={{flexDirection: 'row', justifyContent: 'space-between' }}>
+
+              <View style={{flexDirection: 'column', marginRight: 5, flex: 1}}>
+                <Text style={styles.titleStyle}>{this.props.title}</Text>
+                {this.props.gradient}
+              </View>
+
+            </View>
+          </View>
+        )
+      }  else {
       return(
         <View />
       )
-    }
+    } 
   }
 }
 

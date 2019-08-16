@@ -124,7 +124,39 @@ export class ProfileScreen extends React.Component {
     this.setState({choosemethod: clickedState})
   }
 
-renderGradient (gradientValue, type){
+renderCandidateGradient (gradientValue, type){
+  const position = gradientValue*((this.state.gradientLineWidth+30)/100)
+  var value;
+  if(type === 'denomination'){
+     value = 1
+  } else if( type === 'kashrutObservance'){
+     value = 2
+  } else if(type === 'shabbatObservance'){
+     value = 3
+  }
+
+  return(
+    <View style={{ flex: 1}}>
+
+      <View style={{ width: this.state.gradientLineWidth+30, height: 110,  margin: 5,}}>
+
+        <View style={{marginTop: 35, marginBottom: 35, borderBottomWidth: 1, borderBottomColor: 'black', borderRadius: 0.5 }}></View>
+
+        <View style={{borderRadius: 3, width: 6, height: 25, backgroundColor: '#00387e', position: 'absolute', top: 25, alignSelf: 'center', zIndex: 2 }}></View>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+          {this.renderLabels(value, gradientValue, 330)}
+          {this.renderLines(value, gradientValue, 330)}
+        </View>
+
+      </View>
+    </View>
+
+    )
+}
+
+
+renderProfileGradient (gradientValue, type){
   const position = gradientValue*(this.state.gradientLineWidth/100)
   var value;
   if(type === 'denomination'){
@@ -145,8 +177,8 @@ renderGradient (gradientValue, type){
         <View style={{borderRadius: 3, width: 6, height: 25, backgroundColor: '#00387e', position: 'absolute', top: 25, alignSelf: 'center', zIndex: 2 }}></View>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-          {this.renderLabels(value, gradientValue)}
-          {this.renderLines(value, gradientValue)}
+          {this.renderLabels(value, gradientValue, 300)}
+          {this.renderLines(value, gradientValue, 300)}
         </View>
 
       </View>
@@ -155,12 +187,12 @@ renderGradient (gradientValue, type){
     )
 }
 
-renderLabels(value, gradientValue){
+renderLabels(value, gradientValue, lineWidth){
   return options[value].map((label, index)=> {
     if(gradientValue >= 0 ){
       if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
         return (
-          <View style={{width: 100, position: 'absolute', left: (((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5))-48)}} >
+          <View style={{width: 100, position: 'absolute', left: (((lineWidth/2)+(((index*25)-gradientValue)*5))-48)}} >
             <Text style={{fontSize: 12, textAlign: 'center',}} key={index}>{label}</Text>
           </View>
         )
@@ -168,12 +200,12 @@ renderLabels(value, gradientValue){
     }
   })
 }
-renderLines(value, gradientValue){
+renderLines(value, gradientValue, lineWidth){
   return options[value].map((label, index)=> {
     if(gradientValue >= 0 ){
       if((index*25)>(gradientValue-30) && (index*25)<(gradientValue+30)){
         return (
-          <View style={{borderRadius: 1, width: 2, height: 10, zIndex: 1, backgroundColor: 'black', position: 'absolute', bottom: 30, left: ((this.state.gradientLineWidth/2)+(((index*25)-gradientValue)*5)) }}></View>
+          <View style={{borderRadius: 1, width: 2, height: 10, zIndex: 1, backgroundColor: 'black', position: 'absolute', bottom: 30, left: ((lineWidth/2)+(((index*25)-gradientValue)*5)) }}></View>
         )
       }
     }
@@ -267,9 +299,9 @@ renderChoice(){
               <CandidateMultilineProfileCard title='About Me' content={this.props.aboutMe} />
               <CandidateProfileCard title= 'Age' content = {this.props.age} />
               <CandidateProfileCard title= 'Gender' content= {this.props.gender} />
-              <CandidateProfileCard title= 'Denomination' content= {this.props.denomination} />
-              <CandidateProfileCard title= 'Kashrut Level' content= {this.props.kashrutObservance} />
-              <CandidateProfileCard title= 'Shabbat Observance' content= {this.props.shabbatObservance} />
+              <CandidateMultilineProfileCard title= 'Denomination' gradient={this.renderCandidateGradient(this.props.denomination, 'denomination')} />
+              <CandidateMultilineProfileCard title= 'Kashrut Level' gradient={this.renderCandidateGradient(this.props.kashrutObservance, 'kashrutObservance')} />
+              <CandidateMultilineProfileCard title= 'Shabbat Observance' gradient={this.renderCandidateGradient(this.props.shabbatObservance, 'shabbatObservance')} />
               <CandidateProfileCard title= 'Hometown' content = {this.props.hometown} />
               <CandidateProfileCard title= 'Current Residence' content = {this.props.currentresidence} />
               <CandidateProfileCard title= 'Profession' content = {this.props.profession} />
@@ -333,9 +365,9 @@ renderChoice(){
                 <MultilineProfileCard title='About Me' content={this.props.aboutMe} placeHolder='Tell us about yourself...' onPress={() => this.props.navigation.navigate('EditAboutMe')}/>
                 <ProfileCard title= 'Age' content = {this.props.age} onPress={() => this.props.navigation.navigate('EditAge')}/>
                 <ProfileCard title= 'Gender' content= {this.props.gender} onPress={() => this.props.navigation.navigate('EditGender')}/>
-                <MultilineProfileCard title= 'Denomination' gradient={this.renderGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
-                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderGradient(this.props.kashrutObservance, 'kashrutObservance')} onPress={() => this.props.navigation.navigate('EditKashrutLevel')} />
-                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderGradient(this.props.shabbatObservance, 'shabbatObservance')} onPress={() => this.props.navigation.navigate('EditShabbatObservance')} />
+                <MultilineProfileCard title= 'Denomination' gradient={this.renderProfileGradient(this.props.denomination, 'denomination')} onPress={() => this.props.navigation.navigate('EditDenomination')}/>
+                <MultilineProfileCard title= 'Kashrut Level' gradient={this.renderProfileGradient(this.props.kashrutObservance, 'kashrutObservance')} onPress={() => this.props.navigation.navigate('EditKashrutLevel')} />
+                <MultilineProfileCard title= 'Shabbat Observance' gradient={this.renderProfileGradient(this.props.shabbatObservance, 'shabbatObservance')} onPress={() => this.props.navigation.navigate('EditShabbatObservance')} />
                 <ProfileCard title= 'Hometown' content= {this.props.hometown} onPress={() => this.props.navigation.navigate('EditHometown')}/>
                 <ProfileCard title= 'Current Residence' content= {this.props.currentresidence} onPress={() => this.props.navigation.navigate('EditCurrentResidence')}/>
                 <ProfileCard title= 'Profession' content= {this.props.profession} onPress={() => this.props.navigation.navigate('EditProfession')} />
