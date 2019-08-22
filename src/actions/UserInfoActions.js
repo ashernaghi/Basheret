@@ -1,5 +1,5 @@
 import firebase from './firebase';
-import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN } from './types';
+import { USER_INFO_UPDATE_SUCCESS, FETCH_USER_SUCCESS, GET_ANOTHER_USER_SUCCESS, SHOW_PROFILE_SCREEN, MUTUAL_MATCH_SCREEN } from './types';
 import { Location, Permissions } from 'expo';
 import { updateMatches } from './matchActions'
 
@@ -165,5 +165,10 @@ export const showProfileScreen = (category, card=null) => ({
     type: SHOW_PROFILE_SCREEN,
     category,
     card
+});
+
+export const mutualMatchScreen = (bool) => ({
+    type: MUTUAL_MATCH_SCREEN,
+    bool,
 });
 

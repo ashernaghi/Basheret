@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import {getCandidate, mutualMatch} from '../actions/matchActions'
-import {showProfileScreen} from '../actions/UserInfoActions';
+import {showProfileScreen, showMutualMatchScreen} from '../actions/UserInfoActions';
 
 export class CandidatesScreen extends React.Component {
   constructor(props){
@@ -12,25 +12,9 @@ export class CandidatesScreen extends React.Component {
     };
   }
 
-  startTimer(){
-    console.log('STARTING TIMER')
-    setTimeout( ()=> {
-      this.props.dispatch(mutualMatch(false))
-      this.props.dispatch(getCandidate())
-    }, 4000 );
-  }
-
   render() {
     console.log('THE CANDIDATE IS', this.props.candidate)
-    if(this.props.showMutualMatchScreen){
-      this.startTimer()
-      return (
-        <View style={{ flex: 1, alignSelf: 'center', backgroundColor: '#F4F4F4'}}>
-          <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, color: 'black', marginTop: 30, alignSelf: 'center' }}>Mazal Tov You Matched With {this.props.candidate.name}</Text>
-        </View>
-      )
-    }
-    else if(this.props.candidate){
+    if(this.props.candidate){
       return (
         <View style={{ flex: 1, alignSelf: 'stretch', backgroundColor: '#f4f4f4'}}>
           <TouchableOpacity style={{ flex: 1, borderRadius: 20, margin: 20,  }}

@@ -86,7 +86,7 @@ export class ChatScreen extends React.Component {
 
 				<View style={{ flexDirection: 'row', marginTop: 10 }}>
 					<View  style={{ flex: 1, }}>
-						<TouchableOpacity style={{  flex: 1, paddingLeft: 20, paddingTop: 10, }} onPress={() => this.props.navigation.goBack()}>
+						<TouchableOpacity style={{  flex: 1, paddingLeft: 20, paddingTop: 10, }} onPress={() => this.props.navigation.navigate('Social')}>
 							<Ionicons
 								name="ios-arrow-back"
 								size={25}

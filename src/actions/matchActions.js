@@ -1,6 +1,6 @@
 import firebase from './firebase';
 import { USER_MATCH_UPDATE_SUCCESS, GET_MATCHES_SUCCESS, MUTUAL_MATCH_SCREEN, DELETE_ALL_MATCHES } from './types';
-import {getAnotherUser, getAnotherUserSuccess, updateUserInfo} from './UserInfoActions'
+import {getAnotherUser, getAnotherUserSuccess, updateUserInfo, mutualMatchScreen} from './UserInfoActions'
 const POSITIVE_MATCH = 'POSITIVE_MATCH';
 const NEGATIVE_MATCH = 'NEGATIVE_MATCH';
 const MUTUAL_MATCH = 'MUTUAL_MATCH';
@@ -101,6 +101,7 @@ export const positiveMatch = (matchID) => dispatch => {
     let userID = firebase.auth().currentUser.uid;
     let matchRef = firebase.firestore().collection('users').doc(matchID);
     let userRef = firebase.firestore().collection('users').doc(userID);
+
     console.log('positiveMatch', matchID);
     getMatchCategory(matchRef, userID)
     .then(matchCategory => {
@@ -109,7 +110,8 @@ export const positiveMatch = (matchID) => dispatch => {
         if (matchCategory === POSITIVE_MATCH) {
             dispatch(updateMatch(userRef, MUTUAL_MATCH, matchID));
             dispatch(updateMatch(matchRef, MUTUAL_MATCH, userID));
-        }
+            dispatch(mutualMatchScreen(true));
+            }
         else {
             dispatch(updateMatch(userRef, POSITIVE_MATCH, matchID));
             dispatch(updateMatch(matchRef, POTENTIAL_MATCH, userID));
@@ -396,7 +398,3 @@ const calculateScore = (matchID) => {
 //       });
 // }
 
-export const mutualMatch = (bool) => ({
-    type: MUTUAL_MATCH_SCREEN,
-    bool
-});

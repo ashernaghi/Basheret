@@ -14,6 +14,7 @@ import { showProfileScreen, updateUserInfo, uploadProfilePicture } from '../acti
 import {positiveMatch, negativeMatch} from '../actions/matchActions'
 import EditProfilePhotoActionSheet from '../components/EditProfilePhotoActionSheet';
 import {options, questions, category} from '../common/arrays'
+import MatchSuccess from './MatchSuccessScreen'
 
 
 export class ProfileScreen extends React.Component {
@@ -232,15 +233,22 @@ renderChoice(){
               />
               <MaterialCommunityIcons
                 name='checkbox-marked-circle'
-                onPress={()=>{
-                  this.props.dispatch(positiveMatch(this.props.id))
-                  this.props.navigation.goBack()
-                }}
+                onPress={()=>{this.onPressCheck()}}
                 size={50}
                 style={{ marginTop: 25, marginBottom: 25, marginLeft: 50, marginRight: 50,}}
               />
             </Animated.View>)
   }
+}
+onPressCheck(){
+  this.props.dispatch(positiveMatch(this.props.id))
+  setTimeout( ()=> { //pobably should do this a better way
+    if(this.props.showMutualMatchScreen){
+      this.props.navigation.navigate('MatchSuccess');
+    } else {
+      this.props.navigation.goBack();
+    }
+  }, 500 );
 }
 
   render() {
@@ -425,6 +433,8 @@ const mapStateToProps = state => {
   //this might be either candidate or match:
   else if (state.userInfo.user[type]!==null){
     return {
+      showMutualMatchScreen: state.nav.showMutualMatchScreen,
+      
       id: state.userInfo.user[type].id,
       name: state.userInfo.user[type].name,
       age: state.userInfo.user[type].age,
