@@ -305,7 +305,7 @@ const updateMatch = (ref, category, matchID, reccomendedBy) => dispatch => {
             console.error("Error adding Match: ", error);
         });
     }
-    
+
 }
 
 const deleteMatch = (ref, matchID) => {
@@ -397,4 +397,3 @@ const calculateScore = (matchID) => {
 //         console.log('Error getting document', err);
 //       });
 // }
-

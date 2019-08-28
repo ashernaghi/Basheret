@@ -112,15 +112,19 @@ export class IntroQuestionsScreen extends React.Component {
     if(this.count===0){
       return (
       <SafeAreaView style={styles.safeAreaViewSyle}>
-        <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
 
-    <Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 30, alignSelf: 'center', color: '#00387e'}}>Basheret</Text>
+          <View style={styles.logoContainerStyle}>
+            <Text style={styles.logoFontStyle}>Basheret</Text>
+          </View>
+
 
           <View style={styles.questionView}>
             <Text style={styles.question}>{this.question}</Text>
           </View>
 
-          {this.buttonDisplay()}
+          <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center' }}>
+            {this.buttonDisplay()}
+          </View>
 
           <View style={{ flex: 1, backgroundColor: '#F4F4F4'}}>
             <NextButton
@@ -131,19 +135,21 @@ export class IntroQuestionsScreen extends React.Component {
             </NextButton>
           </View>
 
-
-      </View>
     </SafeAreaView>
       );
     }
 
     return (
-      <View style={styles.questionView}>
-        <View style={{ justifyContent: 'center', alignItems: 'center', paddingBottom: 20 }}>
-          <Text style={{ fontSize: 50, fontFamily: 'fitamint-script', color: '#00387e', }}>Basheret</Text>
+      <SafeAreaView style={styles.safeAreaViewSyle}>
+        <View style={styles.logoContainerStyle}>
+          <Text style={styles.logoFontStyle}>Basheret</Text>
         </View>
-        <Text style={styles.question}>{this.question}</Text>
-        <View style={{flexDirection: 'row', padding: 40}}>
+
+        <View style={styles.questionView}>
+          <Text style={styles.question}>{this.question}</Text>
+        </View>
+
+        <View style={styles.sliderContainerStyle}>
           <Slider
             style={styles.verticalSlider}
             step={5}
@@ -164,15 +170,17 @@ export class IntroQuestionsScreen extends React.Component {
             {this.generateLabels()}
           </View>
         </View>
-        <View style={styles.button}>
+
+        <View style={styles.buttonContainer}>
           <NextButton
           onPress={()=>this.onPress()}
           content={this.state.responseValue}
           >
-            {"Done"}
+            Next
           </NextButton>
         </View>
-      </View>
+      </SafeAreaView>
+
     );
   }
 }
@@ -187,18 +195,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F4F4',
   },
 
+  logoContainerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  logoFontStyle: {
+    fontSize: 50,
+    fontFamily: 'fitamint-script',
+    color: '#00387e',
+  },
+
   questionView: {
-    paddingTop: 65,
     flex: 1,
     backgroundColor: '#F4F4F4',
   },
 
   question: {
     fontSize: 25,
-    paddingLeft: 30,
     fontWeight: 'bold',
-    maxWidth: 260,
+    paddingLeft: 40,
+    paddingTop: 20,
     color: 'grey',
+    maxWidth: 300,
   },
 
   optionButtonStyleUnselected:{
@@ -224,17 +244,27 @@ const styles = StyleSheet.create({
 
   sliderLabels: {
     justifyContent: 'space-between',
-    height: '68%',
+    height: '98%',
     paddingLeft: 20,
     paddingTop: '3%'
   },
 
   verticalSlider: {
-      height: '70%',
+      height: '100%',
   },
 
-  button: {
-    bottom: 105
-  }
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
+  sliderContainerStyle: {
+    flexDirection: 'row',
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingTop: 20,
+    paddingBottom: 20,
+    flex: 3
+  },
 
 })
