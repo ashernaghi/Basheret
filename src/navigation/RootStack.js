@@ -75,7 +75,6 @@ const MainStack = createStackNavigator({
   EditEthnicity: { screen: EditEthnicityScreen },
   EditIdealDay: { screen: EditIdealDayScreen },
   EditCamp: { screen: EditCampScreen },
-  MatchSuccess: { screen: MatchSuccessScreen },
   FavoriteQuote: { screen: EditFavoriteQuoteScreen },
   FavoriteBook: { screen: EditFavoriteBookScreen },
   HobbiesScreen: { screen: EditHobbiesScreen },
@@ -99,6 +98,8 @@ export default RootStack = createStackNavigator(
     ContactsModal: { screen: ContactsModal},
     CandidateModal: { screen: ProfileScreen},
     ReportUser: { screen: ReportUserScreen },
+    MatchSuccess: { screen: MatchSuccessScreen },
+
   },
   {
     mode: 'modal',

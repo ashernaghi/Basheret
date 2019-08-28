@@ -217,7 +217,7 @@ renderChoice(){
   if(this.state.timer > 0 ){
     return (<View style={{ justifyContent: 'center', alignItems: 'center', margin: 20 }}>
               <Text style ={{ fontSize: 18, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Even David didn't judge Batsheva that quickly.</Text>
-              <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Decide in: {this.state.timer}</Text>
+              <Text style ={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center', padding: 5, }}>Like/Dislike will appear in: {this.state.timer}</Text>
             </View>)
   } else {
     Animated.timing(this.state.fadeAnimation, {toValue: 100, duration: 5000 }).start()
@@ -434,7 +434,7 @@ const mapStateToProps = state => {
   else if (state.userInfo.user[type]!==null){
     return {
       showMutualMatchScreen: state.nav.showMutualMatchScreen,
-      
+
       id: state.userInfo.user[type].id,
       name: state.userInfo.user[type].name,
       age: state.userInfo.user[type].age,

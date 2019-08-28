@@ -33,21 +33,21 @@ componentWillUnmount(){
 
 		return (
 			<SafeAreaView style={styles.safeAreaStyle}>
-				<View style={{ height: '30%', alignItems: 'center', justifyContent: 'flex-end'}}>
+				<View style={{ height: '20%', alignItems: 'center', justifyContent: 'flex-end'}}>
 					<Text style={{ bottom: '5%', fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 50, color: 'white', textAlign: 'center', }}>The Sea Has{"\n"}Split</Text>
 				</View>
-				<View style={{ height: '30%', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+				<View style={{ height: '35%', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
 						<Image source={{ uri: this.props.candidate.profilePhoto }} style={ styles.circleStyle }>
 						</Image>
 						<Image source={{ uri: this.props.profilePhoto}} style={ styles.circleStyle }>
 						</Image>
 				</View>
-				<View style={{ height: '25%', alignItems: 'center', justifyContent: 'center' }}>
+				<View style={{ height: '35%', alignItems: 'center', justifyContent: 'center' }}>
 					<Text style={{ fontWeight: 'bold', fontFamily: 'fitamint-script', fontSize: 36, color: 'white', textAlign: 'center', }}>It is as difficult to make{"\n"}matches as it was to split{"\n"}the sea...</Text>
 				</View>
-				<View style={{ height: '8%', alignItems: 'center', justifyContent: 'center' }}>
-					<TouchableOpacity 
-						style={styles.buttonStyle} 
+				<View style={{ height: '10%', alignItems: 'center', justifyContent: 'center' }}>
+					<TouchableOpacity
+						style={styles.buttonStyle}
 						onPress={()=>{navigate('Chat', {m: this.props.candidate})}}
 					>
 			          <Text style={styles.buttonTextStyle}>
