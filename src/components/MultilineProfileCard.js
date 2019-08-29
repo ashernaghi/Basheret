@@ -22,12 +22,12 @@ class MultilineProfileCard extends Component {
           >
             <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between' }}>
 
-              <View style={{flexDirection: 'column', marginRight: 5, }}>
+              <View style={{flexDirection: 'column', marginRight: 5, maxWidth: '95%'}}>
                 <Text style={styles.titleStyle}>{this.props.title}</Text>
                 <Text style={styles.textStyle}>{this.props.content}</Text>
               </View>
 
-              <View style={{ justifyContent: 'center', margin: 5}}>
+              <View style={{ justifyContent: 'center', marginRight: 10}}>
                 <Ionicons
                   name="ios-arrow-forward"
                   size={30}
@@ -51,7 +51,7 @@ class MultilineProfileCard extends Component {
                   {this.props.gradient}
                 </View>
 
-                <View style={{ justifyContent: 'center', margin: 5, flex: 1}}>
+                <View style={{ justifyContent: 'center', alignItems: 'flex-end', margin: 7, flex: 1}}>
                   <Ionicons
                     name="ios-arrow-forward"
                     size={30}
@@ -108,7 +108,7 @@ class MultilineProfileCard extends Component {
                 name="plus"
                 size={30}
                 color="grey"
-                style={{}}
+                style={{paddingRight: 1}}
                 />
               </View>
 
@@ -145,7 +145,10 @@ const styles = StyleSheet.create({
   newCardStyle: {
     backgroundColor: 'white',
     borderRadius: 15,
-    margin: 8,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+    marginBottom: 5,
     padding: 6,
   },
 
@@ -159,24 +162,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
 
-  cardStyle: {
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: '#ddd',
-    borderBottomWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 1,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    backgroundColor: "#fbfbfb",
-    alignSelf: 'stretch',
-    padding: 10,
-  },
-
+  
   titleStyle: {
     fontSize: 15,
     fontFamily: 'Helvetica Neue',

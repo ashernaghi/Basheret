@@ -16,23 +16,21 @@ class ProfileCard extends React.Component {
         style={styles.newCardStyle}
         onPress={this.props.onPress}>
 
-          <View style={{flexDirection: 'row', flex: 1, justifyContent: 'space-between', alignItems: 'center',  }}>
+          <View style={{flexDirection: 'row', flex: 1, alignItems: 'center',  }}>
 
-            <View style={{ maxWidth: '40%'}}>
+            <View style={{ maxWidth: '40%', justifyContent: 'flex-start', marginRight: 55, }}>
               <Text style={styles.titleStyle}>{this.props.title}</Text>
             </View>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center', maxWidth: '55%' }} >
+          
+            <View style={{flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
               <Text style={styles.textStyle}>{this.props.content}</Text>
-              <View style={{justifyContent: 'center'}}>
-                <Ionicons
-                  name="ios-arrow-forward"
-                  size={30}
-                  color="grey"
-                  style={{ marginLeft: 8, }}/>
-              </View>
+              <Ionicons
+                name="ios-arrow-forward"
+                size={30}
+                color="grey"
+                style={{ marginLeft: 20, marginRight: 12 }}/>
             </View>
-
           </View>
 
         </TouchableOpacity>
@@ -54,7 +52,7 @@ class ProfileCard extends React.Component {
               name="plus"
               size={30}
               color="grey"
-              style={{}}
+              style={{ marginRight: 6 }}
               />
             </View>
 
@@ -73,26 +71,11 @@ const styles = StyleSheet.create({
   newCardStyle: {
     backgroundColor: 'white',
     borderRadius: 15,
-    margin: 8,
-    padding: 6,
-  },
-
-  cardStyle: {
-    borderWidth: 0.5,
-    borderRadius: 5,
-    borderColor: '#ddd',
-    borderBottomWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 1,
-    marginLeft: 5,
-    marginRight: 5,
-    marginTop: 10,
-    backgroundColor: "#fbfbfb",
-    alignSelf: 'stretch',
-    padding: 10
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+    marginBottom: 5,
+    padding: 3,
   },
 
   titleStyle: {
@@ -108,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'Helvetica Neue',
     padding: 5,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
 
 });

@@ -15,7 +15,7 @@ class CandidateMultilineProfileCard extends React.Component {
       return(
         <View style={styles.newCardStyle}>
 
-          <View style={{flexDirection: 'column', marginRight: 5, flex: 1, }}>
+          <View style={{flexDirection: 'column', marginRight: 5, marginLeft: 6, flex: 1, }}>
             <Text style={styles.titleStyle}>{this.props.title}</Text>
             <Text style={styles.textStyle}>{this.props.content}</Text>
           </View>
@@ -28,7 +28,9 @@ class CandidateMultilineProfileCard extends React.Component {
             <View style={{flexDirection: 'row', justifyContent: 'space-between' }}>
 
               <View style={{flexDirection: 'column', marginRight: 5, flex: 1}}>
-                <Text style={styles.titleStyle}>{this.props.title}</Text>
+                <View style={{ marginLeft: 6 }}>
+                  <Text style={styles.titleStyle}>{this.props.title}</Text>
+                </View>
                 {this.props.gradient}
               </View>
 
