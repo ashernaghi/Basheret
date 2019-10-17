@@ -1,9 +1,9 @@
 {
   "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://k5-hwb.danieltarko.basheret.exp.direct",
-  "packagerNgrokUrl": "https://packager.k5-hwb.danieltarko.basheret.exp.direct",
-  "ngrokPid": 4967,
+  "expoServerNgrokUrl": "https://nc-qds.danieltarko.basheret.exp.direct",
+  "packagerNgrokUrl": "https://packager.nc-qds.danieltarko.basheret.exp.direct",
+  "ngrokPid": 19438,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 4952
+  "packagerPid": 19422
 }
