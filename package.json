@@ -20,7 +20,7 @@
     "expo-sms": "^5.0.1",
     "expo-web-browser": "^5.0.3",
     "firebase": "^5.11.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
