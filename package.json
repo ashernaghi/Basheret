@@ -11,7 +11,7 @@
     "@expo/vector-icons": "^10.0.2",
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@ptomasroos/react-native-multi-slider": "^1.0.0",
-    "expo": "^33.0.6",
+    "expo": "^46.0.14",
     "expo-app-loader-provider": "^5.0.1",
     "expo-blur": "^6.0.0",
     "expo-contacts": "^5.0.2",
